@@ -179,4 +179,50 @@ class Iuran extends Controller
             return back()->with('Berhasil', 'Data Berhasil Disimpan.');
         }
     }
+
+    public function iuranWarga(Request $request)
+    {
+        $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
+        $tahun = ($request->tahun) ? $request->tahun : date('Y');
+        $bulan = ($request->bulan) ? $request->bulan : date('n');
+        $filter = [];
+
+
+        $load['namaPage'] = 'IuranWargaView';
+        $load['judulPage'] = 'Daftar Iuran';
+        $load['baseURL'] = route('iuran.warga_view');
+        $userLogin = Auth::user();
+
+        $query = iuran_data::select('*');
+        $query->leftJoin('iurans', 'iuran_datas.iuran_id', '=', 'iurans.iuran_id');
+        $query->leftJoin('ref_jenis_iurans', 'iurans.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id');
+        $query->leftJoin('pertemuans', 'iurans.pertemuan_id', '=', 'pertemuans.pertemuan_id');
+        $query->whereMonth('pertemuan_tgl', $bulan);
+        $query->whereYear('pertemuan_tgl', $tahun);
+        $query->where('user_id', $userLogin->user_id);
+
+        $data = $query->orderBy('iuran_datas.updated_at', 'DESC')->get();
+
+
+
+        for ($i = 5; $i >= 0; $i--) {
+            $load['arr_tahun'][] = date('Y', strtotime("-$i year"));
+        }
+
+        if ($request->all()) {
+            foreach ($request->all() as $key => $val) {
+                if ($val && $key != 'page') {
+                    $filter[$key] = $val;
+                }
+            }
+        }
+
+        $load['data'] = $data;
+        $load['bulan'] = $arr_bln[$bulan];
+        $load['arr_bulan'] = $arr_bln;
+        $load['tahun'] = $tahun;
+        $load['filterVal'] = $filter;
+
+        return view('data.iuran.view_warga', $load);
+    }
 }

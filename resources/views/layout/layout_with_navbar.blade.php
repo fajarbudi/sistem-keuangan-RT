@@ -143,6 +143,7 @@ $namaPage = explode(' ', $namaPage);
                                 </div>
                             </a>
                             </li>
+                            @can('admin', App\Models\User::class)
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'Iuran') ? 'active' : ''}}" href="{{route('iuran')}}">
                                 <div class="row">
                                     <i class="icofont icofont-money-bag fs-5 col-2"></i>
@@ -150,6 +151,16 @@ $namaPage = explode(' ', $namaPage);
                                 </div>
                             </a>
                             </li>
+                            @endcan
+                            @can('warga', App\Models\User::class)
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'IuranWargaView') ? 'active' : ''}}" href="{{route('iuran.warga_view')}}">
+                                <div class="row">
+                                    <i class="icofont icofont-money-bag fs-5 col-2"></i>
+                                    <span class="col-10">Iuran</span>
+                                </div>
+                            </a>
+                            </li>
+                            @endcan
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'SaldoMasuk') ? 'active' : ''}}" href="{{route('saldo_masuk')}}">
                                 <div class="row">
                                     <i class="icofont icofont-chart-histogram-alt fs-5 col-2"></i>

@@ -128,7 +128,7 @@ Route::middleware('isLogin')->group(function () {
     Route::post('/data/iuran/detail/add', [Iuran::class, 'addData'])->name('iuran.detail.add');
     Route::get('/data/iuran/data/{id}', [Iuran::class, 'data'])->name('iuran.data');
     Route::post('/data/iuran/updateData', [Iuran::class, 'updateData'])->name('iuran.update');
-    Route::post('/data/iuran/dellData/{id}', [Iuran::class, 'dellRefData']);
+    Route::get('/data/iuran/warga_view', [Iuran::class, 'iuranWarga'])->name('iuran.warga_view');
 
 
     //Rekapitulasi Saldo Masuk

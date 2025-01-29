@@ -131,6 +131,7 @@ class PegawaiController extends Controller
 
         $load['user_role'] = user_role();
         $load['vFilter'] = $filter;
+        $load['golongan_darah'] = golongan_Darah();
         $load['mulaiNo'] = (($request->page ?? 1) * 50) - 50;
 
         return view('dokumen.pegawai', $load);
@@ -179,7 +180,6 @@ class PegawaiController extends Controller
         $validator = Validator::make($post, [
             'user_nama' => ['required', 'string'],
             'user_username' => ['required'],
-            'user_email' => ['required'],
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {

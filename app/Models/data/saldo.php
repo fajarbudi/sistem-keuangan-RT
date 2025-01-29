@@ -19,6 +19,7 @@ class saldo extends Model
         'saldo_tgl',
         'saldo_nominal',
         'saldo_total',
+        'saldo_bukti',
         'saldo_kategori'
     ];
 

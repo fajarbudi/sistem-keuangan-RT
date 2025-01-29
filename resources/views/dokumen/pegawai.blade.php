@@ -37,9 +37,11 @@
                                 <th>Handphone</th>
                                 <th>Golongan Darah</th>
                                 <th>Role</th>
+                                @can('admin', App\Models\User::class)
                                 <th class="text-center">
                                     <button class="btn btn-sm btn-danger mt-2" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button>
                                 </th>
+                                @endcan
                             </tr>
                         </thead>
                         <tbody>
@@ -68,12 +70,14 @@
                                 <td>{{$val->user_Telp}}</td>
                                 <td>{{strtoupper($val->user_gol_darah)}}</td>
                                 <td>{{$val->user_role}}</td>
+                                @can('admin', App\Models\User::class)                                  
                                 <td align="center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{json_encode($val)}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus("{{$val -> user_id}}", `{{$val -> user_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>
                                 </td>
+                                @endcan
                             </tr>
 
                             @endforeach
@@ -125,11 +129,16 @@
                                     <label class="form-label" for="user_Telp">No Telphone</label>
                                     <input class="form-control" id="user_Telp" type="text" placeholder="Masukkan Nama ..." required="" name="user_Telp">
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="form-label" for="user_gol_darah">Golongan Darah</label>
-                                    <input class="form-control" id="user_gol_darah" type="text" placeholder="Masukkan Nama ..." required="" name="user_gol_darah">
+                                    <select id="user_gol_darah" class="form-select form-select-sm" name="user_gol_darah">
+                                        <option value="" selected>--Pilih--</option>
+                                        @foreach ($golongan_darah as $key => $val)
+                                            <option value="{{$key}}">{{$val}}</option>
+                                        @endforeach
+                                    </select>
                                 </div>
-                                @if (Auth::user()->user_role == 'superAdmin')
+                                @can('admin', App\Models\User::class)
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_role">Role</label>
                                     <select id="user_role" class="form-select form-select-sm" aria-label=".form-select-sm example" name="user_role">
@@ -139,7 +148,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                @endif
+                                @endcan
                             </div>
                         </div>
                     </div>
@@ -185,9 +194,14 @@
                                 <label class="form-label" for="fuser_Telp">No Telphone</label>
                                 <input class="form-control" id="fuser_Telp" type="text" placeholder="Masukkan Nama ..." required="" name="user_Telp">
                             </div>
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <label class="form-label" for="fuser_gol_darah">Golongan Darah</label>
-                                <input class="form-control" id="fuser_gol_darah" type="text" placeholder="Masukkan Nama ..." required="" name="user_gol_darah">
+                                <select id="fuser_gol_darah" class="form-select form-select-sm" name="user_gol_darah">
+                                    <option value="" selected>--Pilih--</option>
+                                    @foreach ($golongan_darah as $key => $val)
+                                        <option value="{{$key}}">{{$val}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             @if (Auth::user()->user_role == 'superAdmin')
                             <div class="col-md-6">

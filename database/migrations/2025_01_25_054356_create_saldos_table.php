@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('saldo_kategori', 5)->nullable();
             $table->integer('saldo_jenis')->unsigned()->nullable();
             $table->date('saldo_tgl')->nullable();
+            $table->string('saldo_bukti')->nullable();
             $table->float('saldo_nominal')->nullable();
             $table->float('saldo_total')->nullable();
             $table->timestamps();

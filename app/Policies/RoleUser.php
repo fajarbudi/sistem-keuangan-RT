@@ -11,4 +11,9 @@ class RoleUser
     {
         return $user->user_role === 'superAdmin' || $user->user_role === 'ketua';
     }
+
+    public function warga(User $user): bool
+    {
+        return $user->user_role === 'warga';
+    }
 }

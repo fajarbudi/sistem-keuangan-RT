@@ -41,6 +41,7 @@
                                 <th>Keterangan</th>
                                 {{-- <th>Status</th> --}}
                                 <th>Jenis</th>
+                                <th>Bukti</th>
                                 <th>Tanggal</th>
                                 <th>Nominal</th>
                                 {{-- <th>Saldo Terakhir</th> --}}
@@ -57,6 +58,7 @@
                                 <td>{{$val->saldo_keterangan}}</td>
                                 {{-- <td>{{ucFirst($val->saldo_status)}}</td> --}}
                                 <td>{{$val->jenis_saldo_keluar_nama}}</td>
+                                <td><button onclick="show('{{url('storage/'.$val->saldo_bukti)}}')" {{!$val->saldo_bukti ? 'disabled' : ''}} class="btn btn-success">View</button></td>
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
                                 <td align="right">{{number_format($val->saldo_nominal, 0, ",", ".")}}</td>
                                 {{-- <td>{{number_format($val->saldo_total, 0, ",", ".")}}</td> --}}
@@ -84,7 +86,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-toggle-wrapper text-start dark-sign-up">
-                <form id="formData" class=" needs-validation" novalidate="" method="POST">
+                <form id="formData" class=" needs-validation" novalidate="" method="POST" enctype="multipart/form-data">
                     <div class="modal-header">
                         <h5 class="modal-title" id=""><i class="icon-pencil-alt"></i> <span id="judulModal">Tambah Data</span></h5>
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -115,6 +117,10 @@
                             <div class="col-md-12">
                                 <label class="form-label" for="nominal">Nominal</label>
                                 <input class="form-control" id="nominal" type="text" placeholder="Masukkan nominal saldo..." required="" name="nominal">
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="saldo_bukti">Bukti</label>
+                                <input class="form-control" id="saldo_bukti" type="file" placeholder="Masukkan Gambar..." required="" name="saldo_bukti">
                             </div>
                         </div>
                     </div>
@@ -213,6 +219,18 @@
     </div>
 </div>
 
+<div class="modal fade" id="fileShowModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
+    <div class="modal-dialog modal-xl" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-toggle-wrapper">
+                    <iframe id="fileShow" frameborder="0" height="800px" width="100%" ></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 </div>
 @endsection
 
@@ -286,6 +304,11 @@
         $.each(filterVal, (key, value) => {
             $(`#f${key}`).val(value)
         })
+    }
+
+    const show = (url) =>{
+        $('#fileShowModal').modal('show')
+        $('#fileShow').attr('src', `${url}`)
     }
 </script>
 @endpush

@@ -7,6 +7,7 @@ use App\Models\data\saldo;
 use App\Models\referensi\ref_jenis_saldo_keluar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class SaldoKeluar extends Controller
@@ -67,9 +68,10 @@ class SaldoKeluar extends Controller
     public function addRefData(Request $request)
     {
         $userLogin = Auth::user();
+        $bukti = $request->file('saldo_bukti');
         $post = [];
         foreach ($request->all() as $key => $val) {
-            if ($key != '_token') {
+            if ($key != '_token' && $key != 'saldo_bukti') {
                 $post[$key] = trim($val);
             }
         }
@@ -88,7 +90,20 @@ class SaldoKeluar extends Controller
             $post['user_id'] = $userLogin->user_id;
             $post['saldo_kategori'] = $userLogin->user_jenis_kelamin;
 
-            saldo::create($post);
+            $saldo = saldo::create($post);
+
+            if ($saldo && $bukti) {
+                $gambarPath = Storage::disk('public')->put("saldo/bukti/" . $saldo->saldo_id, $bukti, 'public');
+
+                saldo::updateOrCreate(
+                    [
+                        'saldo_id' => $saldo->saldo_id
+                    ],
+                    [
+                        'saldo_bukti' => $gambarPath,
+                    ]
+                );
+            }
 
             return back()->with('Berhasil', 'Data Berhasil Ditambahkan.');
         } else {
@@ -98,10 +113,11 @@ class SaldoKeluar extends Controller
 
     public function updateRefData(Request $request, $id)
     {
+        $bukti = $request->file('saldo_bukti');
         $userLogin = Auth::user();
         $post = [];
         foreach ($request->all() as $key => $val) {
-            if ($key != '_token') {
+            if ($key != '_token' && $key != 'saldo_bukti') {
                 $post[$key] = trim($val);
             }
         }
@@ -115,6 +131,16 @@ class SaldoKeluar extends Controller
         if (!$validator->fails()) {
             $lastSaldo = saldo::latest()->first();
             $data = saldo::find($id);
+
+
+            if ($bukti) {
+                if ($data['saldo_bukti']) {
+                    Storage::disk('public')->delete($data['saldo_bukti']);
+                }
+                $gambarPath = Storage::disk('public')->put("peraturan/foto/" . $data->saldo_id, $bukti, 'public');
+
+                $post['saldo_bukti'] = $gambarPath;
+            }
 
             if (isset($lastSaldo->saldo_total) && $request->old_saldo) {
                 $hitungSaldo = ($lastSaldo->saldo_total + $request->old_saldo) - $request->saldo_nominal;
