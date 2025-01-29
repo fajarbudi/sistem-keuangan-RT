@@ -203,7 +203,7 @@ Login
             <div class="modal-dialog modal-xl" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id=""><i class="icon-pencil-alt"></i> Pengumuman Kepegawaian</h5>
+                        <h5 class="modal-title" id=""><i class="icon-pencil-alt"></i> Pengumuman</h5>
                         <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="mod-al-body" style="overflow-y: auto; max-height: 700px">
