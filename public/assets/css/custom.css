@@ -1,0 +1,712 @@
+
+.table-nowrap {
+    th,
+    td {
+        white-space: nowrap;
+    }
+}
+.wi45p {width: 45%;}
+.wi40p {width: 40%;}
+.wi35p {width: 35%;}
+.wi30p {width: 30%;}
+.wi25p {width: 25%;}
+.wi20p {width: 20%;}
+.wi15p {width: 15%;}
+.wi10p {width: 10%;}
+.wi1p {width: 1%;}
+.tabelData .btn {padding: 0.3rem 1rem;}
+.vTable th, .vTable td {padding: 0.5rem;}
+.thelist .btn {padding: 0.5rem 1rem;}
+.form-control {
+  border: var(--bs-border-width) solid #badcff;
+}
+.theForm .form-control {padding: 0.2rem 0.4rem;}
+.theForm .btn {padding: 0.3rem 1rem;}
+.theForm hr {margin: 1rem 0 0 0;}
+.hidden {
+  display: none;
+}
+
+.parallelogram {
+  border: 1px solid black;
+  width: 100%;
+  height: 27px;
+  padding: 3px;
+  -webkit-transform: skew(20deg);
+  -moz-transform: skew(20deg);
+  -o-transform: skew(20deg);
+  background: none;
+  margin-left: 5px;
+}
+
+
+:root {
+    --bs-light-primary:#F1FAFF;
+    --bs-active-primary:#0095E8;
+    --bs-light-success:#E8FFF3;
+    --bs-active-success:#47BE7D;
+    --bs-light-info:#F8F5FF;
+    --bs-active-info:#5014D0;
+    --bs-light-warning:#FFF8DD;
+    --bs-active-warning:#F1BC00;
+    --bs-light-danger:#FFF5F8;
+    --bs-active-danger:#D9214E;
+    --bs-light-dark:#EFF2F5;
+    --bs-active-dark:#131628;
+    --bs-gray-100:#F5F8FA;
+    --bs-gray-200:#EFF2F5;
+    --bs-gray-300:#E4E6EF;
+    --bs-gray-400:#B5B5C3;
+    --bs-gray-500:#A1A5B7;
+    --bs-gray-600:#7E8299;
+    --bs-gray-700:#5E6278;
+    --bs-gray-800:#3F4254;
+    --bs-gray-900:#181C32;
+    --bs-xs:0;
+    --bs-sm:576px;
+    --bs-md:768px;
+    --bs-lg:992px;
+    --bs-xl:1200px;
+    --bs-xxl:1400px;
+    --bs-border-color:#EFF2F5;
+    --bs-border-dashed-color:#E4E6EF
+  }
+  .bg-white {
+    background-color:#fff!important;
+    --bg-color:255,255,255!important
+  }
+  .bg-white.hoverable:hover {
+    background-color:#f5f8fa!important
+  }
+  .bg-hover-white {
+    cursor:pointer
+  }
+  .bg-hover-white:hover {
+    --bg-color:255,255,255;
+    background-color:#fff!important
+  }
+  .bg-active-white.active {
+    --bg-color:255,255,255;
+    background-color:#fff!important
+  }
+  .bg-state-white {
+    cursor:pointer
+  }
+  .bg-state-white.active,
+  .bg-state-white:hover {
+    --bg-color:255,255,255;
+    background-color:#fff!important
+  }
+  .bg-light {
+    background-color:#f5f8fa!important;
+    --bg-color:245,248,250!important
+  }
+  .bg-light.hoverable:hover {
+    background-color:#eff2f5!important
+  }
+  .bg-hover-light {
+    cursor:pointer
+  }
+  .bg-hover-light:hover {
+    --bg-color:245,248,250;
+    background-color:#f5f8fa!important
+  }
+  .bg-active-light.active {
+    --bg-color:245,248,250;
+    background-color:#f5f8fa!important
+  }
+  .bg-state-light {
+    cursor:pointer
+  }
+  .bg-state-light.active,
+  .bg-state-light:hover {
+    --bg-color:245,248,250;
+    background-color:#f5f8fa!important
+  }
+  .bg-light-primary {
+    background-color:#f1faff!important
+  }
+  .bg-light-primary.hoverable:hover {
+    background-color:#d2efff!important
+  }
+  .bg-primary {
+    background-color:#009ef7!important;
+    --bg-color:0,158,247!important
+  }
+  .bg-primary.hoverable:hover {
+    background-color:#0095e8!important
+  }
+  .bg-hover-light-primary {
+    cursor:pointer
+  }
+  .bg-hover-light-primary:hover {
+    background-color:#f1faff!important
+  }
+  .bg-state-light-primary {
+    cursor:pointer
+  }
+  .bg-state-light-primary.active,
+  .bg-state-light-primary:hover {
+    background-color:#f1faff!important
+  }
+  .bg-hover-primary {
+    cursor:pointer
+  }
+  .bg-hover-primary:hover {
+    --bg-color:0,158,247;
+    background-color:#009ef7!important
+  }
+  .bg-active-primary.active {
+    --bg-color:0,158,247;
+    background-color:#009ef7!important
+  }
+  .bg-state-primary {
+    cursor:pointer
+  }
+  .bg-state-primary.active,
+  .bg-state-primary:hover {
+    --bg-color:0,158,247;
+    background-color:#009ef7!important
+  }
+  .bg-secondary {
+    background-color:#e4e6ef!important;
+    --bg-color:228,230,239!important
+  }
+  .bg-secondary.hoverable:hover {
+    background-color:#b5b5c3!important
+  }
+  .bg-hover-secondary {
+    cursor:pointer
+  }
+  .bg-hover-secondary:hover {
+    --bg-color:228,230,239;
+    background-color:#e4e6ef!important
+  }
+  .bg-active-secondary.active {
+    --bg-color:228,230,239;
+    background-color:#e4e6ef!important
+  }
+  .bg-state-secondary {
+    cursor:pointer
+  }
+  .bg-state-secondary.active,
+  .bg-state-secondary:hover {
+    --bg-color:228,230,239;
+    background-color:#e4e6ef!important
+  }
+  .bg-light-success {
+    background-color:#e8fff3!important
+  }
+  .bg-light-success.hoverable:hover {
+    background-color:#c9ffe3!important
+  }
+  .bg-success {
+    background-color:#50cd89!important;
+    --bg-color:80,205,137!important
+  }
+  .bg-success.hoverable:hover {
+    background-color:#47be7d!important
+  }
+  .bg-hover-light-success {
+    cursor:pointer
+  }
+  .bg-hover-light-success:hover {
+    background-color:#e8fff3!important
+  }
+  .bg-state-light-success {
+    cursor:pointer
+  }
+  .bg-state-light-success.active,
+  .bg-state-light-success:hover {
+    background-color:#e8fff3!important
+  }
+  .bg-hover-success {
+    cursor:pointer
+  }
+  .bg-hover-success:hover {
+    --bg-color:80,205,137;
+    background-color:#50cd89!important
+  }
+  .bg-active-success.active {
+    --bg-color:80,205,137;
+    background-color:#50cd89!important
+  }
+  .bg-state-success {
+    cursor:pointer
+  }
+  .bg-state-success.active,
+  .bg-state-success:hover {
+    --bg-color:80,205,137;
+    background-color:#50cd89!important
+  }
+  .bg-light-info {
+    background-color:#f8f5ff!important
+  }
+  .bg-light-info.hoverable:hover {
+    background-color:#e3d6ff!important
+  }
+  .bg-info {
+    background-color:#7239ea!important;
+    --bg-color:114,57,234!important
+  }
+  .bg-info.hoverable:hover {
+    background-color:#5014d0!important
+  }
+  .bg-hover-light-info {
+    cursor:pointer
+  }
+  .bg-hover-light-info:hover {
+    background-color:#f8f5ff!important
+  }
+  .bg-state-light-info {
+    cursor:pointer
+  }
+  .bg-state-light-info.active,
+  .bg-state-light-info:hover {
+    background-color:#f8f5ff!important
+  }
+  .bg-hover-info {
+    cursor:pointer
+  }
+  .bg-hover-info:hover {
+    --bg-color:114,57,234;
+    background-color:#7239ea!important
+  }
+  .bg-active-info.active {
+    --bg-color:114,57,234;
+    background-color:#7239ea!important
+  }
+  .bg-state-info {
+    cursor:pointer
+  }
+  .bg-state-info.active,
+  .bg-state-info:hover {
+    --bg-color:114,57,234;
+    background-color:#7239ea!important
+  }
+  .bg-light-warning {
+    background-color:#fff8dd!important
+  }
+  .bg-light-warning.hoverable:hover {
+    background-color:#fff2be!important
+  }
+  .bg-warning {
+    background-color:#ffc700!important;
+    --bg-color:255,199,0!important
+  }
+  .bg-warning.hoverable:hover {
+    background-color:#f1bc00!important
+  }
+  .bg-hover-light-warning {
+    cursor:pointer
+  }
+  .bg-hover-light-warning:hover {
+    background-color:#fff8dd!important
+  }
+  .bg-state-light-warning {
+    cursor:pointer
+  }
+  .bg-state-light-warning.active,
+  .bg-state-light-warning:hover {
+    background-color:#fff8dd!important
+  }
+  .bg-hover-warning {
+    cursor:pointer
+  }
+  .bg-hover-warning:hover {
+    --bg-color:255,199,0;
+    background-color:#ffc700!important
+  }
+  .bg-active-warning.active {
+    --bg-color:255,199,0;
+    background-color:#ffc700!important
+  }
+  .bg-state-warning {
+    cursor:pointer
+  }
+  .bg-state-warning.active,
+  .bg-state-warning:hover {
+    --bg-color:255,199,0;
+    background-color:#ffc700!important
+  }
+  .bg-light-danger {
+    background-color:#fff5f8!important
+  }
+  .bg-light-danger.hoverable:hover {
+    background-color:#ffd6e3!important
+  }
+  .bg-danger {
+    background-color:#f1416c!important;
+    --bg-color:241,65,108!important
+  }
+  .bg-danger.hoverable:hover {
+    background-color:#d9214e!important
+  }
+  .bg-hover-light-danger {
+    cursor:pointer
+  }
+  .bg-hover-light-danger:hover {
+    background-color:#fff5f8!important
+  }
+  .bg-state-light-danger {
+    cursor:pointer
+  }
+  .bg-state-light-danger.active,
+  .bg-state-light-danger:hover {
+    background-color:#fff5f8!important
+  }
+  .bg-hover-danger {
+    cursor:pointer
+  }
+  .bg-hover-danger:hover {
+    --bg-color:241,65,108;
+    background-color:#f1416c!important
+  }
+  .bg-active-danger.active {
+    --bg-color:241,65,108;
+    background-color:#f1416c!important
+  }
+  .bg-state-danger {
+    cursor:pointer
+  }
+  .bg-state-danger.active,
+  .bg-state-danger:hover {
+    --bg-color:241,65,108;
+    background-color:#f1416c!important
+  }
+  .bg-light-dark {
+    background-color:#eff2f5!important
+  }
+  .bg-light-dark.hoverable:hover {
+    background-color:#dce3e9!important
+  }
+  .bg-dark {
+    background-color:#181c32!important;
+    --bg-color:24,28,50!important
+  }
+  .bg-dark.hoverable:hover {
+    background-color:#131628!important
+  }
+  .bg-hover-light-dark {
+    cursor:pointer
+  }
+  .bg-hover-light-dark:hover {
+    background-color:#eff2f5!important
+  }
+  .bg-state-light-dark {
+    cursor:pointer
+  }
+  .bg-state-light-dark.active,
+  .bg-state-light-dark:hover {
+    background-color:#eff2f5!important
+  }
+  .bg-hover-dark {
+    cursor:pointer
+  }
+  .bg-hover-dark:hover {
+    --bg-color:24,28,50;
+    background-color:#181c32!important
+  }
+  .bg-active-dark.active {
+    --bg-color:24,28,50;
+    background-color:#181c32!important
+  }
+  .bg-state-dark {
+    cursor:pointer
+  }
+  .bg-state-dark.active,
+  .bg-state-dark:hover {
+    --bg-color:24,28,50;
+    background-color:#181c32!important
+  }
+  .bg-gray-100 {
+    background-color:#f5f8fa
+  }
+  .bg-gray-200 {
+    background-color:#eff2f5
+  }
+  .bg-gray-300 {
+    background-color:#e4e6ef
+  }
+  .bg-gray-400 {
+    background-color:#b5b5c3
+  }
+  .bg-gray-500 {
+    background-color:#a1a5b7
+  }
+  .bg-gray-600 {
+    background-color:#7e8299
+  }
+  .bg-gray-700 {
+    background-color:#5e6278
+  }
+  .bg-gray-800 {
+    background-color:#3f4254
+  }
+  .bg-gray-900 {
+    background-color:#181c32
+  }
+  .bg-opacity-0 {
+    background-color:rgba(var(--bg-color),0)!important
+  }
+  .bg-hover-opacity-0:hover {
+    background-color:rgba(var(--bg-color),0)!important
+  }
+  .bg-active-opacity-0.active {
+    background-color:rgba(var(--bg-color),0)!important
+  }
+  .bg-state-opacity-0 .active,
+  .bg-state-opacity-0:hover {
+    background-color:rgba(var(--bg-color),0)!important
+  }
+  .bg-opacity-5 {
+    background-color:rgba(var(--bg-color),.05)!important
+  }
+  .bg-hover-opacity-5:hover {
+    background-color:rgba(var(--bg-color),.05)!important
+  }
+  .bg-active-opacity-5.active {
+    background-color:rgba(var(--bg-color),.05)!important
+  }
+  .bg-state-opacity-5 .active,
+  .bg-state-opacity-5:hover {
+    background-color:rgba(var(--bg-color),.05)!important
+  }
+  .bg-opacity-10 {
+    background-color:rgba(var(--bg-color),.1)!important
+  }
+  .bg-hover-opacity-10:hover {
+    background-color:rgba(var(--bg-color),.1)!important
+  }
+  .bg-active-opacity-10.active {
+    background-color:rgba(var(--bg-color),.1)!important
+  }
+  .bg-state-opacity-10 .active,
+  .bg-state-opacity-10:hover {
+    background-color:rgba(var(--bg-color),.1)!important
+  }
+  .bg-opacity-15 {
+    background-color:rgba(var(--bg-color),.15)!important
+  }
+  .bg-hover-opacity-15:hover {
+    background-color:rgba(var(--bg-color),.15)!important
+  }
+  .bg-active-opacity-15.active {
+    background-color:rgba(var(--bg-color),.15)!important
+  }
+  .bg-state-opacity-15 .active,
+  .bg-state-opacity-15:hover {
+    background-color:rgba(var(--bg-color),.15)!important
+  }
+  .bg-opacity-20 {
+    background-color:rgba(var(--bg-color),.2)!important
+  }
+  .bg-hover-opacity-20:hover {
+    background-color:rgba(var(--bg-color),.2)!important
+  }
+  .bg-active-opacity-20.active {
+    background-color:rgba(var(--bg-color),.2)!important
+  }
+  .bg-state-opacity-20 .active,
+  .bg-state-opacity-20:hover {
+    background-color:rgba(var(--bg-color),.2)!important
+  }
+  .bg-opacity-25 {
+    background-color:rgba(var(--bg-color),.25)!important
+  }
+  .bg-hover-opacity-25:hover {
+    background-color:rgba(var(--bg-color),.25)!important
+  }
+  .bg-active-opacity-25.active {
+    background-color:rgba(var(--bg-color),.25)!important
+  }
+  .bg-state-opacity-25 .active,
+  .bg-state-opacity-25:hover {
+    background-color:rgba(var(--bg-color),.25)!important
+  }
+  .bg-opacity-50 {
+    background-color:rgba(var(--bg-color),.5)!important
+  }
+  .bg-hover-opacity-50:hover {
+    background-color:rgba(var(--bg-color),.5)!important
+  }
+  .bg-active-opacity-50.active {
+    background-color:rgba(var(--bg-color),.5)!important
+  }
+  .bg-state-opacity-50 .active,
+  .bg-state-opacity-50:hover {
+    background-color:rgba(var(--bg-color),.5)!important
+  }
+  .bg-opacity-75 {
+    background-color:rgba(var(--bg-color),.75)!important
+  }
+  .bg-hover-opacity-75:hover {
+    background-color:rgba(var(--bg-color),.75)!important
+  }
+  .bg-active-opacity-75.active {
+    background-color:rgba(var(--bg-color),.75)!important
+  }
+  .bg-state-opacity-75 .active,
+  .bg-state-opacity-75:hover {
+    background-color:rgba(var(--bg-color),.75)!important
+  }
+  .bg-opacity-100 {
+    background-color:rgba(var(--bg-color),1)!important
+  }
+  .bg-hover-opacity-100:hover {
+    background-color:rgba(var(--bg-color),1)!important
+  }
+  .bg-active-opacity-100.active {
+    background-color:rgba(var(--bg-color),1)!important
+  }
+  .bg-state-opacity-100 .active,
+  .bg-state-opacity-100:hover {
+    background-color:rgba(var(--bg-color),1)!important
+  }
+  .bg-black {
+    background-color:#000
+  }
+  .bg-body {
+    --bg-color:255,255,255;
+    background-color:#fff
+  }
+  .bg-lighten {
+    background-color:rgba(245,248,250,.5)
+  }
+  .bg-hover-lighten {
+    cursor:pointer
+  }
+  .bg-hover-lighten:hover {
+    background-color:rgba(245,248,250,.5)
+  }
+  .bg-active-lighten.active {
+    background-color:rgba(245,248,250,.5)
+  }
+  .bg-state-lighten {
+    cursor:pointer
+  }
+  .bg-state-lighten.active,
+  .bg-state-lighten:hover {
+    background-color:rgba(245,248,250,.5)
+  }
+  .hoverable {
+    cursor:pointer;
+    transition:all .2s ease
+  }
+  .hoverable:hover {
+    transition:all .2s ease
+  }
+
+
+
+  /* scaffolding */
+/* ----------- */
+
+html {
+  overflow-y: scroll;
+  *overflow-x: hidden;
+}
+
+.container {
+  max-width: 750px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.tt-menu,
+.gist {
+  text-align: left;
+}
+
+.typeahead,
+.tt-query,
+.tt-hint {
+  width: 396px;
+  height: 30px;
+  padding: 8px 12px;
+  font-size: 24px;
+  line-height: 30px;
+  border: 2px solid #ccc;
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  outline: none;
+}
+
+.typeahead {
+  background-color: #fff;
+}
+
+.typeahead:focus {
+  border: 2px solid #0097cf;
+}
+
+.tt-query {
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+     -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+          box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.tt-hint {
+  color: #999
+}
+
+.tt-menu {
+  width: 422px;
+  margin: 12px 0;
+  padding: 8px 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  -webkit-border-radius: 8px;
+     -moz-border-radius: 8px;
+          border-radius: 8px;
+  -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+     -moz-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+          box-shadow: 0 5px 10px rgba(0,0,0,.2);
+}
+
+.tt-suggestion {
+  padding: 3px 20px;
+  font-size: 18px;
+  line-height: 24px;
+}
+
+.tt-suggestion:hover {
+  cursor: pointer;
+  color: #fff;
+  background-color: #0097cf;
+}
+
+.tt-suggestion.tt-cursor {
+  color: #fff;
+  background-color: #0097cf;
+
+}
+
+.tt-suggestion p {
+  margin: 0;
+}
+
+.gist {
+  font-size: 14px;
+}
+
+/* example specific styles */
+/* ----------------------- */
+
+#custom-templates .empty-message {
+  padding: 5px 10px;
+ text-align: center;
+}
+
+#multiple-datasets .league-name {
+  margin: 0 20px 5px 20px;
+  padding: 3px 0;
+  border-bottom: 1px solid #ccc;
+}
+
+#scrollable-dropdown-menu .tt-menu {
+  max-height: 150px;
+  overflow-y: auto;
+}
