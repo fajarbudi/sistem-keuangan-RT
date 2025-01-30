@@ -43,9 +43,7 @@
                                 <td>{{$val->iuran_status}}</td>
                                 <td align="center">
                                      <div class="btn-group" role="group">
-                                        @if ($val->iuran_status != 'selesai')
-                                          <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
-                                        @endif
+                                        <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
                                         <button type="button" class="btn btn-success" onclick="selesai({{$val->iuran_id}})" {{$val->iuran_status != 'selesai' ? '' : 'disabled'}}><i class="icofont icofont-check-alt fs-5 me-1"></i>Selesai</button>
                                     </div>
                                 </td>

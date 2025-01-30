@@ -9,6 +9,7 @@ use App\Models\data\pertemuan;
 use App\Models\data\saldo;
 use App\Models\referensi\ref_jenis_iuran;
 use App\Models\referensi\ref_jenis_saldo_masuk;
+use App\Models\referensi\ref_nominal;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -146,6 +147,8 @@ class Iuran extends Controller
         $load['jenis_iuran'] = ref_jenis_iuran::get();
         $load['data_iuran'] = $dataIuran;
         $load['iuran_id'] = $id;
+        $load['iuran'] = DataIuran::find($id);
+        $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
 
         return view('data.iuran.data', $load);
     }

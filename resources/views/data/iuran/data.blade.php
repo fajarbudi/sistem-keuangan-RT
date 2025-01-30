@@ -73,13 +73,18 @@
                                 <input class="form-control" id="nominal" type="text" placeholder="Masukkan Nominal..." required="" name="">
                             </div>
                         </div>
+                        <div class="mt-3 row gap-2">
+                            @foreach ($ref_nominal as $vNom)
+                                <button style="min-width: 100px;" type="button" class="btn btn-sm blue-steel col" onclick="bantuanNominal({{$vNom->nominal_nominal}})">Rp {{number_format($vNom->nominal_nominal, 0, ",", ".")}}</button>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="modal-footer">
                         <div class="col">
                             <button class="btn btn-secondary fload-end" type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-arrow-left"></i> Kembali</button>
                         </div>
                         <div class="col text-end">
-                            <button class="btn btn-primary fload-end" type="submit"><i class="fa fa-floppy-o"></i> Simpan </button>
+                            <button id="simpanIuran" class="btn btn-primary fload-end" type="submit"><i class="fa fa-floppy-o"></i> Simpan </button>
                         </div>
                     </div>
                 </form>
@@ -157,8 +162,14 @@
 @push('jsTambahan')
 <script>
     const baseUrl = "{{route('iuran.update')}}"
+    const iuran = @json($iuran);
 
     const upload = (data, oldNominal) =>{
+        if (iuran.iuran_status == 'selesai') {
+            $('#simpanIuran').attr('disabled', true)
+        } else {
+            $('#simpanIuran').attr('disabled', false)
+        }
         $('#judulModal').text(`Data ${data.user_nama}`)
         $('#formData').attr('action', `${baseUrl}`);
         $('#formModal').modal('show');
@@ -189,6 +200,11 @@
             }
         }, 500);
     })
+
+    const bantuanNominal = (nominal) =>{
+        $('#iuran_data_nominal').val(nominal);
+        $('#nominal').val(formatRupiah(nominal))
+    }
 
     const add = () => {
         $('#formModal').modal('show');

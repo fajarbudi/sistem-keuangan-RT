@@ -42,6 +42,7 @@ use App\Http\Controllers\referensi\Jenis_pengaduan;
 use App\Http\Controllers\referensi\Jenis_saldo_keluar;
 use App\Http\Controllers\referensi\Jenis_saldo_masuk;
 use App\Http\Controllers\referensi\Kegiatan;
+use App\Http\Controllers\referensi\Nominal;
 use App\Http\Controllers\referensi\Pendidikan;
 use App\Http\Controllers\referensi\Proses;
 use App\Http\Controllers\UserController;
@@ -84,6 +85,11 @@ Route::middleware('isLogin')->group(function () {
     Route::post('/referensi/jenis_iuran/addData', [Jenis_iuran::class, 'addRefData'])->name('jenis_iuran.add');
     Route::post('/referensi/jenis_iuran/updateData/{id}', [Jenis_iuran::class, 'updateRefData'])->name('jenis_iuran.update');
     Route::post('/referensi/jenis_iuran/dellData/{id}', [Jenis_iuran::class, 'dellRefData']);
+    //referensi iuran
+    Route::get('/referensi/nominal', [Nominal::class, 'dataView'])->name('nominal');
+    Route::post('/referensi/nominal/addData', [Nominal::class, 'addRefData'])->name('nominal.add');
+    Route::post('/referensi/nominal/updateData/{id}', [Nominal::class, 'updateRefData'])->name('nominal.update');
+    Route::post('/referensi/nominal/dellData/{id}', [Nominal::class, 'dellRefData']);
 
     //data sop
     Route::get('/data/sop', [sop::class, 'dataView'])->name('sop');

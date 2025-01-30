@@ -268,6 +268,13 @@ $namaPage = explode(' ', $namaPage);
                                   </div>
                                 </a>
                             </li>
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'Nominal') ? 'active' : ''}}" href="{{route('nominal')}}">
+                                  <div class="row">
+                                    <i class="icofont icofont-bill-alt fs-5 col-2"></i>
+                                    <span class="col-10">Nominal</span>
+                                  </div>
+                                </a>
+                            </li>
                             @endif
                             {{-- @can('admin', App\Models\User::class)
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisDokumen') ? 'active' : ''}}" href="{{url('/referensi/jenisDokumen')}}">
