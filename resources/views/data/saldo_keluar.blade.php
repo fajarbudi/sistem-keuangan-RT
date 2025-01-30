@@ -13,7 +13,7 @@ $user = App\Models\User::class;
     <div class="page-title">
         <div style="display: flex; justify-content: space-between">
             <div >
-                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}} {{$bulan}} {{$tahun}}</span>
+                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
             </div>
             <div >
                 <div class="mx-2 mt-2">
@@ -226,8 +226,12 @@ $user = App\Models\User::class;
     <div class="modal-dialog modal-xl" role="document">
         <div class="modal-content">
             <div class="modal-body">
+                <div class="d-flex justify-content-between border-bottom border-2 mb-3">
+                    <h4>Bukti Saldo Keluar</h4>
+                    <p data-bs-dismiss="modal" style="font-size: 18px; font-weight: 600; cursor: pointer;">X</p>
+                </div>
                 <div class="modal-toggle-wrapper">
-                    <iframe id="fileShow" frameborder="0" height="800px" width="100%" ></iframe>
+                    <iframe id="fileShow" frameborder="0" height="600px" width="100%"></iframe>
                 </div>
             </div>
         </div>

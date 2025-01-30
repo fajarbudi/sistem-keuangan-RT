@@ -50,8 +50,11 @@ $user = App\Models\User::class;
                                 @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <td class="d-flex d-row justify-content-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
+                                        <a class="btn btn-success" href="{{route('iuran.detail', $val->pertemuan_id)}}"><i class="fa fa-sign-in me-1"></i>Detail</a>
+                                        @can('admin', $user)
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> pertemuan_id}}, `{{$val -> pertemuan_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
+                                        @endcan
                                     </div>
                                 </td>
                                 @endif

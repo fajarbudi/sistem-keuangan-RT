@@ -12,6 +12,7 @@ use App\Models\referensi\ref_jenis_saldo_masuk;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
 class Iuran extends Controller
@@ -54,7 +55,7 @@ class Iuran extends Controller
     {
         $load['namaPage'] = 'DetailIuran';
         $load['judulPage'] = 'Daftar Jenis Iuran';
-        $load['baseURL'] = route('iuran.detail', $id);
+        $load['baseURL'] = route('iuran');
 
         $load['data'] = DataIuran::where('pertemuan_id', $id)->get();
         $load['jenis_iuran'] = ref_jenis_iuran::get();
@@ -76,13 +77,51 @@ class Iuran extends Controller
                     'jenis_iuran_id' => $jenis_iuran
                 ],
                 [
-                    'iuran_kategori' => $userLogin->user_jenis_kelamin
+                    'iuran_kategori' => $userLogin->user_jenis_kelamin,
+                    'iuran_status' => 'Input Data'
                 ]
             );
 
             return back()->with('Berhasil', 'Data Berhasil Ditambahkan.');
         } else {
             return back()->with('Gagal', 'Pilih Jenis Iuran Dahulu');
+        }
+    }
+
+    public function selesai($id)
+    {
+        $userLogin = Auth::user();
+        $lastSaldo = saldo::latest()->first();
+        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
+        $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
+        $iuran = DataIuran::find($id);
+        $keteranganSaldo = "{$iuran->pertemuan->pertemuan_nama}--{$iuran->jenis_iuran->jenis_iuran_nama}";
+        $tanggal = $iuran->pertemuan->pertemuan_tgl;
+
+
+        if ($jenisSaldo == null) {
+            return back()->with('Gagal', 'Buat Referensi Jenis Saldo Masuk ( Iuran )');
+        }
+
+        if ($totalIuran->total <= 0) {
+            return back()->with('Gagal', 'Masukkan Iuran Terlebih Dahulu');
+        } else {
+            saldo::create(
+                [
+                    'user_id' => $userLogin->user_id,
+                    'saldo_keterangan' => $keteranganSaldo,
+                    'saldo_status' => 'masuk',
+                    'saldo_jenis' => $jenisSaldo->jenis_saldo_masuk_id,
+                    'saldo_kategori' => $userLogin->user_jenis_kelamin,
+                    'saldo_tgl' => $tanggal,
+                    'saldo_nominal' => $totalIuran->total,
+                    'saldo_total' => (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $totalIuran->total : $totalIuran->total
+                ]
+            );
+
+            $iuran->update(['iuran_status' => 'selesai']);
+
+            return back()->with('Berhasil', 'Input Iuran Telah Ditutup');
         }
     }
 
@@ -114,15 +153,6 @@ class Iuran extends Controller
     public function updateData(Request $request)
     {
         $post = [];
-        $post2 = [];
-        $userLogin = Auth::user();
-        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
-        $iuran = DataIuran::find($request->iuran_id);
-        $pertemuan = $iuran->pertemuan;
-        $user = User::find($request->user_id);
-        $keteranganSaldo = "{$pertemuan->pertemuan_nama}--{$iuran->jenis_iuran->jenis_iuran_nama}--{$user->user_nama}";
-
-
 
         foreach ($request->all() as $key => $val) {
             if ($key != '_token' && $val != '') {
@@ -130,42 +160,16 @@ class Iuran extends Controller
             }
         }
 
-        if ($jenisSaldo == null) {
-            return back()->with('Gagal', 'Buat Referensi Jenis Saldo Masuk ( Iuran )');
-        }
 
         if ($request->old_nominal) {
-            $lastSaldo = saldo::latest()->first();
-            $saldo = saldo::where('saldo_keterangan', $keteranganSaldo)->where('saldo_tgl', $pertemuan->pertemuan_tgl)->first();
             $dataIuran = iuran_data::where('user_id', $request->user_id)->where('iuran_id', $request->iuran_id)->first();
 
-            if (isset($lastSaldo->saldo_total) && $request->old_nominal) {
-                $hitungSaldo = ($lastSaldo->saldo_total - $request->old_nominal) + $request->iuran_data_nominal;
-            } else {
-                $hitungSaldo = $request->iuran_data_nominal;
-            }
-
-            // dd($saldo);
-
-            $lastSaldo->update(['saldo_total' => $hitungSaldo]);
-            $saldo->update(['saldo_nominal' => $request->iuran_data_nominal]);
             $dataIuran->update(['iuran_data_nominal' => $request->iuran_data_nominal]);
 
             return back()->with('Berhasil', 'Data Berhasil Disimpan.');
         } else {
 
             iuran_data::create($post);
-
-            $lastSaldo = saldo::latest()->first();
-            $post2['user_id'] = $userLogin->user_id;
-            $post2['saldo_keterangan'] = $keteranganSaldo;
-            $post2['saldo_status'] = 'masuk';
-            $post2['saldo_jenis'] = $jenisSaldo->jenis_saldo_masuk_id;
-            $post2['saldo_kategori'] = $userLogin->user_jenis_kelamin;
-            $post2['saldo_tgl'] = $pertemuan->pertemuan_tgl;
-            $post2['saldo_nominal'] = $request->iuran_data_nominal;
-            $post2['saldo_total'] = (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $request->iuran_data_nominal : $request->iuran_data_nominal;
-            saldo::create($post2);
 
             return back()->with('Berhasil', 'Data Berhasil Disimpan.');
         }

@@ -166,8 +166,15 @@ class SaldoKeluar extends Controller
     public function dellRefData($id)
     {
         $data = saldo::find($id);
+        $lastSaldo = saldo::latest()->first();
 
         if ($data) {
+
+            $hitungSaldo = $lastSaldo->saldo_total + $data->saldo_nominal;
+
+            $lastSaldo->update([
+                'saldo_total' => $hitungSaldo
+            ]);
 
             $data->delete();
 

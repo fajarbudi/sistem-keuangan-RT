@@ -31,6 +31,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th colspan="9">Jenis Iuran</th>
+                                <th>Status</th>
                                 <th class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                             </tr>
                         </thead>
@@ -39,8 +40,14 @@
                             <tr>
                                 <th scope="row">{{$index + 1}}</th>
                                 <td colspan="9">{{$val->jenis_iuran->jenis_iuran_nama}}</td>
+                                <td>{{$val->iuran_status}}</td>
                                 <td align="center">
-                                    <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
+                                     <div class="btn-group" role="group">
+                                        @if ($val->iuran_status != 'selesai')
+                                          <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
+                                        @endif
+                                        <button type="button" class="btn btn-success" onclick="selesai({{$val->iuran_id}})" {{$val->iuran_status != 'selesai' ? '' : 'disabled'}}><i class="icofont icofont-check-alt fs-5 me-1"></i>Selesai</button>
+                                    </div>
                                 </td>
                             </tr>
                             @endforeach
@@ -101,7 +108,7 @@
     </div>
 </div>
 
-<div class="modal fade" id="hapusModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
+<div class="modal fade" id="selesaiModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body">
@@ -110,11 +117,10 @@
                         <li> <img src="{{asset('assets/images/gif/danger.gif')}}" alt="error"></li>
                     </ul>
                     <h4 class="text-center pb-2">Peringatan !!!</h4>
-                    <p class="text-center">Konfirmasi penghapusan data ?</p>
-                    <p class="text-lg-center" id="textHapus"></p>
-                    <form id="formHapus" method="POST">
+                    <p class="text-center">Konfirmasi Selesai Input Iuran ?</p>
+                    <form id="formSelesai" method="POST">
                         @csrf
-                        <button class="btn btn-danger d-flex m-auto" type="submit"><i class="fa fa-times-circle mt-1 me-1"></i> Hapus</button>
+                        <button class="btn btn-success d-flex m-auto" type="submit"><i class="icofont icofont-check-alt me-1 fs-5"></i></i>Simpan</button>
                     </form>
                 </div>
             </div>
@@ -186,10 +192,9 @@
         })
     }
 
-    const hapus = (id, text) => {
-        $('#hapusModal').modal('show');
-        $('#textHapus').text(text)
-        $('#formHapus').attr('action', `${baseUrl}/dellData/${id}`)
+    const selesai = (id) => {
+        $('#selesaiModal').modal('show');
+        $('#formSelesai').attr('action', `${baseUrl}/selesai/${id}`)
     }
 
     const filter = () =>{

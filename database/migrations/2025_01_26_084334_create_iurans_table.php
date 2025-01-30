@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('pertemuan_id');
             $table->integer('jenis_iuran_id');
             $table->string('iuran_kategori', 5);
+            $table->string('iuran_status', 55)->nullable();
             $table->timestamps();
         });
     }

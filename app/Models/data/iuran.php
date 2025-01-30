@@ -12,6 +12,7 @@ class iuran extends Model
     protected $fillable = [
         'pertemuan_id',
         'jenis_iuran_id',
+        'iuran_status',
         'iuran_kategori'
     ];
 
