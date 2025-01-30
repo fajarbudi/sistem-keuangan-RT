@@ -11,9 +11,13 @@ class RoleUser
     {
         return $user->user_role === 'superAdmin' || $user->user_role === 'ketua';
     }
+    public function bendahara(User $user): bool
+    {
+        return $user->user_role === 'bendahara';
+    }
 
     public function warga(User $user): bool
     {
-        return $user->user_role === 'warga';
+        return $user->user_role != 'superAdmin' && $user->user_role != 'ketua' && $user->user_role != 'bendahara';
     }
 }

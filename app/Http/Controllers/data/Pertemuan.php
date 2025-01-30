@@ -22,25 +22,35 @@ class Pertemuan extends Controller
         $load['namaPage'] = 'Pertemuan';
         $load['judulPage'] = 'Data Pertemuan';
         $load['baseURL'] = url('/data/pertemuan');
+        $tahun = ($request->tahun) ? $request->tahun : date('Y');
+        $bulan = ($request->bulan) ? $request->bulan : date('n');
         $filter = [];
 
+        $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
         $query = DataPertemuan::select('*');
+        $query->whereMonth('pertemuan_tgl', $bulan);
+        $query->whereYear('pertemuan_tgl', $tahun);
+        $query->where('pertemuan_kategori', $userLogin->user_jenis_kelamin);
+        $datas = $query->get();
+
         if ($request->all()) {
             foreach ($request->all() as $key => $val) {
-                if ($val) {
+                if ($val && $key != 'page') {
                     $filter[$key] = $val;
                 }
             }
-
-            foreach ($filter as $key => $val) {
-                $query->where($key, 'like', '%' . $val . '%');
-            }
         }
-        $query->where('pertemuan_kategori', $userLogin->user_jenis_kelamin);
-        $datas = $query->get();
+
+        for ($i = 5; $i >= 0; $i--) {
+            $load['arr_tahun'][] = date('Y', strtotime("-$i year"));
+        }
+
         $load['data'] = $datas;
         $load['filterVal'] = $filter;
         $load['jenis_iuran'] = ref_jenis_iuran::get();
+        $load['tahun'] = $tahun;
+        $load['bulan'] = $arr_bln[$bulan];
+        $load['arr_bulan'] = $arr_bln;
 
         return view('data.pertemuan', $load);
     }

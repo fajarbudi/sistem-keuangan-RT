@@ -4,13 +4,16 @@
 {{$namaPage}}
 @endsection
 
+@php
+$user = App\Models\User::class;
+@endphp
 
 @section('content')
 <div class="container-fluid">
     <div class="page-title">
         <div style="display: flex; justify-content: space-between">
             <div >
-                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}}</span>
+                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
             </div>
             <div >
                 <div class="mx-2 mt-2">
@@ -33,9 +36,9 @@
                                 <th>Nama</th>
                                 <th>Tanggal</th>
                                 {{-- <th>pertemuan Terakhir</th> --}}
-                                @can('admin', App\Models\User::class)                                   
+                                @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))                                   
                                   <th  class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
-                                @endcan
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -44,14 +47,14 @@
                                 <th scope="row">{{$index + 1}}</th>
                                 <td>{{$val->pertemuan_nama}}</td>
                                 <td>{{fAnaTgl($val->pertemuan_tgl, 'hri, tgl bln thn')}}</td>
-                                @can('admin', App\Models\User::class)
+                                @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <td class="d-flex d-row justify-content-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> pertemuan_id}}, `{{$val -> pertemuan_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>
                                 </td>
-                                @endcan
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
@@ -145,15 +148,20 @@
                     <div class="modal-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label class="form-label" for="fpertemuan_nama">Nama</label>
-                                <input class="form-control" id="fpertemuan_nama" type="text" placeholder="Masukkan Nama Pertemuan..." name="pertemuan_nama">
+                                <label class="form-label" for="fbulan">Bulan</label>
+                                <select id="fbulan" class="form-select form-select-sm" aria-label=".form-select-sm example" name="bulan">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($arr_bulan as $key => $val)
+                                    <option value="{{$key}}">{{$val}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="fjenis_iuran_id">Jenis pertemuan</label>
-                                <select id="fjenis_iuran_id" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_iuran_id">
+                                <label class="form-label" for="ftahun">Tahun</label>
+                                <select id="ftahun" class="form-select form-select-sm" aria-label=".form-select-sm example" name="tahun">
                                     <option value="">--Pilih--</option>
-                                    @foreach ($jenis_iuran as $val)
-                                    <option value="{{$val->jenis_iuran_id}}">{{$val->jenis_iuran_nama}}</option>
+                                    @foreach ($arr_tahun as $key => $val)
+                                    <option value="{{$val}}">{{$val}}</option>
                                     @endforeach
                                 </select>
                             </div>

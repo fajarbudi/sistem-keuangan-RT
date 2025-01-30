@@ -66,32 +66,23 @@ class Iuran extends Controller
     public function addData(Request $request)
     {
         $userLogin = Auth::user();
-        $post = [];
-        foreach ($request->all() as $key => $val) {
-            if ($key != '_token' && $val != '') {
-                $post[$key] = trim($val);
-            }
-        }
+        $jenis_iuran = $request->jenis_iuran_id;
 
-        $validator = Validator::make($post, [
-            'jenis_iuran_id' => ['required'],
-        ], $this->pesanValidasi);
-
-        if (!$validator->fails()) {
-
-            $uniq = $request->jenis_iuran_id;
-            $post['iuran_kategori'] = $userLogin->user_jenis_kelamin;
+        if ($jenis_iuran) {
 
             DataIuran::updateOrCreate(
                 [
-                    'jenis_iuran_id' => $uniq
+                    'pertemuan_id' => $request->pertemuan_id,
+                    'jenis_iuran_id' => $jenis_iuran
                 ],
-                $post
+                [
+                    'iuran_kategori' => $userLogin->user_jenis_kelamin
+                ]
             );
 
             return back()->with('Berhasil', 'Data Berhasil Ditambahkan.');
         } else {
-            return back()->with('Gagal', $validator->errors()->first());
+            return back()->with('Gagal', 'Pilih Jenis Iuran Dahulu');
         }
     }
 

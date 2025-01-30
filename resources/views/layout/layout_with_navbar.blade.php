@@ -161,6 +161,11 @@ $namaPage = explode(' ', $namaPage);
                             </a>
                             </li>
                             @endcan
+
+                            @php
+                                $user = App\Models\User::class;
+                            @endphp
+                            @if (Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'SaldoMasuk') ? 'active' : ''}}" href="{{route('saldo_masuk')}}">
                                 <div class="row">
                                     <i class="icofont icofont-chart-histogram-alt fs-5 col-2"></i>
@@ -175,6 +180,7 @@ $namaPage = explode(' ', $namaPage);
                                 </div>
                             </a>
                             </li>
+                            @endif
                     
                             <li class="sidebar-main-title">
                                 <div>
@@ -202,13 +208,13 @@ $namaPage = explode(' ', $namaPage);
                                 </div>
                             </li>
 
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'SOP') ? 'active' : ''}}" href="{{route('sop')}}">
+                            {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'SOP') ? 'active' : ''}}" href="{{route('sop')}}">
                                 <div class="row">
                                     <i class="icofont icofont-presentation-alt fs-5 col-2"></i>
                                     <span class="col-10">SOP</span>
                                 </div>
                             </a>
-                            </li>
+                            </li> --}}
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'Peraturan') ? 'active' : ''}}" href="{{route('peraturan')}}">
                                 <div class="row">
                                     <i class="icofont icofont-list fs-5 col-2"></i>
@@ -232,7 +238,7 @@ $namaPage = explode(' ', $namaPage);
                             </a>
                             </li>
 
-                            @can('admin', App\Models\User::class)
+                            @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <li class="sidebar-main-title">
                                     <div>
                                         <h6>Referensi</h6>
@@ -262,7 +268,7 @@ $namaPage = explode(' ', $namaPage);
                                   </div>
                                 </a>
                             </li>
-                            @endcan
+                            @endif
                             {{-- @can('admin', App\Models\User::class)
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisDokumen') ? 'active' : ''}}" href="{{url('/referensi/jenisDokumen')}}">
                                     <svg class="stroke-icon">

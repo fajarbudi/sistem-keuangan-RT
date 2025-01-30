@@ -4,6 +4,9 @@
 {{$namaPage}}
 @endsection
 
+@php
+$user = App\Models\User::class;
+@endphp
 
 @section('content')
 <div class="container-fluid">
@@ -45,9 +48,9 @@
                                 <th>Tanggal</th>
                                 <th>Nominal</th>
                                 {{-- <th>Saldo Terakhir</th> --}}
-                                @can('admin', App\Models\User::class)                                   
+                                @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))                                   
                                   <th  class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
-                                @endcan
+                                @endif
                             </tr>
                         </thead>
                         <tbody>
@@ -62,14 +65,14 @@
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
                                 <td align="right">{{number_format($val->saldo_nominal, 0, ",", ".")}}</td>
                                 {{-- <td>{{number_format($val->saldo_total, 0, ",", ".")}}</td> --}}
-                                @can('admin', App\Models\User::class)
+                                @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <td class="d-flex d-row justify-content-center">
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> saldo_id}}, `{{$val -> saldo_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>
                                 </td>
-                                @endcan
+                                @endif
                             </tr>
                             @endforeach
                         </tbody>
