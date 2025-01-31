@@ -61,7 +61,9 @@
                                     <div style="display: flex; flex-direction: column; align-items: center">
                                         <img src="{{($val->user_foto) ? url('storage/'.$val->user_foto) : asset('assets/images/add-image.png')}}" alt="" width="100px">
                                       
-                                        <button style="background-color: rgb(4, 173, 4)" onclick="$('{{'#kontenGambar'. $val->user_id}}').trigger('click')" class="btn btn-sm btn-primary mt-2">{{($val->user_foto) ? 'Update' : 'Upload'}}</button>
+                                        @can('admin', App\Models\User::class)                                       
+                                           <button style="background-color: rgb(4, 173, 4)" onclick="$('{{'#kontenGambar'. $val->user_id}}').trigger('click')" class="btn btn-sm btn-primary mt-2">{{($val->user_foto) ? 'Update' : 'Upload'}}</button>
+                                        @endcan
                                     </div>
                                 </td>
                                 <td>{{$val->user_nama}}</td>
@@ -240,7 +242,7 @@
                     </ul>
                     <h4 class="text-center pb-2">Peringatan !!!</h4>
                     <p class="text-center">Konfirmasi penghapusan data ?</p>
-                    <p class="text-lg-center" id="textHapus"></p>
+                    <p class="text-center" id="textHapus"></p>
                     <form id="formHapus" method="POST">
                         @csrf
                         <button class="btn btn-danger d-flex m-auto" type="submit"><i class="fa fa-times-circle mt-1 me-1"></i> Hapus</button>

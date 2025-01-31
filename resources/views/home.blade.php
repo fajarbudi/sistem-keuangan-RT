@@ -90,6 +90,14 @@ Home
                                 <br>
                                 <h4>Rp {{number_format($saldo_keluar_terakhir->saldo_nominal ?? 0, 0, ",", ".")}}</h4>
                             </div>
+                           @if (Auth::user()->can('admin', App\Models\User::class) || Auth::user()->can('bendahara', App\Models\User::class))
+                             <div class="col-6 mt-3">
+                               <button class="btn btn-primary" onclick="input('{{route('saldo_masuk.add')}}', 'Saldo Masuk')"><i class="icon-pencil-alt me-1"></i>Input Data</button>
+                            </div>
+                            <div class="col-6 mt-3">
+                               <button class="btn btn-danger" onclick="input('{{route('saldo_keluar.add')}}', 'Saldo Keluar')"><i class="icon-pencil-alt me-1"></i>Input Data</button>
+                            </div>
+                           @endif
                         </div>
                         <div class="bg-gradient"> 
                           {{-- <svg class="stroke-icon svg-fill">
@@ -162,6 +170,76 @@ Home
         </div>
     </div>
 </div>
+
+
+{{-- Modal Tambah dan Update --}}
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModal" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+      <div class="modal-content">
+          <div class="modal-toggle-wrapper text-start dark-sign-up">
+              <form id="formData" class=" needs-validation" novalidate="" method="POST">
+                  <div class="modal-header">
+                      <h5 class="modal-title" id=""><i class="icon-pencil-alt"></i> <span id="judulModal">Tambah Data</span></h5>
+                      <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                  <div class="modal-body">
+                      @csrf
+                      <input type="hidden" id="saldo_nominal" name="saldo_nominal">
+                      <div class="row g-3">
+                          <input type="hidden" name="old_saldo" id="old_saldo">
+                          <div class="col-md-12">
+                              <label class="form-label" for="saldo_keterangan">Keterangan</label>
+                              <input class="form-control" id="saldo_keterangan" type="text" placeholder="Masukkan keterangan saldo..." required="" name="saldo_keterangan">
+                          </div>
+                          <div class="col-md-12" id="saldo_masuk">
+                              <label class="form-label" for="jenis_saldo_masuk">Jenis Saldo</label>
+                              <select id="jenis_saldo_masuk" class="form-select form-select-sm" aria-label=".form-select-sm example" name="saldo_jenis">
+                                  <option value="">--Pilih--</option>
+                                  @foreach ($jenis_saldo_masuk as $val)
+                                  <option value="{{$val->jenis_saldo_masuk_id}}">{{$val->jenis_saldo_masuk_nama}}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                          <div class="col-md-12" id="saldo_keluar">
+                              <label class="form-label" for="jenis_saldo_keluar">Jenis Saldo</label>
+                              <select id="jenis_saldo_keluar" class="form-select form-select-sm" aria-label=".form-select-sm example" name="saldo_jenis">
+                                  <option value="">--Pilih--</option>
+                                  @foreach ($jenis_saldo_keluar as $val)
+                                  <option value="{{$val->jenis_saldo_keluar_id}}">{{$val->jenis_saldo_keluar_nama}}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                          <div class="col-md-12">
+                              <label class="form-label" for="saldo_tgl">Tanggal</label>
+                              <input class="form-control digits" id="saldo_tgl" type="date" data-date-format="YYYY-mm-dd" required="" name="saldo_tgl">
+                              <div class="invalid-feedback">Isian tidak sesuai...</div>
+                          </div>
+                          <div class="col-md-12">
+                              <label class="form-label" for="nominal">Nominal</label>
+                              <input class="form-control" id="nominal" type="text" placeholder="Masukkan nominal saldo..." required="" name="">
+                          </div>
+                          <div class="col-12">
+                              <div class=" row gap-2">
+                                  @foreach ($ref_nominal as $vNom)
+                                      <button style="min-width: 100px;" type="button" class="btn btn-sm blue-steel col" onclick="bantuanNominal({{$vNom->nominal_nominal}})">Rp {{number_format($vNom->nominal_nominal, 0, ",", ".")}}</button>
+                                  @endforeach
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                      <div class="col">
+                          <button class="btn btn-secondary fload-end" type="button" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-arrow-left"></i> Kembali</button>
+                      </div>
+                      <div class="col text-end">
+                          <button class="btn btn-primary fload-end" type="submit"><i class="fa fa-floppy-o"></i> Simpan </button>
+                      </div>
+                  </div>
+              </form>
+          </div>
+      </div>
+  </div>
+</div>
 @endsection
 
 
@@ -191,6 +269,48 @@ Home
         $('#jam').text(`${(jam < 10) ? 0 : ''}${jam}`);
         $('#menit').text(`${(menit < 10) ? 0 : ''}${menit}`);
     }, 1000);
+
+    const formatRupiah = (nominal) =>{
+        return new Intl.NumberFormat("id-ID", {
+                       style: "currency",
+                       currency: "IDR"
+                }).format(nominal);
+    }
+
+    let delay = null;
+    $('#nominal').on('keyup', (s) =>{
+        clearTimeout(delay);
+        const nominal = s.target.value * 1000;
+        const rupiah = formatRupiah(nominal)
+
+        delay = setTimeout(() => {
+            if(isNaN(s.target.value) || s.target.value <= 0){
+                $('#nominal').val('')
+            }else{
+                $('#saldo_nominal').val(nominal);
+                $('#nominal').val(rupiah)
+            }
+        }, 500);
+    })
+
+    const input = (url, judul) =>{
+      $('#formModal').modal('show')
+      $('#judulModal').text(judul)
+      $('#formData').attr('action', url)
+
+      if(judul == 'Saldo Masuk'){
+        $('#saldo_masuk').removeClass('d-none')
+        $('#saldo_keluar').addClass('d-none')
+      }else{
+        $('#saldo_masuk').addClass('d-none')
+        $('#saldo_keluar').removeClass('d-none')
+      }
+    }
+
+    const bantuanNominal = (nominal) =>{
+        $('#saldo_nominal').val(nominal);
+        $('#nominal').val(formatRupiah(nominal))
+    }
 
     //chart masuk perbulan
     const dataSpt = @json($masukPerbulan);

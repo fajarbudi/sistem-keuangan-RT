@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\data\saldo;
+use App\Models\referensi\ref_jenis_saldo_keluar;
+use App\Models\referensi\ref_jenis_saldo_masuk;
+use App\Models\referensi\ref_nominal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,6 +62,9 @@ class DashboardController extends Controller
         $load['tahun'] = $tahun;
         $load['masukPerbulan'] = $masukPerbulan;
         $load['keluarPerbulan'] = $keluarPerbulan;
+        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::get();
+        $load['jenis_saldo_keluar'] = ref_jenis_saldo_keluar::get();
+        $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
 
         return view('home', $load);
     }
