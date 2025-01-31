@@ -5,6 +5,7 @@ namespace App\Http\Controllers\data;
 use App\Http\Controllers\Controller;
 use App\Models\data\saldo;
 use App\Models\referensi\ref_jenis_saldo_masuk;
+use App\Models\referensi\ref_nominal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -60,6 +61,7 @@ class SaldoMasuk extends Controller
         $load['bulan'] = $arr_bln[$bulan];
         $load['arr_bulan'] = $arr_bln;
         $load['saldo_terakhir'] = saldo::latest()->first();
+        $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
 
         return view('data.saldo_masuk', $load);
     }

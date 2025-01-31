@@ -118,12 +118,19 @@ $user = App\Models\User::class;
                                 <div class="invalid-feedback">Isian tidak sesuai...</div>
                             </div>
                             <div class="col-md-12">
+                                <label class="form-label" for="saldo_bukti">Bukti</label>
+                                <input class="form-control" id="saldo_bukti" type="file" placeholder="Masukkan Gambar..." required="" name="saldo_bukti">
+                            </div>
+                            <div class="col-md-12">
                                 <label class="form-label" for="nominal">Nominal</label>
                                 <input class="form-control" id="nominal" type="text" placeholder="Masukkan nominal saldo..." required="" name="nominal">
                             </div>
-                            <div class="col-md-12">
-                                <label class="form-label" for="saldo_bukti">Bukti</label>
-                                <input class="form-control" id="saldo_bukti" type="file" placeholder="Masukkan Gambar..." required="" name="saldo_bukti">
+                            <div class="col-12">
+                                <div class=" row gap-2">
+                                    @foreach ($ref_nominal as $vNom)
+                                        <button style="min-width: 100px;" type="button" class="btn btn-sm blue-steel col" onclick="bantuanNominal({{$vNom->nominal_nominal}})">Rp {{number_format($vNom->nominal_nominal, 0, ",", ".")}}</button>
+                                    @endforeach
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -267,6 +274,11 @@ $user = App\Models\User::class;
             }
         }, 500);
     })
+
+    const bantuanNominal = (nominal) =>{
+        $('#iuran_data_nominal').val(nominal);
+        $('#nominal').val(formatRupiah(nominal))
+    }
 
     const add = () => {
         $('#formModal').modal('show');
