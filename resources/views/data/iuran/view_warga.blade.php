@@ -10,11 +10,11 @@
     <div class="page-title">
         <div style="display: flex; justify-content: space-between">
             <div >
-                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
+                <span class="f-30 f-w-400"><i class="icon-layers sembunyikan"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
             </div>
             <div >
                 <div class="mx-2 mt-2">
-                    <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> Search</button>
+                    <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> <span class="sembunyikan">Search</span></button>
                 </div>
             </div>
         </div>

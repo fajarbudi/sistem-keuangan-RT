@@ -54,10 +54,10 @@
                     <a class="navbar-brand m-0" href="{{route('front')}}">
                         <img src="{{ asset('/assets_front/images/logo/logo.png') }}" alt="logo">
                     </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    {{-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
                         aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
-                    </button>
+                    </button> --}}
 
                     {{-- <div class="collapse navbar-collapse" id="navbarNav">
                         <ul class="navbar-nav navigation">

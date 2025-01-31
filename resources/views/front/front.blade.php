@@ -51,77 +51,77 @@ Login
                 <div class="row gy-4">
                     <div class="col-sm-12">
                         <div class="title-style-1 text-center">
-                            <h5 style="color: rgb(41, 108, 233)">Tentang Layanan</h5>
-                            <h2>Sistem Keuangan RT.09 / RW.20</h2>
+                            <h5 style="color: #d770e9">Tentang Layanan</h5>
+                            <h3>Sistem Keuangan RT.09 / RW.20</h3>
                         </div>
                     </div>
-                    <div class="col-lg-6">
-                        <div class="about-images-wrapper">
+                    <div class="col-12 col-lg-6">
+                        <div class="about-images-wrapper gFront">
                             <img class="rounded img-fluid about-image" src="{{ asset('/assets_front/images/front/front-top-1.jpg') }}" alt="" style="box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);text-align: center;">
                         </div>
                     </div>
                     <div class="col-lg-6">
                         <div class="about-content">
                             <div class="title-style-1">
-                                <h5  style="color: rgb(41, 108, 233)">Sistem Keuangan yang Efektif dan Efisien</h5>
+                                <h5  style="color: #d770e9">Sistem Keuangan yang Efektif dan Efisien</h5>
                             </div>
                             <div class="row">
-                                <div class="col-4" style="margin-bottom: 15px; min-width: 180px;">
-                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid rgb(111, 61, 247);border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);backg-round: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
+                                <div class="col-6 col-md-4" style="margin-bottom: 15px; min-width: 160px;">
+                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid #d359e9;border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.15);backg-round: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
                                         <div class="feature-outline-box">
                                             <div class="feature-box text-center" style="cursor: pointer;" onclick="showTentang();">
-                                                <i class="fa-4x fa-solid fa-feather" style="color:#243c8b;"></i>
-                                                <h4 style="color:#243c8b;margin-top: 15px;">Tentang</h4>
+                                                <i class="fa-4x fa-solid fa-feather" style="color: #685cec;"></i>
+                                                <h4 style="color: #685cec;margin-top: 15px;">Tentang</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4" style="margin-bottom: 15px; min-width: 180px;">
-                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid rgb(111, 61, 247);border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);backg-round: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
+                                <div class="col-6 col-md-4" style="margin-bottom: 15px; min-width: 160px;">
+                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid #d359e9;border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.15);backg-round: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
                                         <div class="feature-outline-box">
                                             <div class="feature-box text-center" style="cursor: pointer;" onclick="showPengumuman();">
-                                                <i class="fa-4x fa-solid fa-list" style="color:#243c8b;"></i>
-                                                <h4 style="color:#243c8b;margin-top: 15px;">Pengumuman</h4>
+                                                <i class="fa-4x fa-solid fa-list" style="color:#685cec;"></i>
+                                                <h4 style="color:#685cec;margin-top: 15px;">Pengumuman</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="col-4" style="margin-bottom: 15px;">
-                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid rgb(111, 61, 247);border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);backg-round: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
+                                {{-- <div class="col-6 col-md-4" style="margin-bottom: 15px;">
+                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid #d359e9;border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.15);backg-round: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
                                         <div class="feature-outline-box">
                                             <div class="feature-box text-center" style="cursor: pointer;" onclick="showSop();">
-                                                <i class="fa-4x fa-solid fa-newspaper" style="color:#243c8b;"></i>
-                                                <h4 style="color:#243c8b;margin-top: 15px;">SOP</h4>
+                                                <i class="fa-4x fa-solid fa-newspaper" style="color:#685cec;"></i>
+                                                <h4 style="color:#685cec;margin-top: 15px;">SOP</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div> --}}
-                                <div class="col-4" style="margin-bottom: 15px; min-width: 180px;">
-                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid rgb(111, 61, 247);border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);back-ground: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
+                                <div class="col-6 col-md-4" style="margin-bottom: 15px; min-width: 160px;">
+                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid #d359e9;border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.15);back-ground: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
                                         <div class="feature-outline-box">
                                             <div class="feature-box text-center" style="cursor: pointer;" onclick="showPeraturan();">
-                                                <i class="fa-4x fa-solid fa-book" style="color:#243c8b;"></i>
-                                                <h4 style="color:#243c8b;margin-top: 15px;">Peraturan</h4>
+                                                <i class="fa-4x fa-solid fa-book" style="color:#685cec;"></i>
+                                                <h4 style="color:#685cec;margin-top: 15px;">Peraturan</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                {{-- <div class="col-4" style="margin-bottom: 15px;">
-                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid rgb(111, 61, 247);border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);back-ground: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
+                                {{-- <div class="col-6 col-md-4" style="margin-bottom: 15px;">
+                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid #d359e9;border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.15);back-ground: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
                                         <div class="feature-outline-box">
                                             <div class="feature-box text-center" style="cursor: pointer;" onclick="goLogin();">
-                                                <i class="fa-4x fa-solid fa-pen-to-square" style="color:#243c8b;"></i>
-                                                <h4 style="color:#243c8b;margin-top: 15px;">Pengaduan Disiplin</h4>
+                                                <i class="fa-4x fa-solid fa-pen-to-square" style="color:#685cec;"></i>
+                                                <h4 style="color:#685cec;margin-top: 15px;">Pengaduan Disiplin</h4>
                                             </div>
                                         </div>
                                     </div>
                                 </div> --}}
-                                <div class="col-4" style="margin-bottom: 15px; min-width: 180px;">
-                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid rgb(111, 61, 247);border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);back-ground: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
+                                <div class="col-6 col-md-4" style="margin-bottom: 15px; min-width: 160px;">
+                                    <div class="feature-wrapper" style="padding: 20px 0;border: 2px solid #d359e9;border-radius: 25px;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.15);back-ground: url({{ asset('/assets_front/images/sass/shape/5.webp') }}) no-repeat bottom center;">
                                         <div class="feature-outline-box">
                                             <div class="feature-box text-center" style="cursor: pointer;" onclick="goLogin();">
-                                                <i class="fa-4x fa-solid fa-right-to-bracket" style="color:#243c8b;"></i>
-                                                <h4 style="color:#243c8b;margin-top: 15px;">Sign In</h4>
+                                                <i class="fa-4x fa-solid fa-right-to-bracket" style="color:#685cec;"></i>
+                                                <h4 style="color:#685cec;margin-top: 15px;">Sign In</h4>
                                             </div>
                                         </div>
                                     </div>
@@ -353,5 +353,10 @@ Login
             $('#password').attr('type', 'password')
         }
     })
+
+    const lebar = window.innerWidth;
+    if(lebar <= 990){
+        $('.gFront').attr('style', 'display: flex; justify-content: center !important')
+    }
 </script>
 @endpush
