@@ -81,7 +81,7 @@ class SaldoMasuk extends Controller
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
-            $lastSaldo = saldo::latest()->first();
+            $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
 
             $post['saldo_status'] = 'masuk';
             $post['saldo_total'] = (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $post['saldo_nominal'] : $post['saldo_nominal'];
@@ -113,7 +113,7 @@ class SaldoMasuk extends Controller
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
-            $lastSaldo = saldo::latest()->first();
+            $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
 
             if (isset($lastSaldo->saldo_total) && $request->old_saldo) {
                 $hitungSaldo = ($lastSaldo->saldo_total - $request->old_saldo) + $request->saldo_nominal;
@@ -140,8 +140,9 @@ class SaldoMasuk extends Controller
 
     public function dellRefData($id)
     {
+        $userLogin = Auth::user();
         $data = saldo::find($id);
-        $lastSaldo = saldo::latest()->first();
+        $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
 
         if ($data) {
 

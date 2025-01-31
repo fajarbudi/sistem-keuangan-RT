@@ -92,7 +92,7 @@ class Iuran extends Controller
     public function selesai($id)
     {
         $userLogin = Auth::user();
-        $lastSaldo = saldo::latest()->first();
+        $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
         $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
         $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $iuran = DataIuran::find($id);
