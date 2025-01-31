@@ -129,7 +129,7 @@
                                     <label class="form-label" for="user_Telp">No Telphone</label>
                                     <input class="form-control" id="user_Telp" type="text" placeholder="Masukkan Nama ..." required="" name="user_Telp">
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-6">
                                     <label class="form-label" for="user_gol_darah">Golongan Darah</label>
                                     <select id="user_gol_darah" class="form-select form-select-sm" name="user_gol_darah">
                                         <option value="" selected>--Pilih--</option>
@@ -194,7 +194,7 @@
                                 <label class="form-label" for="fuser_Telp">No Telphone</label>
                                 <input class="form-control" id="fuser_Telp" type="text" placeholder="Masukkan Nama ..." required="" name="user_Telp">
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-6">
                                 <label class="form-label" for="fuser_gol_darah">Golongan Darah</label>
                                 <select id="fuser_gol_darah" class="form-select form-select-sm" name="user_gol_darah">
                                     <option value="" selected>--Pilih--</option>

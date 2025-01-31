@@ -13,11 +13,11 @@ $user = App\Models\User::class;
     <div class="page-title">
         <div style="display: flex; justify-content: space-between">
             <div >
-                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
+                <span class="f-30 f-w-400"><i class="icon-layers sembunyikan"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
             </div>
             <div >
                 <div class="mx-2 mt-2">
-                    <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> Search</button>
+                    <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> <span class="sembunyikan">Search</span></button>
                 </div>
             </div>
         </div>
@@ -49,11 +49,11 @@ $user = App\Models\User::class;
                                 <td>{{fAnaTgl($val->pertemuan_tgl, 'hri, tgl bln thn')}}</td>
                                 @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <td class="d-flex d-row justify-content-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
-                                        <a class="btn btn-success" href="{{route('iuran.detail', $val->pertemuan_id)}}"><i class="fa fa-sign-in me-1"></i>Detail</a>
-                                        <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
+                                    <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                                        <a class="btn btn-success" href="{{route('iuran.detail', $val->pertemuan_id)}}" style="min-width: 100px"><i class="fa fa-sign-in me-1"></i>Detail</a>
+                                        <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})" style="min-width: 100px"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         @can('admin', $user)
-                                        <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> pertemuan_id}}, `{{$val -> pertemuan_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
+                                        <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> pertemuan_id}}, `{{$val -> pertemuan_nama}}`)' style="min-width: 100px"><i class="fa fa-times"></i> Hapus</button>
                                         @endcan
                                     </div>
                                 </td>
@@ -126,7 +126,7 @@ $user = App\Models\User::class;
                     </ul>
                     <h4 class="text-center pb-2">Peringatan !!!</h4>
                     <p class="text-center">Konfirmasi penghapusan data ?</p>
-                    <p class="text-lg-center" id="textHapus"></p>
+                    <p class="text-center" id="textHapus"></p>
                     <form id="formHapus" method="POST">
                         @csrf
                         <button class="btn btn-danger d-flex m-auto" type="submit"><i class="fa fa-times-circle mt-1 me-1"></i> Hapus</button>

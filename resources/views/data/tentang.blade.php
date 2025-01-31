@@ -67,7 +67,7 @@
                                 </td>
                                 @can('admin', App\Models\User::class)
                                 <td align="center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                    <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> tentang_id}}, `{{$val -> tentang_judul}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>

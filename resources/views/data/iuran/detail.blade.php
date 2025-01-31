@@ -12,11 +12,11 @@
             <div >
                 <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}}</span>
             </div>
-            <div >
+            {{-- <div >
                 <div class="mx-2 mt-2">
                     <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> Search</button>
                 </div>
-            </div>
+            </div> --}}
         </div>
     </div>
 </div>
@@ -42,7 +42,7 @@
                                 <td colspan="9">{{$val->jenis_iuran->jenis_iuran_nama}}</td>
                                 <td>{{$val->iuran_status}}</td>
                                 <td align="center">
-                                     <div class="btn-group" role="group">
+                                     <div class="btn-group-vertical" role="group">
                                         <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
                                         <button type="button" class="btn btn-success" onclick="selesai({{$val->iuran_id}})" {{$val->iuran_status != 'selesai' ? '' : 'disabled'}}><i class="icofont icofont-check-alt fs-5 me-1"></i>Selesai</button>
                                     </div>

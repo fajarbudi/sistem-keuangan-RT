@@ -128,6 +128,15 @@
     <script>
         //new WOW().init();
     </script>
+
+    <script>
+        const lebar = window.innerWidth;
+        if(lebar < 1000){
+            $('.sembunyikan').addClass('d-none')
+        }else{
+            $('.sembunyikan').removeClass('d-none')
+        }
+    </script>
     {{-- <script src="{{ asset('/assets/js/theme-customizer/customizer.js') }}"></script> --}}
 </body>
 

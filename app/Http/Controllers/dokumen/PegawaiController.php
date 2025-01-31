@@ -19,6 +19,7 @@ class PegawaiController extends Controller
     private $pesanValidasi = [
         'required' => 'Form :attribute tidak boleh dikosongkan',
         'email'    => 'Form :attribute masukkan alamat email yang valid',
+        'unique' => 'Username Sudah Digunakan'
     ];
 
     function inp()
@@ -148,7 +149,7 @@ class PegawaiController extends Controller
 
         $validator = Validator::make($post, [
             'user_nama' => ['required', 'string'],
-            'user_username' => ['required'],
+            'user_username' => ['required', 'unique:users'],
             'user_email' => ['required'],
             'password' => ['required'],
         ], $this->pesanValidasi);
@@ -179,7 +180,7 @@ class PegawaiController extends Controller
 
         $validator = Validator::make($post, [
             'user_nama' => ['required', 'string'],
-            'user_username' => ['required'],
+            'user_username' => ['required', 'unique:users'],
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {

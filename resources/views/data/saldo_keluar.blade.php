@@ -13,11 +13,11 @@ $user = App\Models\User::class;
     <div class="page-title">
         <div style="display: flex; justify-content: space-between">
             <div >
-                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
+                <span class="f-30 f-w-400"><i class="icon-layers sembunyikan"></i> {{$judulPage}} -- {{$bulan}} {{$tahun}}</span>
             </div>
             <div >
                 <div class="mx-2 mt-2">
-                    <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> Search</button>
+                    <button class="btn btn-primary" type="button" onclick="filter()"><i class="fa fa-search"></i> <span class="sembunyikan">Search</span></button>
                 </div>
             </div>
         </div>
@@ -67,7 +67,7 @@ $user = App\Models\User::class;
                                 {{-- <td>{{number_format($val->saldo_total, 0, ",", ".")}}</td> --}}
                                 @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <td class="d-flex d-row justify-content-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                    <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> saldo_id}}, `{{$val -> saldo_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>

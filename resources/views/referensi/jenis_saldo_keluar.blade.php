@@ -41,8 +41,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th>Nama</th>
-                                <th>Diupdate</th>
-                                <th>Dibuat</th>
+                                <th>Tanggal</th>
                                 <th class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                             </tr>
                         </thead>
@@ -51,10 +50,13 @@
                             <tr>
                                 <th scope="row">{{$index + 1}}</th>
                                 <td>{{$val->jenis_saldo_keluar_nama}}</td>
-                                <td>{{fAnaTgl($val->updated_at, 'jam:mnt - hri, tgl bln thn')}}</td>
-                                <td>{{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}</td>
-                                <td class="d-flex d-row justify-content-center">
-                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                <td>
+                                    add : {{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}
+                                    <br>
+                                    upd :{{fAnaTgl($val->updated_at, 'jam:mnt - hri, tgl bln thn')}}
+                                </td>
+                                <td align="center">
+                                    <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> jenis_saldo_keluar_id}}, `{{$val -> jenis_saldo_keluar_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>
