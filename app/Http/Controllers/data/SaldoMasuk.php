@@ -56,7 +56,7 @@ class SaldoMasuk extends Controller
 
         $load['data'] = $datas;
         $load['filterVal'] = $filter;
-        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::get();
+        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', '!=', 'Iuran')->get();
         $load['tahun'] = $tahun;
         $load['bulan'] = $arr_bln[$bulan];
         $load['arr_bulan'] = $arr_bln;

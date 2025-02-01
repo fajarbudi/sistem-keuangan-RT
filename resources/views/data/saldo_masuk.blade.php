@@ -42,7 +42,7 @@ $user = App\Models\User::class;
                                 <th scope="col">No</th>
                                 <th>Penanggung Jawab</th>
                                 <th>Keterangan</th>
-                                <th>Status</th>
+                                {{-- <th>Status</th> --}}
                                 <th>Jenis</th>
                                 <th>Tanggal</th>
                                 <th>Nominal</th>
@@ -58,7 +58,7 @@ $user = App\Models\User::class;
                                 <th scope="row">{{$index + 1}}</th>
                                 <td>{{$val->user->user_nama ?? ''}}</td>
                                 <td>{{$val->saldo_keterangan}}</td>
-                                <td>{{ucFirst($val->saldo_status)}}</td>
+                                {{-- <td>{{ucFirst($val->saldo_status)}}</td> --}}
                                 <td>{{$val->jenis_saldo_masuk_nama}}</td>
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
                                 <td align="right">{{number_format($val->saldo_nominal, 0, ",", ".")}}</td>
@@ -66,7 +66,7 @@ $user = App\Models\User::class;
                                 @if(Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
                                 <td class="d-flex d-row justify-content-center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
-                                        <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
+                                        <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})" {{$val->jenis_saldo_masuk_nama == 'Iuran' ? 'Disabled' : ''}}><i class="fa fa-pencil-square-o"></i> Update</button>
                                         <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> saldo_id}}, `{{$val -> saldo_nama}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>
                                 </td>
@@ -178,7 +178,7 @@ $user = App\Models\User::class;
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="fsaldo_keterangan">Keterangan</label>
-                                <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Alasan Mutasi..." name="saldo_keterangan">
+                                <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Keterangan..." name="saldo_keterangan">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="fjenis_saldo_masuk_nama">Jenis Saldo</label>

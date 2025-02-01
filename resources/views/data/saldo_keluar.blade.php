@@ -184,7 +184,7 @@ $user = App\Models\User::class;
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <label class="form-label" for="fsaldo_keterangan">Keterangan</label>
-                                <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Alasan Mutasi..." name="saldo_keterangan">
+                                <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Keterangan..." name="saldo_keterangan">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="fjenis_saldo_keluar_nama">Jenis Saldo</label>

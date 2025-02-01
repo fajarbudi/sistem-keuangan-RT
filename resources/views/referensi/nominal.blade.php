@@ -16,7 +16,7 @@
                 <div class="d-flex flex-wrap">
                     <form class="mx-2" action="{{$baseURL}}" id="formSearch">
                         <div style="position: relative;">
-                            <input class="form-control" id="fnominal_nominal" type="text" placeholder="Cari Nama Jenis Iuran..." required="" name="nominal_nominal" value="{{(isset($vFilter['nominal_nominal'])) ? $vFilter['nominal_nominal'] : ''}}">
+                            <input class="form-control" id="fnominal_nominal" type="text" placeholder="Cari Nominal..." required="" name="nominal_nominal" value="{{(isset($vFilter['nominal_nominal'])) ? $vFilter['nominal_nominal'] : ''}}">
                             <a href="{{$baseURL}}" class="{{(!isset($vFilter['nominal_nominal'])) ? 'd-none' : ''}}">                          
                                 <span style="position: absolute; top: 20%; right: 10px;">X</span>
                             </a>

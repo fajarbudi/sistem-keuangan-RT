@@ -115,11 +115,11 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_username">Username</label>
-                                    <input class="form-control" id="user_username" type="text" placeholder="Masukkan Nama ..." required="" name="user_username">
+                                    <input class="form-control" id="user_username" type="text" placeholder="Masukkan Username ..." required="" name="user_username">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_email">Email</label>
-                                    <input class="form-control" id="user_email" type="text" placeholder="Masukkan Nama ..." required="" name="user_email">
+                                    <input class="form-control" id="user_email" type="text" placeholder="Masukkan Email ..." required="" name="user_email">
                                 </div>
                                 @if (Auth::user()->user_role == 'superAdmin')
                                 <div class="col-md-6">
@@ -129,7 +129,7 @@
                                 @endif
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_Telp">No Telphone</label>
-                                    <input class="form-control" id="user_Telp" type="text" placeholder="Masukkan Nama ..." required="" name="user_Telp">
+                                    <input class="form-control" id="user_Telp" type="text" placeholder="Masukkan No Telphone ..." required="" name="user_Telp">
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_gol_darah">Golongan Darah</label>
@@ -146,7 +146,9 @@
                                     <select id="user_role" class="form-select form-select-sm" aria-label=".form-select-sm example" name="user_role">
                                         <option value="">--Pilih--</option>
                                         @foreach ($user_role as $key => $val)
-                                         <option value="{{$key}}">{{$val}}</option>
+                                           @if ($key != 'superAdmin')
+                                           <option value="{{$key}}">{{$val}}</option>
+                                           @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -190,11 +192,11 @@
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="fuser_email">Email</label>
-                                <input class="form-control" id="fuser_email" type="text" placeholder="Masukkan Nama ..." required="" name="user_email">
+                                <input class="form-control" id="fuser_email" type="text" placeholder="Masukkan Email ..." required="" name="user_email">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="fuser_Telp">No Telphone</label>
-                                <input class="form-control" id="fuser_Telp" type="text" placeholder="Masukkan Nama ..." required="" name="user_Telp">
+                                <input class="form-control" id="fuser_Telp" type="text" placeholder="Masukkan No Handphone ..." required="" name="user_Telp">
                             </div>
                             <div class="col-md-6">
                                 <label class="form-label" for="fuser_gol_darah">Golongan Darah</label>
@@ -211,7 +213,9 @@
                                 <select id="fuser_role" class="form-select form-select-sm" aria-label=".form-select-sm example" name="user_role">
                                     <option value="">--Pilih--</option>
                                     @foreach ($user_role as $key => $val)
-                                     <option value="{{$key}}">{{$val}}</option>
+                                      @if ($key != 'superAdmin')
+                                        <option value="{{$key}}">{{$val}}</option>
+                                      @endif
                                     @endforeach
                                 </select>
                             </div>

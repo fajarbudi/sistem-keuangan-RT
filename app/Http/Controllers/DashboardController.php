@@ -62,7 +62,7 @@ class DashboardController extends Controller
         $load['tahun'] = $tahun;
         $load['masukPerbulan'] = $masukPerbulan;
         $load['keluarPerbulan'] = $keluarPerbulan;
-        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::get();
+        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', '!=', 'Iuran')->get();
         $load['jenis_saldo_keluar'] = ref_jenis_saldo_keluar::get();
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
 

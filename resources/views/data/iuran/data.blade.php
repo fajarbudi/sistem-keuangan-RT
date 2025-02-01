@@ -9,8 +9,11 @@
 <div class="container-fluid">
     <div class="page-title">
         <div style="display: flex; justify-content: space-between">
+            <div>
+                <a href="{{route('iuran.detail', $iuran->pertemuan_id)}}" class="btn btn-primary mt-2"><i class="fa fa-arrow-left"></i>Kembali</a>
+            </div>
             <div >
-                <span class="f-30 f-w-400"><i class="icon-layers"></i> {{$judulPage}}</span>
+                <span class="f-30 f-w-400 mt-1">{{$judulPage}}</span>
             </div>
             {{-- <div >
                 <div class="mx-2 mt-2">

@@ -134,7 +134,7 @@ class Iuran extends Controller
         $userLogin = Auth::user();
 
         $warga = User::where('user_jenis_kelamin', $userLogin->user_jenis_kelamin)
-            ->where('user_role', '!=', 'superAdmin')->get();
+            ->where('user_role', '!=', 'superAdmin')->orderBy('user_nama')->get();
 
         $data =  iuran_data::where('iuran_id', $id)->get();
 

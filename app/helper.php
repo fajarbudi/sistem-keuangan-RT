@@ -158,6 +158,7 @@ function user_role($key = '')
         'superAdmin' => 'Super Admin',
         'ketua' => 'Ketua',
         'bendahara' => 'Bendahara',
+        'sekertaris' => 'Sekertaris',
         'warga' => 'Warga'
     ];
     if (isset($key) and $key) {

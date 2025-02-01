@@ -126,7 +126,7 @@ class PegawaiController extends Controller
         }
         $query->where('user_role', '!=', 'superAdmin');
         $query->where('user_jenis_kelamin', $userLogin->user_jenis_kelamin);
-        $datas = $query->paginate(50);
+        $datas = $query->orderBy('user_nama')->paginate(50);
 
         $load['data'] = $datas;
 
