@@ -143,6 +143,13 @@ $namaPage = explode(' ', $namaPage);
                                 </div>
                             </a>
                             </li>
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'Notulensi') ? 'active' : ''}}" href="{{route('notulensi')}}">
+                                <div class="row">
+                                    <i class="fa fa-pencil fs-5 col-2"></i>
+                                    <span class="col-10">Notulensi</span>
+                                </div>
+                            </a>
+                            </li>
                             {{-- @can('admin', App\Models\User::class)
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'Iuran') ? 'active' : ''}}" href="{{route('iuran')}}">
                                 <div class="row">

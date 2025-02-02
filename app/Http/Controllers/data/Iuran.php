@@ -144,7 +144,7 @@ class Iuran extends Controller
         }
 
         $load['warga'] = $warga;
-        $load['jenis_iuran'] = ref_jenis_iuran::get();
+        $load['jenis_iuran'] = ref_jenis_iuran::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
         $load['data_iuran'] = $dataIuran;
         $load['iuran_id'] = $id;
         $load['iuran'] = DataIuran::find($id);

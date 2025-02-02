@@ -15,6 +15,10 @@ class RoleUser
     {
         return $user->user_role === 'bendahara';
     }
+    public function sekertaris(User $user): bool
+    {
+        return $user->user_role === 'sekertaris';
+    }
 
     public function warga(User $user): bool
     {

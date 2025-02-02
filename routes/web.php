@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\data\Iuran;
+use App\Http\Controllers\data\Notulensi;
 use App\Http\Controllers\data\pengumuman;
 use App\Http\Controllers\data\peraturan;
 use App\Http\Controllers\data\Pertemuan;
@@ -136,6 +137,15 @@ Route::middleware('isLogin')->group(function () {
     Route::post('/data/iuran/updateData', [Iuran::class, 'updateData'])->name('iuran.update');
     Route::post('/data/iuran/selesai/{id}', [Iuran::class, 'selesai'])->name('iuran.selesai');
     Route::get('/data/iuran/warga_view', [Iuran::class, 'iuranWarga'])->name('iuran.warga_view');
+    //data Notulensi
+    Route::get('/data/notulensi', [Notulensi::class, 'dataView'])->name('notulensi');
+    Route::post('/data/notulensi/addData', [Notulensi::class, 'addRefData'])->name('notulensi.add');
+    Route::post('/data/notulensi/updateData/{id}', [Notulensi::class, 'updateRefData'])->name('notulensi.update');
+    Route::post('/data/notulensi/dellData/{id}', [Notulensi::class, 'dellRefData']);
+    Route::get('/data/notulensi/detail/{id}', [Notulensi::class, 'detail'])->name('notulensi.detail');
+    Route::post('/data/notulensi/detail/{notulensi_id}/addData', [Notulensi::class, 'addDetail'])->name('notulensi.detail.add');
+    Route::post('/data/notulensi/detail/{notulensi_id}/updateData/{id}', [Notulensi::class, 'updateDetail'])->name('notulensi.detail.update');
+    Route::post('/data/notulensi/detail/{notulensi_id}/dellData/{id}', [Notulensi::class, 'dellDetail']);
 
 
     //Rekapitulasi Saldo Masuk
