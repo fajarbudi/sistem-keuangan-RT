@@ -26,9 +26,9 @@
         <div class="col">
             <div style="display: flex; justify-content: flex-end; padding-right: 5%">
                 <p class="text-center">
-                    <span style="font-size: 15px; font-weight: 500">Total Uang Masuk</span>
+                    <span style="font-size: 15px; font-weight: 500">Saldo Saat Ini</span>
                     <br>
-                    <strong style="font-size: 17px;">Rp {{number_format($total_saldo_masuk ?? 0, 0, ",", ".")}}</strong>
+                    <strong style="font-size: 17px;">Rp {{number_format($saldo_terakhir->saldo_total ?? 0, 0, ",", ".")}}</strong>
                 </p>
             </div>
             <div class="card">
@@ -41,7 +41,9 @@
                                 <th>Keterangan</th>
                                 <th>Jenis</th>
                                 <th>Tanggal</th>
-                                <th>Nominal</th>
+                                <th>Uang Masuk</th>
+                                <th>Uang Keluar</th>
+                                <th>Saldo</th>
                                 {{-- <th>Saldo Terakhir</th> --}}
                             </tr>
                         </thead>
@@ -51,10 +53,11 @@
                                 <th scope="row">{{$index + 1}}</th>
                                 {{-- <td>{{ucFirst($val->saldo_status)}}</td> --}}
                                 <td>{{$val->saldo_keterangan}}</td>
-                                <td>{{$val->jenis_saldo_masuk_nama}}</td>
+                                <td>{{$val->jenis_saldo_keluar_nama}}</td>
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
-                                <td>{{number_format($val->saldo_nominal, 0, ",", ".")}}</td>
-                                {{-- <td>{{number_format($val->saldo_total, 0, ",", ".")}}</td> --}}
+                                <td>{{$val->saldo_status == 'masuk' ? number_format($val->saldo_nominal, 0, ",", ".") : ''}}</td>
+                                <td>{{$val->saldo_status == 'keluar' ? number_format($val->saldo_nominal, 0, ",", ".") : ''}}</td>
+                                <td>{{number_format($val->saldo_total, 0, ",", ".")}}</td>
                             </tr>
                             @endforeach
                         </tbody>
@@ -79,7 +82,7 @@
                     </div>
                     <div class="modal-body">
                         <div class="row g-3">
-                            <div class="col-md-6">
+                            {{-- <div class="col-md-6">
                                 <label class="form-label" for="fsaldo_keterangan">Keterangan</label>
                                 <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Keterangan..." name="saldo_keterangan">
                             </div>
@@ -87,11 +90,11 @@
                                 <label class="form-label" for="fjenis_saldo_masuk_nama">Jenis Saldo</label>
                                 <select id="fjenis_saldo_masuk_nama" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_saldo_masuk_nama">
                                     <option value="">--Pilih--</option>
-                                    @foreach ($jenis_saldo_masuk as $val)
+                                    @foreach ($jenis_saldo_keluar as $val)
                                     <option value="{{$val->jenis_saldo_masuk_nama}}">{{$val->jenis_saldo_masuk_nama}}</option>
                                     @endforeach
                                 </select>
-                            </div>
+                            </div> --}}
                             <div class="col-md-6">
                                 <label class="form-label" for="fbulan">Bulan</label>
                                 <select id="fbulan" class="form-select form-select-sm" aria-label=".form-select-sm example" name="bulan">

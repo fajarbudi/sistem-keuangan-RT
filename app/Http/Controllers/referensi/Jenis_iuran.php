@@ -4,6 +4,7 @@ namespace App\Http\Controllers\referensi;
 
 use App\Http\Controllers\Controller;
 use App\Models\referensi\ref_jenis_iuran;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -36,9 +37,11 @@ class Jenis_iuran extends Controller
             }
         }
         $query->where('jenis_iuran_kategori', $userLogin->user_jenis_kelamin);
+        $query->leftJoin('users', 'ref_jenis_iurans.penanggung_jawab', 'users.user_id');
         $datas = $query->get();
         $load['data'] = $datas;
         $load['vFilter'] = $filter;
+        $load['penanggung_jawab'] = User::where('user_role', 'bendahara')->get();
 
         return view('referensi.jenis_iuran', $load);
     }

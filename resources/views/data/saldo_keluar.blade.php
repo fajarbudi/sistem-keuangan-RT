@@ -276,7 +276,7 @@ $user = App\Models\User::class;
     })
 
     const bantuanNominal = (nominal) =>{
-        $('#iuran_data_nominal').val(nominal);
+        $('#saldo_nominal').val(nominal);
         $('#nominal').val(formatRupiah(nominal))
     }
 

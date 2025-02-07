@@ -56,7 +56,7 @@ $user = App\Models\User::class;
                                  <td align="center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
-                                        <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> notulensi_id}}, `{{$val -> notulensi_topik}}`)'><i class="fa fa-times"></i> Hapus</button>
+                                        <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> notulensi_data_id}}, `{{$val -> notulensi_topik}}`)'><i class="fa fa-times"></i> Hapus</button>
                                     </div>
                                 </td>
                                  @endif

@@ -1,21 +1,20 @@
 <?php
 
-namespace App\Http\Controllers\data;
+namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\data\saldo;
 use App\Models\referensi\ref_jenis_saldo_keluar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class RekapSaldoKeluar extends Controller
+class BukuKas extends Controller
 {
     public function dataView(Request $request)
     {
         $userLogin = Auth::user();
-        $load['namaPage'] = 'RekapUangKeluar';
-        $load['judulPage'] = 'Rekapitulasi Uang Keluar';
-        $load['baseURL'] = route('rekap_saldo_keluar');
+        $load['namaPage'] = 'BukuKAS';
+        $load['judulPage'] = 'Buku KAS';
+        $load['baseURL'] = route('buku_kas');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
         $bulan = ($request->bulan) ? $request->bulan : date('n');
         $filter = [];
@@ -36,11 +35,10 @@ class RekapSaldoKeluar extends Controller
             }
         }
         $query->where('saldo_kategori', $userLogin->user_jenis_kelamin);
-        $query->where('saldo_status', '=', 'keluar');
         $query->whereMonth('saldo_tgl', $bulan);
         $query->whereYear('saldo_tgl', $tahun);
         $query->leftJoin('ref_jenis_saldo_keluars', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_keluars.jenis_saldo_keluar_id');
-        $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
+        $datas = $query->orderBy('saldos.created_at')->get();
 
 
         for ($i = 5; $i >= 0; $i--) {
@@ -60,7 +58,8 @@ class RekapSaldoKeluar extends Controller
         $load['bulan'] = $arr_bln[$bulan];
         $load['arr_bulan'] = $arr_bln;
         $load['total_saldo_keluar'] = $jumlah;
+        $load['saldo_terakhir'] = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
 
-        return view('data.rekapitulasi_saldo_keluar', $load);
+        return view('data.buku_kas', $load);
     }
 }

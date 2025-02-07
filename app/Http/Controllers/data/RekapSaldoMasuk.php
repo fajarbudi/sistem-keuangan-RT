@@ -13,8 +13,8 @@ class RekapSaldoMasuk extends Controller
     public function dataView(Request $request)
     {
         $userLogin = Auth::user();
-        $load['namaPage'] = 'RekapSaldoMasuk';
-        $load['judulPage'] = 'Rekapitulasi Saldo Masuk';
+        $load['namaPage'] = 'RekapUangMasuk';
+        $load['judulPage'] = 'Rekapitulasi Uang Masuk';
         $load['baseURL'] = route('rekap_saldo_masuk');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
         $bulan = ($request->bulan) ? $request->bulan : date('n');
@@ -40,7 +40,7 @@ class RekapSaldoMasuk extends Controller
         $query->whereMonth('saldo_tgl', $bulan);
         $query->whereYear('saldo_tgl', $tahun);
         $query->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id');
-        $datas = $query->orderBy('saldos.updated_at', 'DESC')->get();
+        $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
 
 
         for ($i = 5; $i >= 0; $i--) {

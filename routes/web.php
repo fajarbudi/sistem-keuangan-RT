@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BukuKas;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\data\Iuran;
@@ -152,4 +153,6 @@ Route::middleware('isLogin')->group(function () {
     Route::get('/rekapitulasi/saldo_masuk', [RekapSaldoMasuk::class, 'dataView'])->name('rekap_saldo_masuk');
     //Rekapitulasi Saldo Masuk
     Route::get('/rekapitulasi/saldo_keluar', [RekapSaldoKeluar::class, 'dataView'])->name('rekap_saldo_keluar');
+    //Rekapitulasi Saldo Masuk
+    Route::get('/rekapitulasi/buku_kas', [BukuKas::class, 'dataView'])->name('buku_kas');
 });

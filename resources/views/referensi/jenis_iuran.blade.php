@@ -41,6 +41,7 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th>Nama</th>
+                                <th>Penaggung Jawab</th>
                                 <th>Tanggal</th>
                                 <th class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                             </tr>
@@ -50,6 +51,7 @@
                             <tr>
                                 <th scope="row">{{$index + 1}}</th>
                                 <td>{{$val->jenis_iuran_nama}}</td>
+                                <td>{{$val->user_nama}}</td>
                                 <td>
                                     add : {{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}
                                     <br>
@@ -87,8 +89,17 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label class="form-label" for="jenis_iuran_nama">Nama</label>
-                                <input class="form-control" id="jenis_iuran_nama" type="text" placeholder="keluarkan Nama Jenis iuran..." required="" name="jenis_iuran_nama">
+                                <input class="form-control" id="jenis_iuran_nama" type="text" placeholder="Nama Jenis iuran..." required="" name="jenis_iuran_nama">
                             </div>
+                        </div>
+                        <div class="col-md-12 mt-2">
+                            <label class="form-label" for="penanggung_jawab">Penanggung Jawab</label>
+                            <select id="penanggung_jawab" class="form-select form-select-sm" aria-label=".form-select-sm example" name="penanggung_jawab">
+                                <option value="">--Pilih--</option>
+                                @foreach ($penanggung_jawab as $val)
+                                <option value="{{$val->user_id}}">{{$val->user_nama}}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">

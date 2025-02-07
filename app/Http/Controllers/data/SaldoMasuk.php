@@ -20,8 +20,8 @@ class SaldoMasuk extends Controller
     public function dataView(Request $request)
     {
         $userLogin = Auth::user();
-        $load['namaPage'] = 'SaldoMasuk';
-        $load['judulPage'] = 'Data Saldo Masuk';
+        $load['namaPage'] = 'UangMasuk';
+        $load['judulPage'] = 'Data Uang Masuk';
         $load['baseURL'] = url('/data/saldo_masuk');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
         $bulan = ($request->bulan) ? $request->bulan : date('n');
@@ -47,7 +47,7 @@ class SaldoMasuk extends Controller
         $query->whereMonth('saldo_tgl', $bulan);
         $query->whereYear('saldo_tgl', $tahun);
         $query->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id');
-        $datas = $query->orderBy('saldos.updated_at', 'DESC')->get();
+        $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
 
 
         for ($i = 5; $i >= 0; $i--) {
@@ -80,13 +80,14 @@ class SaldoMasuk extends Controller
             'saldo_keterangan' => ['required', 'string'],
             'saldo_tgl' => ['required', 'Date'],
             'saldo_nominal' => ['required', 'integer'],
+            'saldo_jenis' => ['required']
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
             $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
 
             $post['saldo_status'] = 'masuk';
-            $post['saldo_total'] = (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $post['saldo_nominal'] : $post['saldo_nominal'];
+            $post['saldo_total'] = (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $post['saldo_nominal'] : 0 + $post['saldo_nominal'];
             $post['user_id'] = $userLogin->user_id;
             $post['saldo_kategori'] = $userLogin->user_jenis_kelamin;
 
@@ -115,24 +116,47 @@ class SaldoMasuk extends Controller
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
+            $data = saldo::find($id);
             $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
 
-            if (isset($lastSaldo->saldo_total) && $request->old_saldo) {
-                $hitungSaldo = ($lastSaldo->saldo_total - $request->old_saldo) + $request->saldo_nominal;
-            } else {
-                $hitungSaldo = $post['saldo_nominal'];
-            }
+            // if (isset($lastSaldo->saldo_total) && $request->old_saldo) {
+            //     $hitungSaldo = ($lastSaldo->saldo_total - $request->old_saldo) + $request->saldo_nominal;
+            // } else {
+            //     $hitungSaldo = $post['saldo_nominal'];
+            // }
 
-            $post['saldo_total'] = $hitungSaldo;
+            // $post['saldo_total'] = $hitungSaldo;
             $post['user_id'] = $userLogin->user_id;
 
-            $lastSaldo->update([
-                'saldo_total' => $hitungSaldo
-            ]);
+            // $lastSaldo->update([
+            //     'saldo_total' => $hitungSaldo
+            // ]);
 
-            $data = saldo::find($id);
 
-            $data->update($post);
+
+            if ($data->saldo_nominal != $post['saldo_nominal']) {
+
+                $dataHarusUpdate = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->whereBetween('created_at', [$data->created_at, $lastSaldo->created_at])->get();
+
+                foreach ($dataHarusUpdate as $keyU => $vUpdate) {
+                    $post2 = [];
+                    $saldoSebelum = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '<', $vUpdate->saldo_id)->latest()->first();
+
+
+                    if ($keyU == 0) {
+                        $post2['saldo_nominal'] = $request->saldo_nominal;
+                        $post2['saldo_total'] = $saldoSebelum->saldo_total + $request->saldo_nominal;
+                    } else {
+                        $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+                    }
+
+                    $update2 = saldo::find($vUpdate->saldo_id);
+
+                    $update2->update($post2);
+                }
+            } else {
+                $data->update($post);
+            }       
 
             return back()->with('Berhasil', 'Data Berhasil Disimpan.');
         } else {
@@ -145,16 +169,34 @@ class SaldoMasuk extends Controller
         $userLogin = Auth::user();
         $data = saldo::find($id);
         $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
+        $dataSetelahHapus = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '>', $data->saldo_id)->first();
 
         if ($data) {
 
-            $hitungSaldo = $lastSaldo->saldo_total - $data->saldo_nominal;
+            // $hitungSaldo = $lastSaldo->saldo_total + $data->saldo_nominal;
 
-            $lastSaldo->update([
-                'saldo_total' => $hitungSaldo
-            ]);
-
+            // $lastSaldo->update([
+            //     'saldo_total' => $hitungSaldo
+            // ]);
             $data->delete();
+
+            if (isset($dataSetelahHapus->created_at)) {
+                $dataHarusUpdate = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->whereBetween('created_at', [$dataSetelahHapus->created_at, $lastSaldo->created_at])->get();
+
+                // dd($dataHarusUpdate);
+
+                foreach ($dataHarusUpdate as $keyU => $vUpdate) {
+                    $post2 = [];
+                    $saldoSebelum = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '<', $vUpdate->saldo_id)->latest()->first();
+
+                    $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+
+                    $update2 = saldo::find($vUpdate->saldo_id);
+                    $update2->update($post2);
+                }
+
+                // dd($dataHarusUpdate);
+            }
 
             return back()->with('Berhasil', 'Data Berhasil Dihapus');
         } else {

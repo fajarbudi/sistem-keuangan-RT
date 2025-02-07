@@ -81,12 +81,12 @@ Home
                       <div class="card-body warning">
                         <div class="row">
                             <div class="col-6">
-                                <span class="f-light">Saldo Masuk Terbaru</span>
+                                <span class="f-light">Uang Masuk Terbaru</span>
                                 <br>
                                 <h4>Rp {{number_format($saldo_masuk_terakhir->saldo_nominal ?? 0, 0, ",", ".")}}</h4>
                             </div>
                             <div class="col-6">
-                                <span class="f-light">Saldo Keluar Terbaru</span>
+                                <span class="f-light">Uang Keluar Terbaru</span>
                                 <br>
                                 <h4>Rp {{number_format($saldo_keluar_terakhir->saldo_nominal ?? 0, 0, ",", ".")}}</h4>
                             </div>
@@ -193,7 +193,7 @@ Home
                           </div>
                           <div class="col-md-12" id="saldo_masuk">
                               <label class="form-label" for="jenis_saldo_masuk">Jenis Saldo</label>
-                              <select id="jenis_saldo_masuk" class="form-select form-select-sm" aria-label=".form-select-sm example" name="saldo_jenis">
+                              <select id="jenis_saldo_masuk" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                   <option value="">--Pilih--</option>
                                   @foreach ($jenis_saldo_masuk as $val)
                                   <option value="{{$val->jenis_saldo_masuk_id}}">{{$val->jenis_saldo_masuk_nama}}</option>
@@ -202,7 +202,7 @@ Home
                           </div>
                           <div class="col-md-12" id="saldo_keluar">
                               <label class="form-label" for="jenis_saldo_keluar">Jenis Saldo</label>
-                              <select id="jenis_saldo_keluar" class="form-select form-select-sm" aria-label=".form-select-sm example" name="saldo_jenis">
+                              <select id="jenis_saldo_keluar" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                   <option value="">--Pilih--</option>
                                   @foreach ($jenis_saldo_keluar as $val)
                                   <option value="{{$val->jenis_saldo_keluar_id}}">{{$val->jenis_saldo_keluar_nama}}</option>
@@ -301,9 +301,13 @@ Home
       if(judul == 'Saldo Masuk'){
         $('#saldo_masuk').removeClass('d-none')
         $('#saldo_keluar').addClass('d-none')
+        $('#jenis_saldo_masuk').attr('name', 'saldo_jenis')
+        $('#jenis_saldo_keluar').attr('name', '')
       }else{
         $('#saldo_masuk').addClass('d-none')
         $('#saldo_keluar').removeClass('d-none')
+        $('#jenis_saldo_masuk').attr('name', '')
+        $('#jenis_saldo_keluar').attr('name', 'saldo_jenis')
       }
     }
 

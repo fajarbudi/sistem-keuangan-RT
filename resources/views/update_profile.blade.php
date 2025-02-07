@@ -79,7 +79,7 @@
                             <option value="{{$key}}">{{$val}}</option>
                         @endforeach
                     </select>
-                </div>
+                   </div>
                   <div class="form-footer text-end">
                     <button class="btn btn-primary btn-block mt-3">Save</button>
                   </div>

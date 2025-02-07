@@ -173,17 +173,17 @@ $namaPage = explode(' ', $namaPage);
                                 $user = App\Models\User::class;
                             @endphp
                             @if (Auth::user()->can('admin', $user) || Auth::user()->can('bendahara', $user))
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'SaldoMasuk') ? 'active' : ''}}" href="{{route('saldo_masuk')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'UangMasuk') ? 'active' : ''}}" href="{{route('saldo_masuk')}}">
                                 <div class="row">
                                     <i class="icofont icofont-chart-histogram-alt fs-5 col-2"></i>
-                                    <span class="col-10">Saldo Masuk</span>
+                                    <span class="col-10">Uang Masuk</span>
                                 </div>
                             </a>
                             </li>
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'SaldoKeluar') ? 'active' : ''}}" href="{{route('saldo_keluar')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'UangKeluar') ? 'active' : ''}}" href="{{route('saldo_keluar')}}">
                                 <div class="row">
                                     <i class="icofont icofont-chart-bar-graph fs-5 col-2"></i>
-                                    <span class="col-10">Saldo Keluar</span>
+                                    <span class="col-10">Uang Keluar</span>
                                 </div>
                             </a>
                             </li>
@@ -194,17 +194,24 @@ $namaPage = explode(' ', $namaPage);
                                     <h6>Rekapitulasi</h6>
                                 </div>
                             </li>
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'RekapSaldoMasuk') ? 'active' : ''}}" href="{{route('rekap_saldo_masuk')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'RekapUangMasuk') ? 'active' : ''}}" href="{{route('rekap_saldo_masuk')}}">
                                 <div class="row">
                                     <i class="icofont icofont-chart-line-alt fs-5 col-2"></i>
-                                    <span class="col-10">Saldo Masuk</span>
+                                    <span class="col-10">Uang Masuk</span>
                                 </div>
                             </a>
                             </li>
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'RekapSaldoKeluar') ? 'active' : ''}}" href="{{route('rekap_saldo_keluar')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'RekapUangKeluar') ? 'active' : ''}}" href="{{route('rekap_saldo_keluar')}}">
                                 <div class="row">
                                     <i class="icofont icofont-chart-arrows-axis fs-5 col-2"></i>
-                                    <span class="col-10">Saldo Keluar</span>
+                                    <span class="col-10">Uang Keluar</span>
+                                </div>
+                            </a>
+                            </li>
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'BukuKAS') ? 'active' : ''}}" href="{{route('buku_kas')}}">
+                                <div class="row">
+                                    <i class="icofont icofont-chart-arrows-axis fs-5 col-2"></i>
+                                    <span class="col-10">Buku KAS</span>
                                 </div>
                             </a>
                             </li>
@@ -252,18 +259,18 @@ $namaPage = explode(' ', $namaPage);
                                     </div>
                                 </li>
                           
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisSaldoMasuk') ? 'active' : ''}}" href="{{route('jenis_saldo_masuk')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisUangMasuk') ? 'active' : ''}}" href="{{route('jenis_saldo_masuk')}}">
                                   <div class="row">
                                     <i class="icon-stats-up fs-5 col-2"></i>
-                                    <span class="col-10">Jenis Saldo Masuk</span>
+                                    <span class="col-10">Jenis Uang Masuk</span>
                                   </div>
                                 </a>
                             </li>
                         
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisSaldoKeluar') ? 'active' : ''}}" href="{{route('jenis_saldo_keluar')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisUangKeluar') ? 'active' : ''}}" href="{{route('jenis_saldo_keluar')}}">
                                   <div class="row">
                                     <i class="icon-stats-down fs-5 col-2"></i>
-                                    <span class="col-10">Jenis Saldo Keluar</span>
+                                    <span class="col-10">Jenis Uang Keluar</span>
                                   </div>
                                 </a>
                             </li>

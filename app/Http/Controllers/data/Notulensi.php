@@ -143,7 +143,12 @@ class Notulensi extends Controller
 
         if (!$validator->fails()) {
 
-            notulensi_data::create($post);
+            notulensi_data::updateOrCreate(
+                [
+                    'pertemuan_id' => $request->pertemuan_id
+                ],
+                $post
+            );
 
             return back()->with('Berhasil', 'Data Berhasil Ditambahkan.');
         } else {

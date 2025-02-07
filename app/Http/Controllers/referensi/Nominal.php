@@ -82,6 +82,7 @@ class Nominal extends Controller
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
+            // dd($id);
             $data = ref_nominal::find($id);
 
             $data->update($post);

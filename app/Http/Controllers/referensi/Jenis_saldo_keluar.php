@@ -17,8 +17,8 @@ class Jenis_saldo_keluar extends Controller
 
     public function dataView(Request $request)
     {
-        $load['namaPage'] = 'JenisSaldoKeluar';
-        $load['judulPage'] = 'Data Jenis Saldo Keluar';
+        $load['namaPage'] = 'JenisUangKeluar';
+        $load['judulPage'] = 'Data Jenis Uang Keluar';
         $load['baseURL'] = url('/referensi/jenis_saldo_keluar');
         $userLogin = Auth::user();
         $filter = [];

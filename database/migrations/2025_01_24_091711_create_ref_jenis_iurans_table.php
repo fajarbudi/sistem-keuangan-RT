@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ref_jenis_iurans', function (Blueprint $table) {
             $table->id('jenis_iuran_id')->from(22)->unsigned();
+            $table->integer('penanggung_jawab')->unsigned()->nullable();
             $table->string('jenis_iuran_nama')->nullable();
             $table->string('jenis_iuran_kategori', 5);
             $table->timestamps();

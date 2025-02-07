@@ -37,7 +37,8 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $index => $val)
-                            <tr>
+                          
+                              <tr>
                                 <th scope="row">{{$index + 1}}</th>
                                 <td colspan="9">{{$val->jenis_iuran->jenis_iuran_nama}}</td>
                                 <td>{{$val->iuran_status}}</td>
@@ -48,6 +49,7 @@
                                     </div>
                                 </td>
                             </tr>
+                            
                             @endforeach
                         </tbody>
                     </table>

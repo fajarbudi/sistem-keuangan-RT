@@ -87,7 +87,7 @@
                         <div class="row g-3">
                             <div class="col-md-12">
                                 <label class="form-label" for="jenis_saldo_keluar_nama">Nama</label>
-                                <input class="form-control" id="jenis_saldo_keluar_nama" type="text" placeholder="keluarkan Nama jenis_saldo_keluar..." required="" name="jenis_saldo_keluar_nama">
+                                <input class="form-control" id="jenis_saldo_keluar_nama" type="text" placeholder="Nama jenis_saldo_keluar..." required="" name="jenis_saldo_keluar_nama">
                             </div>
                         </div>
                     </div>

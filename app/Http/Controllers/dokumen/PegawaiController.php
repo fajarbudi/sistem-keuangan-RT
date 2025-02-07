@@ -167,7 +167,6 @@ class PegawaiController extends Controller
     public function updateData(Request $request, $id)
     {
         $post = [];
-        $post2 = [];
         $data = User::find($id);
         foreach ($request->all() as $key => $val) {
             if ($key != '_token' && $val) {
@@ -178,10 +177,16 @@ class PegawaiController extends Controller
             return back()->with('Gagal', 'Tidak terdaftar di data pegawai');
         }
 
-        $validator = Validator::make($post, [
-            'user_nama' => ['required', 'string'],
-            'user_username' => ['required', 'unique:users'],
-        ], $this->pesanValidasi);
+        if ($data->user_username != $request->user_username) {
+            $validator = Validator::make($post, [
+                'user_nama' => ['required', 'string'],
+                'user_username' => ['required', 'unique:users'],
+            ], $this->pesanValidasi);
+        } else {
+            $validator = Validator::make($post, [
+                'user_nama' => ['required', 'string'],
+            ], $this->pesanValidasi);
+        }
 
         if (!$validator->fails()) {
 

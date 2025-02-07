@@ -143,8 +143,9 @@
     }
 
     const update = (data) => {
+        console.log(data);
         $('#formModal').modal('show');
-        $('#formData').attr('action', `${baseUrl}/updateData/${data.nominal_id}`);
+        $('#formData').attr('action', `${baseUrl}/updateData/${data.nominal_masuk_id}`);
         $('#judulModal').text('Update Data');
         $('#nominal_nominal').val(data.nominal_nominal);
         $('#nominal').val('');
