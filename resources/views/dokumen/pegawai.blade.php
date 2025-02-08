@@ -32,7 +32,9 @@
                                 <th scope="col">No</th>
                                 <th class="text-center">Foto</th>
                                 <th>Nama Lengkap</th>
+                                @can('admin', App\Models\User::class)
                                 <th>Username</th>
+                                @endcan
                                 <th>Email</th>
                                 <th>Handphone</th>
                                 <th>Golongan Darah</th>
@@ -67,7 +69,9 @@
                                     </div>
                                 </td>
                                 <td>{{$val->user_nama}}</td>
-                                <td>{{$val->user_username}}</td>
+                                @can('admin', App\Models\User::class)                             
+                                  <td>{{$val->user_username}}</td>
+                                @endcan
                                 <td>{{$val->user_email}}</td>
                                 <td>{{$val->user_Telp}}</td>
                                 <td>{{strtoupper($val->user_gol_darah)}}</td>
@@ -113,10 +117,12 @@
                                     <label class="form-label" for="user_nama">Nama Lengkap</label>
                                     <input class="form-control" id="user_nama" type="text" placeholder="Masukkan Nama ..." required="" name="user_nama">
                                 </div>
-                                <div class="col-md-6">
+                                @can('admin', App\Models\User::class)                            
+                                  <div class="col-md-6">
                                     <label class="form-label" for="user_username">Username</label>
                                     <input class="form-control" id="user_username" type="text" placeholder="Masukkan Username ..." required="" name="user_username">
-                                </div>
+                                  </div>
+                                @endcan
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_email">Email</label>
                                     <input class="form-control" id="user_email" type="text" placeholder="Masukkan Email ..." required="" name="user_email">

@@ -53,6 +53,11 @@ class DashboardController extends Controller
             $load["saldo_$tVal->saldo_status"] = $tVal->jumlah;
         }
 
+        $datas2 = saldo::select(DB::raw("saldo_status, SUM(saldo_nominal) as jumlah, saldo_jenis"))
+        ->whereYear('saldo_tgl', $tahun)
+            ->where('saldo_kategori', $userLogin->user_jenis_kelamin)
+            ->groupBy(DB::raw('saldo_status, saldo_jenis'))->get();
+
         $load['arr_bulan'] = $arr_bln;
         $load['userLogin'] = Auth::user();
         $load['saldo_terakhir'] = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
@@ -65,6 +70,7 @@ class DashboardController extends Controller
         $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', '!=', 'Iuran')->get();
         $load['jenis_saldo_keluar'] = ref_jenis_saldo_keluar::get();
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
+        $load['saldoPerJenis'] = $datas2;
 
         return view('home', $load);
     }

@@ -25,7 +25,7 @@ class SaldoKeluar extends Controller
         $load['judulPage'] = 'Data Uang Keluar';
         $load['baseURL'] = url('/data/saldo_keluar');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
-        $bulan = ($request->bulan) ? $request->bulan : date('n');
+        $bulan = ($request->bulan) ? $request->bulan : '';
         $filter = [];
 
         $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
@@ -43,9 +43,11 @@ class SaldoKeluar extends Controller
                 }
             }
         }
+        if ($request->bulan) {
+            $query->whereMonth('saldo_tgl', $bulan);
+        }
         $query->where('saldo_kategori', $userLogin->user_jenis_kelamin);
         $query->where('saldo_status', '=', 'keluar');
-        $query->whereMonth('saldo_tgl', $bulan);
         $query->whereYear('saldo_tgl', $tahun);
         $query->leftJoin('ref_jenis_saldo_keluars', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_keluars.jenis_saldo_keluar_id');
         $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
@@ -59,7 +61,7 @@ class SaldoKeluar extends Controller
         $load['filterVal'] = $filter;
         $load['jenis_saldo_keluar'] = ref_jenis_saldo_keluar::get();
         $load['tahun'] = $tahun;
-        $load['bulan'] = $arr_bln[$bulan];
+        $load['bulan'] = $arr_bln[$bulan] ?? '';
         $load['arr_bulan'] = $arr_bln;
         $load['saldo_terakhir'] = saldo::latest()->first();
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
@@ -225,14 +227,34 @@ class SaldoKeluar extends Controller
                     //     $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
                     // }
 
-                    $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+                    // $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total ?? 0 + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total ?? 0 - $vUpdate->saldo_nominal;
 
-                    $update2 = saldo::find($vUpdate->saldo_id);
-                    $update2->update($post2);
+                    // $update2 = saldo::find($vUpdate->saldo_id);
+                    // $update2->update($post2);
+
+                    // if (isset($saldoSebelum->saldo_total)) {
+                    //     $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+
+                    //     $update2 = saldo::find($vUpdate->saldo_id);
+                    //     $update2->update($post2);
+                    // }
+
+                    if (!isset($saldoSebelum->saldo_total)) {
+                        $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? 0 + $vUpdate->saldo_nominal : 0 - $vUpdate->saldo_nominal;
+
+                        $update2 = saldo::find($vUpdate->saldo_id);
+                        $update2->update($post2);
+                    } else {
+                        $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+
+                        $update2 = saldo::find($vUpdate->saldo_id);
+                        $update2->update($post2);
+                    }
                 }
 
                 // dd($dataHarusUpdate);
             }
+
 
             return back()->with('Berhasil', 'Data Berhasil Dihapus');
         } else {

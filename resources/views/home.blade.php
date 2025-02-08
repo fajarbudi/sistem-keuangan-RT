@@ -154,17 +154,25 @@ Home
         
         <div class="col-12" style="height: 5vh"></div>
 
-        <div style="min-width: 400px" class="col-xxl-6 col-md-12 appointment-sec">
+        <div style="min-width: 400px;" class="col-xxl-4 col-md-12 appointment-sec">
             <div class="appointment">
-                <div class="card p-3">
-                    <div id="chart"></div>
+                <div class="card p-3 text-center">
+                    <h3 id="none1" class="d-none">Tidak Ada Data....</h3>
+                    <div id="chart1"></div>
                 </div>
             </div>
+            <div class="appointment">
+              <div class="card p-3 text-center">
+                  <h3 id="none2" class="d-none">Tidak Ada Data....</h3>
+                  <div id="chart2"></div>
+              </div>
+          </div>
         </div>
-        <div style="min-width: 400px" class="col-xxl-6 col-md-12 appointment-sec">
+
+        <div style="min-width: 400px" class="col-xxl-8 col-md-12 appointment-sec">
             <div class="appointment">
                 <div class="card p-3">
-                    <div id="saldoKeluar" class="d-flex justify-content-center"></div>
+                    <div id="perBulan" class="d-flex justify-content-center"></div>
                 </div>
             </div>
         </div>
@@ -317,172 +325,299 @@ Home
     }
 
     //chart masuk perbulan
-    const dataSpt = @json($masukPerbulan);
-    const bulan = Object.entries(@json($arr_bulan));
-    var options = {
-          series: [{
-          name: 'Saldo Masuk',
-          data: bulan.map(val => dataSpt[val[0]] ?? 0)
-        }],
-          chart: {
-          height: window.innerHeight / 2,
-          type: 'area',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
-        },
-        dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val;
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },     
-        xaxis: {
-          categories: bulan.map(val => val[1]),
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
-        },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return `Rp ${val}`;
-            }
-          }
+    // const dataSpt = @json($masukPerbulan);
+    // const bulan = Object.entries(@json($arr_bulan));
+    // var options = {
+    //       series: [{
+    //       name: 'Saldo Masuk',
+    //       data: bulan.map(val => dataSpt[val[0]] ?? 0)
+    //     }],
+    //       chart: {
+    //       height: window.innerHeight / 2,
+    //       type: 'area',
+    //     },
+    //     plotOptions: {
+    //       bar: {
+    //         borderRadius: 10,
+    //         dataLabels: {
+    //           position: 'top', // top, center, bottom
+    //         },
+    //       }
+    //     },
+    //     dataLabels: {
+    //       enabled: true,
+    //       formatter: function (val) {
+    //         return val;
+    //       },
+    //       offsetY: -20,
+    //       style: {
+    //         fontSize: '12px',
+    //         colors: ["#304758"]
+    //       }
+    //     },     
+    //     xaxis: {
+    //       categories: bulan.map(val => val[1]),
+    //       position: 'top',
+    //       axisBorder: {
+    //         show: false
+    //       },
+    //       axisTicks: {
+    //         show: false
+    //       },
+    //       crosshairs: {
+    //         fill: {
+    //           type: 'gradient',
+    //           gradient: {
+    //             colorFrom: '#D8E3F0',
+    //             colorTo: '#BED1E6',
+    //             stops: [0, 100],
+    //             opacityFrom: 0.4,
+    //             opacityTo: 0.5,
+    //           }
+    //         }
+    //       },
+    //       tooltip: {
+    //         enabled: true,
+    //       }
+    //     },
+    //     yaxis: {
+    //       axisBorder: {
+    //         show: false
+    //       },
+    //       axisTicks: {
+    //         show: false,
+    //       },
+    //       labels: {
+    //         show: false,
+    //         formatter: function (val) {
+    //           return `Rp ${val}`;
+    //         }
+    //       }
         
-        },
-        title: {
-          text: 'Total Saldo Masuk PerBulan',
-          floating: true,
-          offsetY: window.innerHeight / 2.09,
-          align: 'center',
-          style: {
-            color: '#444'
-          }
-        }
-        };
+    //     },
+    //     title: {
+    //       text: 'Total Saldo Masuk PerBulan',
+    //       floating: true,
+    //       offsetY: window.innerHeight / 2.09,
+    //       align: 'center',
+    //       style: {
+    //         color: '#444'
+    //       }
+    //     }
+    //     };
 
-        var chart = new ApexCharts(document.querySelector("#chart"), options);
-        chart.render();
+    //     var chart = new ApexCharts(document.querySelector("#chart"), options);
+    //     chart.render();
 
     //chart keluar perbulan
+    // const dataKeluar = @json($keluarPerbulan);
+    // var options = {
+    //       series: [{
+    //       name: 'Saldo Keluar',
+    //       data: bulan.map(val => dataKeluar[val[0]] ?? 0)
+    //     }],
+    //       chart: {
+    //       height: window.innerHeight / 2,
+    //       type: 'area',
+    //     },
+    //     plotOptions: {
+    //       bar: {
+    //         borderRadius: 10,
+    //         dataLabels: {
+    //           position: 'top', // top, center, bottom
+    //         },
+    //       }
+    //     },
+    //     dataLabels: {
+    //       enabled: true,
+    //       formatter: function (val) {
+    //         return val;
+    //       },
+    //       offsetY: -20,
+    //       style: {
+    //         fontSize: '12px',
+    //         colors: ["#304758"]
+    //       }
+    //     },     
+    //     xaxis: {
+    //       categories: bulan.map(val => val[1]),
+    //       position: 'top',
+    //       axisBorder: {
+    //         show: false
+    //       },
+    //       axisTicks: {
+    //         show: false
+    //       },
+    //       crosshairs: {
+    //         fill: {
+    //           type: 'gradient',
+    //           gradient: {
+    //             colorFrom: '#D8E3F0',
+    //             colorTo: '#BED1E6',
+    //             stops: [0, 100],
+    //             opacityFrom: 0.4,
+    //             opacityTo: 0.5,
+    //           }
+    //         }
+    //       },
+    //       tooltip: {
+    //         enabled: true,
+    //       }
+    //     },
+    //     yaxis: {
+    //       axisBorder: {
+    //         show: false
+    //       },
+    //       axisTicks: {
+    //         show: false,
+    //       },
+    //       labels: {
+    //         show: false,
+    //         formatter: function (val) {
+    //           return `Rp ${val}`;
+    //         }
+    //       }
+        
+    //     },
+    //     title: {
+    //       text: 'Total Saldo Keluar PerBulan',
+    //       floating: true,
+    //       offsetY: window.innerHeight / 2.09,
+    //       align: 'center',
+    //       style: {
+    //         color: '#444'
+    //       }
+    //     }
+    //     };
+
+    //     var keluar = new ApexCharts(document.querySelector("#saldoKeluar"), options);
+    //     keluar.render();
+
+    const bulan = Object.entries(@json($arr_bulan));
+    const dataSpt = @json($masukPerbulan);
     const dataKeluar = @json($keluarPerbulan);
-    var options = {
+        var options = {
           series: [{
-          name: 'Saldo Keluar',
-          data: bulan.map(val => dataKeluar[val[0]] ?? 0)
+          name: 'Uang Masuk',
+          data:  bulan.map(val => dataSpt[val[0]] ?? 0)
+        }, {
+          name: 'Uang Keluar',
+          data:  bulan.map(val => dataKeluar[val[0]] ?? 0)
         }],
           chart: {
-          height: window.innerHeight / 2,
-          type: 'area',
-        },
-        plotOptions: {
-          bar: {
-            borderRadius: 10,
-            dataLabels: {
-              position: 'top', // top, center, bottom
-            },
-          }
+          height:  window.innerHeight / 2,
+          type: 'area'
         },
         dataLabels: {
-          enabled: true,
-          formatter: function (val) {
-            return val;
-          },
-          offsetY: -20,
-          style: {
-            fontSize: '12px',
-            colors: ["#304758"]
-          }
-        },     
+          enabled: false,
+        },
+        stroke: {
+          curve: 'smooth'
+        },
         xaxis: {
-          categories: bulan.map(val => val[1]),
-          position: 'top',
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false
-          },
-          crosshairs: {
-            fill: {
-              type: 'gradient',
-              gradient: {
-                colorFrom: '#D8E3F0',
-                colorTo: '#BED1E6',
-                stops: [0, 100],
-                opacityFrom: 0.4,
-                opacityTo: 0.5,
-              }
-            }
-          },
-          tooltip: {
-            enabled: true,
-          }
+          categories: bulan.map(val => val[1])
         },
-        yaxis: {
-          axisBorder: {
-            show: false
-          },
-          axisTicks: {
-            show: false,
-          },
-          labels: {
-            show: false,
-            formatter: function (val) {
-              return `Rp ${val}`;
+        colors: ['#2E93fA', '#eb3434'],
+        // tooltip: {
+        //   x: {
+        //     format: 'dd/MM/yy HH:mm'
+        //   },
+        // },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#perBulan"), options);
+        chart.render();
+
+        const tahun = @json($tahun);
+        const jenisSaldoMasuk = @json($jenis_saldo_masuk);
+        const jenisSaldoKeluar = @json($jenis_saldo_keluar);
+        const dataPerJenis = @json($saldoPerJenis);
+        const saldoMasuk = dataPerJenis.filter((e) => e.saldo_status == 'masuk');
+        const saldoKeluar = dataPerJenis.filter((e) => e.saldo_status == 'keluar');
+
+        if(saldoMasuk.length == 0){
+          $('#chart1').toggleClass('d-none')
+          $('#none1').toggleClass('d-none')
+        }
+        let jenis = [];
+        $.each(jenisSaldoMasuk, (i,v)=>{
+          jenis[v.jenis_saldo_masuk_id] = v.jenis_saldo_masuk_nama
+        })
+        var options = {
+          series: saldoMasuk.map(val => val.jumlah),
+          chart: {
+          height: 300,
+          type: 'pie',
+        },
+        labels: saldoMasuk.map(val => jenis[val.saldo_jenis]),
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 350
+            },
+            legend: {
+              position: 'bottom'
             }
           }
-        
-        },
+        }],
         title: {
-          text: 'Total Saldo Keluar PerBulan',
+          text: `Uang Masuk Berdasarkan Jenis -- ${tahun}`,
           floating: true,
-          offsetY: window.innerHeight / 2.09,
-          align: 'center',
+          offsetY: -5,
+          align: (window.innerWidth > 700) ? 'left' : 'center',
           style: {
-            color: '#444'
+            color: '#444',
+            fontSize: 13,
+            fontWeight: 600
           }
         }
         };
 
-        var keluar = new ApexCharts(document.querySelector("#saldoKeluar"), options);
-        keluar.render();
+        var chart = new ApexCharts(document.querySelector("#chart1"), options);
+        chart.render();
+
+
+        if(saldoKeluar.length == 0){
+          $('#chart2').toggleClass('d-none')
+          $('#none2').toggleClass('d-none')
+        }
+        let jenis2 = [];
+        $.each(jenisSaldoKeluar, (i,v)=>{
+          jenis2[v.jenis_saldo_keluar_id] = v.jenis_saldo_keluar_nama
+        })
+        var options = {
+          series: saldoKeluar.map(val => val.jumlah),
+          chart: {
+          height: 300,
+          type: 'pie',
+        },
+        labels: saldoKeluar.map(val => jenis2[val.saldo_jenis]),
+        responsive: [{
+          breakpoint: 480,
+          options: {
+            chart: {
+              width: 350
+            },
+            legend: {
+              position: 'bottom'
+            }
+          }
+        }],
+        title: {
+          text: `Uang Keluar Berdasarkan Jenis -- ${tahun}`,
+          floating: true,
+          offsetY: -5,
+          align: (window.innerWidth > 700) ? 'left' : 'center',
+          style: {
+            color: '#444',
+            fontSize: 13,
+            fontWeight: 600
+          }
+        }
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart2"), options);
+        chart.render();
 </script>
 @endpush
