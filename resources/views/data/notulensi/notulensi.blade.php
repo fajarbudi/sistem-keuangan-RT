@@ -49,7 +49,7 @@ $user = App\Models\User::class;
                                 @if (Auth::user()->can('admin', $user) || Auth::user()->can('sekertaris', $user))                       
                                   <th class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                                 @endif
-                                @if (Auth::user()->user_role == 'warga' || Auth::user()->user_role == 'bendahara')                       
+                                @if (Auth::user()->can('warga', $user) || Auth::user()->can('bendahara', $user))                       
                                   <th class="text-center">Action</th>
                                 @endif
                             </tr>

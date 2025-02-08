@@ -22,6 +22,6 @@ class RoleUser
 
     public function warga(User $user): bool
     {
-        return $user->user_role != 'superAdmin' && $user->user_role != 'ketua' && $user->user_role != 'bendahara';
+        return $user->user_role == 'warga';
     }
 }

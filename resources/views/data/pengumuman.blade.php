@@ -74,12 +74,12 @@
                                     <td>{{$val->pengumuman_urutan}}</td>
                                     <td>{{$val->pengumuman_publikasi}}</td>
                                 @endcan
+                                @can('admin', App\Models\User::class)
                                 <td>
                                     {{fAnaTgl($val->updated_at, 'jam:mnt - hri, tgl bln thn')}}
                                     <br>
                                     {{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}
                                 </td>
-                                @can('admin', App\Models\User::class)
                                 <td class="d-flex d-row justify-content-center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>

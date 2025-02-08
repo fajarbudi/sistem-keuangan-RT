@@ -192,10 +192,12 @@
                                 <label class="form-label" for="fuser_nama">Nama</label>
                                 <input class="form-control" id="fuser_nama" type="text" placeholder="Masukkan Nama user..." required="" name="user_nama">
                             </div>
+                            @can('admin', App\Models\User::class)                         
                             <div class="col-md-6">
                                 <label class="form-label" for="fuser_username">Username </label>
                                 <input class="form-control" id="fuser_username" type="text" placeholder="Masukkan username ..." required="" name="user_username">
                             </div>
+                            @endcan
                             <div class="col-md-6">
                                 <label class="form-label" for="fuser_email">Email</label>
                                 <input class="form-control" id="fuser_email" type="text" placeholder="Masukkan Email ..." required="" name="user_email">

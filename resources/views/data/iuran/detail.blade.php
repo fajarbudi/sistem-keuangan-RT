@@ -36,19 +36,26 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($data as $index => $val)
-                          
+                        @php
+                            $num = 0;
+                         @endphp
+                            @foreach ($data as $index => $val)          
+                            @if ($val->jenis_iuran->penanggung_jawab == Auth::user()->user_id || Auth::user()->can('admin', App\Models\User::class))
+                        @php
+                            $num++;
+                        @endphp
                               <tr>
-                                <th scope="row">{{$index + 1}}</th>
+                                <th scope="row">{{$num}}</th>
                                 <td colspan="9">{{$val->jenis_iuran->jenis_iuran_nama}}</td>
                                 <td>{{$val->iuran_status}}</td>
-                                <td align="center">
-                                     <div class="btn-group-vertical" role="group">
-                                        <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
-                                        <button type="button" class="btn btn-success" onclick="selesai({{$val->iuran_id}})" {{$val->iuran_status != 'selesai' ? '' : 'disabled'}}><i class="icofont icofont-check-alt fs-5 me-1"></i>Selesai</button>
-                                    </div>
-                                </td>
-                            </tr>
+                                 <td align="center">
+                                    <div class="btn-group-vertical" role="group">
+                                       <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
+                                       <button type="button" class="btn btn-success" onclick="selesai({{$val->iuran_id}})" {{$val->iuran_status != 'selesai' ? '' : 'disabled'}}><i class="icofont icofont-check-alt fs-5 me-1"></i>Selesai</button>
+                                   </div>
+                                 </td>
+                                </tr>
+                            @endif
                             
                             @endforeach
                         </tbody>

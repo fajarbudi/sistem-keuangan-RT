@@ -20,9 +20,6 @@ Home
                     <div class="card-body">
                         <div class="media media-wrapper justify-content-between">
                             <div class="media-body">
-                                @php
-                                    $jam = date('H')
-                                @endphp
                                 <div class="greeting-user">
                                     <h4 class="f-w-500 fs-3 mb-2">Selamat <span id="waktu"></span></h4>
                                     <div style="width: 170%" class="mb-5">
@@ -40,7 +37,7 @@ Home
                             </div>
                             <div>
                                 <div class="clockbox">
-                                    <div class="fs-4">
+                                    <div class="fs-4" style="min-width: 65px">
                                         <span id="jam"></span> : <span id="menit"></span>
                                     </div>
                                     {{-- <svg id="clock" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600">
@@ -204,7 +201,9 @@ Home
                               <select id="jenis_saldo_masuk" class="form-select form-select-sm" aria-label=".form-select-sm example">
                                   <option value="">--Pilih--</option>
                                   @foreach ($jenis_saldo_masuk as $val)
-                                  <option value="{{$val->jenis_saldo_masuk_id}}">{{$val->jenis_saldo_masuk_nama}}</option>
+                                    @if ($val->jenis_saldo_masuk_nama != 'Iuran')
+                                    <option value="{{$val->jenis_saldo_masuk_id}}">{{$val->jenis_saldo_masuk_nama}}</option>
+                                    @endif
                                   @endforeach
                               </select>
                           </div>

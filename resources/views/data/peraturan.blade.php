@@ -47,8 +47,8 @@
                                     <th>Urutan</th>
                                     <th>Publikasi</th>
                                 @endcan
-                                <th>Diupdate/Dibuat</th>
                                 @can('admin', App\Models\User::class)
+                                <th>Diupdate/Dibuat</th>
                                 <th class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                                 @endcan
                             </tr>
@@ -72,12 +72,12 @@
                                     <td>{{$val->peraturan_urutan}}</td>
                                     <td>{{$val->peraturan_publikasi}}</td>
                                 @endcan
+                                @can('admin', App\Models\User::class)
                                 <td>
                                     {{fAnaTgl($val->updated_at, 'jam:mnt - hri, tgl bln thn')}}
                                     <br />
                                     {{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}
                                 </td>
-                                @can('admin', App\Models\User::class)
                                 <td class="d-flex d-row justify-content-center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>

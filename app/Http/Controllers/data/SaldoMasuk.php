@@ -141,20 +141,25 @@ class SaldoMasuk extends Controller
                 $dataHarusUpdate = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->whereBetween('created_at', [$data->created_at, $lastSaldo->created_at])->get();
 
                 foreach ($dataHarusUpdate as $keyU => $vUpdate) {
-                    $post2 = [];
                     $saldoSebelum = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '<', $vUpdate->saldo_id)->latest()->first();
 
 
                     if ($keyU == 0) {
+                        $post2 = [];
                         $post2['saldo_nominal'] = $request->saldo_nominal;
-                        $post2['saldo_total'] = $saldoSebelum->saldo_total + $request->saldo_nominal;
+                        $post2['saldo_total'] = $saldoSebelum->saldo_total ? $saldoSebelum->saldo_total + $request->saldo_nominal : 0 + $request->saldo_nominal;
+
+                        $update3 = saldo::find($vUpdate->saldo_id);
+                        $update3->update($post2);
                     } else {
-                        $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+                        $post3 = [];
+                        $post3['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+
+                        $update3 = saldo::find($vUpdate->saldo_id);
+                        $update3->update($post3);
                     }
 
-                    $update2 = saldo::find($vUpdate->saldo_id);
 
-                    $update2->update($post2);
                 }
             } else {
                 $data->update($post);
@@ -187,7 +192,6 @@ class SaldoMasuk extends Controller
 
                 // dd($dataHarusUpdate);
 
-                $post2 = [];
                 foreach ($dataHarusUpdate as $keyU => $vUpdate) {
                     $saldoSebelum = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '<', $vUpdate->saldo_id)->latest()->first();
 
@@ -199,15 +203,17 @@ class SaldoMasuk extends Controller
                     // ]);
 
                     if (!isset($saldoSebelum->saldo_total)) {
+                        $post2 = [];
                         $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? 0 + $vUpdate->saldo_nominal : 0 - $vUpdate->saldo_nominal;
 
                         $update2 = saldo::find($vUpdate->saldo_id);
                         $update2->update($post2);
                     } else {
-                        $post2['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+                        $post3 = [];
+                        $post3['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
 
-                        $update2 = saldo::find($vUpdate->saldo_id);
-                        $update2->update($post2);
+                        $update3 = saldo::find($vUpdate->saldo_id);
+                        $update3->update($post3);
                     }
                 }
 

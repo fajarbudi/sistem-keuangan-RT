@@ -41,10 +41,10 @@
                             <tr>
                                 <th scope="col">No</th>
                                 <th>Judul/Keterangan</th>
+                                @can('admin', App\Models\User::class)                    
                                 <th>Urutan</th>
                                 <th>Publikasi</th>
                                 <th style="min-width: 280px">Tanggal</th>
-                                @can('admin', App\Models\User::class)                    
                                 <th style="min-width: 250px" class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                                 @endcan
                             </tr>
@@ -58,6 +58,7 @@
                                     <br>
                                     {{$val->tentang_isi}}
                                 </td>
+                                @can('admin', App\Models\User::class)
                                 <td>{{$val->tentang_urutan}}</td>
                                 <td>{{$val->tentang_publikasi}}</td>
                                 <td>
@@ -65,7 +66,6 @@
                                     <br>
                                     {{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}
                                 </td>
-                                @can('admin', App\Models\User::class)
                                 <td align="center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
                                         <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})"><i class="fa fa-pencil-square-o"></i> Update</button>
