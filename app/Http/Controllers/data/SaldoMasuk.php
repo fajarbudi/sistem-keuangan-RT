@@ -49,6 +49,7 @@ class SaldoMasuk extends Controller
         $query->where('saldo_status', '=', 'masuk');
         $query->whereYear('saldo_tgl', $tahun);
         $query->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id');
+        $query->leftJoin('ref_jenis_iurans', 'saldos.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id');
         $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
 
 

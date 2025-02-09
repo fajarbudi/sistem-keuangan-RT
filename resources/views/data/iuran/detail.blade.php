@@ -90,7 +90,9 @@
                                 <select id="jenis_iuran_id" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_iuran_id">
                                     <option value="">--Pilih--</option>
                                     @foreach ($jenis_iuran as $val)
-                                    <option value="{{$val->jenis_iuran_id}}">{{$val->jenis_iuran_nama}}</option>
+                                    @if ($val->penanggung_jawab == Auth::user()->user_id || Auth::user()->can('admin', App\Models\User::class))   
+                                      <option value="{{$val->jenis_iuran_id}}">{{$val->jenis_iuran_nama}}</option>
+                                    @endif
                                     @endforeach
                                 </select>
                             </div>

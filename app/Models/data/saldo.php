@@ -16,6 +16,7 @@ class saldo extends Model
         'saldo_keterangan',
         'saldo_status',
         'saldo_jenis',
+        'jenis_iuran_id',
         'saldo_tgl',
         'saldo_nominal',
         'saldo_total',

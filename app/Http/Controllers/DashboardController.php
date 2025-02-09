@@ -53,10 +53,12 @@ class DashboardController extends Controller
             $load["saldo_$tVal->saldo_status"] = $tVal->jumlah;
         }
 
-        $datas2 = saldo::select(DB::raw("saldo_status, SUM(saldo_nominal) as jumlah, saldo_jenis"))
+        $datas2 = saldo::select(DB::raw("saldo_status, SUM(saldo_nominal) as jumlah, jenis_saldo_masuk_nama, jenis_iuran_nama"))
         ->whereYear('saldo_tgl', $tahun)
             ->where('saldo_kategori', $userLogin->user_jenis_kelamin)
-            ->groupBy(DB::raw('saldo_status, saldo_jenis'))->get();
+            ->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id')
+            ->leftJoin('ref_jenis_iurans', 'saldos.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id')
+            ->groupBy(DB::raw('saldo_status, jenis_saldo_masuk_nama, jenis_iuran_nama'))->get();
 
         $load['arr_bulan'] = $arr_bln;
         $load['userLogin'] = Auth::user();

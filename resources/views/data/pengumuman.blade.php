@@ -48,8 +48,8 @@
                                     <th>Urutan</th>
                                     <th>Publikasi</th>
                                 @endcan
-                                <th>Diupdate/Dibuat</th>
                                 @can('admin', App\Models\User::class)
+                                <th>Diupdate/Dibuat</th>
                                 <th class="text-center"><button class="btn btn-sm btn-danger" type="button" onclick="add()"><i class="icon-pencil-alt"></i> Tambah</button></th>
                                 @endcan
                             </tr>

@@ -51,7 +51,11 @@
                                 <th scope="row">{{$index + 1}}</th>
                                 {{-- <td>{{ucFirst($val->saldo_status)}}</td> --}}
                                 <td>{{$val->saldo_keterangan}}</td>
-                                <td>{{$val->jenis_saldo_masuk_nama}}</td>
+                                <td>
+                                    {{$val->jenis_saldo_masuk_nama}}
+                                    <br>
+                                    {{$val->jenis_iuran_nama}}
+                                </td>
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
                                 <td>{{number_format($val->saldo_nominal, 0, ",", ".")}}</td>
                                 {{-- <td>{{number_format($val->saldo_total, 0, ",", ".")}}</td> --}}

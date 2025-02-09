@@ -67,6 +67,7 @@ class Pertemuan extends Controller
 
         $validator = Validator::make($post, [
             'pertemuan_nama' => ['required', 'string'],
+            'pertemuan_tgl' => ['required', 'string'],
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
@@ -91,6 +92,7 @@ class Pertemuan extends Controller
 
         $validator = Validator::make($post, [
             'pertemuan_nama' => ['required', 'string'],
+            'pertemuan_tgl' => ['required', 'string'],
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {

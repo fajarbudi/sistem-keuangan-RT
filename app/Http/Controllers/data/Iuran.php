@@ -96,9 +96,6 @@ class Iuran extends Controller
         $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
         $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $iuran = DataIuran::find($id);
-        $keteranganSaldo = "{$iuran->pertemuan->pertemuan_nama}--{$iuran->jenis_iuran->jenis_iuran_nama}";
-        $tanggal = $iuran->pertemuan->pertemuan_tgl;
-
 
         if ($jenisSaldo == null) {
             return back()->with('Gagal', 'Buat Referensi Jenis Saldo Masuk ( Iuran )');
@@ -107,12 +104,15 @@ class Iuran extends Controller
         if ($totalIuran->total <= 0) {
             return back()->with('Gagal', 'Masukkan Iuran Terlebih Dahulu');
         } else {
+            $keteranganSaldo = "{$iuran->pertemuan->pertemuan_nama}";
+            $tanggal = $iuran->pertemuan->pertemuan_tgl;
             saldo::create(
                 [
                     'user_id' => $userLogin->user_id,
                     'saldo_keterangan' => $keteranganSaldo,
                     'saldo_status' => 'masuk',
                     'saldo_jenis' => $jenisSaldo->jenis_saldo_masuk_id,
+                    'jenis_iuran_id' => $iuran->jenis_iuran_id,
                     'saldo_kategori' => $userLogin->user_jenis_kelamin,
                     'saldo_tgl' => $tanggal,
                     'saldo_nominal' => $totalIuran->total,
@@ -131,6 +131,7 @@ class Iuran extends Controller
         $load['namaPage'] = 'DataIuran';
         $load['judulPage'] = 'Daftar Warga';
         $load['baseURL'] = route('iuran.data', $id);
+        $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $userLogin = Auth::user();
 
         $warga = User::where('user_jenis_kelamin', $userLogin->user_jenis_kelamin)
@@ -149,6 +150,7 @@ class Iuran extends Controller
         $load['iuran_id'] = $id;
         $load['iuran'] = DataIuran::find($id);
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
+        $load['total_iuran'] = $totalIuran;
 
         return view('data.iuran.data', $load);
     }
@@ -182,20 +184,22 @@ class Iuran extends Controller
     {
         $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
-        $bulan = ($request->bulan) ? $request->bulan : date('n');
+        $bulan = ($request->bulan) ? $request->bulan : '';
         $filter = [];
 
 
-        $load['namaPage'] = 'IuranWargaView';
-        $load['judulPage'] = 'Daftar Iuran';
-        $load['baseURL'] = route('iuran.warga_view');
         $userLogin = Auth::user();
+        $load['namaPage'] = 'IuranWargaView';
+        $load['judulPage'] = $userLogin->user_nama;
+        $load['baseURL'] = route('iuran.warga_view');
 
         $query = iuran_data::select('*');
         $query->leftJoin('iurans', 'iuran_datas.iuran_id', '=', 'iurans.iuran_id');
         $query->leftJoin('ref_jenis_iurans', 'iurans.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id');
         $query->leftJoin('pertemuans', 'iurans.pertemuan_id', '=', 'pertemuans.pertemuan_id');
-        $query->whereMonth('pertemuan_tgl', $bulan);
+        if ($request->bulan) {
+            $query->whereMonth('pertemuan_tgl', $bulan);
+        }
         $query->whereYear('pertemuan_tgl', $tahun);
         $query->where('user_id', $userLogin->user_id);
 
@@ -216,7 +220,7 @@ class Iuran extends Controller
         }
 
         $load['data'] = $data;
-        $load['bulan'] = $arr_bln[$bulan];
+        $load['bulan'] = $arr_bln[$bulan] ?? '';
         $load['arr_bulan'] = $arr_bln;
         $load['tahun'] = $tahun;
         $load['filterVal'] = $filter;

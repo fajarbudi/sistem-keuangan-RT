@@ -154,13 +154,13 @@ Home
         <div style="min-width: 400px;" class="col-xxl-4 col-md-12 appointment-sec">
             <div class="appointment">
                 <div class="card p-3 text-center">
-                    <h3 id="none1" class="d-none">Tidak Ada Data....</h3>
+                    <h3 id="none1" class="d-none">Tidak Ada Data Uang Masuk....</h3>
                     <div id="chart1"></div>
                 </div>
             </div>
             <div class="appointment">
               <div class="card p-3 text-center">
-                  <h3 id="none2" class="d-none">Tidak Ada Data....</h3>
+                  <h3 id="none2" class="d-none">Tidak Ada Data Uang Keluar....</h3>
                   <div id="chart2"></div>
               </div>
           </div>
@@ -528,27 +528,23 @@ Home
         chart.render();
 
         const tahun = @json($tahun);
-        const jenisSaldoMasuk = @json($jenis_saldo_masuk);
-        const jenisSaldoKeluar = @json($jenis_saldo_keluar);
         const dataPerJenis = @json($saldoPerJenis);
         const saldoMasuk = dataPerJenis.filter((e) => e.saldo_status == 'masuk');
         const saldoKeluar = dataPerJenis.filter((e) => e.saldo_status == 'keluar');
 
+        //pie saldo masuk
         if(saldoMasuk.length == 0){
           $('#chart1').toggleClass('d-none')
           $('#none1').toggleClass('d-none')
         }
-        let jenis = [];
-        $.each(jenisSaldoMasuk, (i,v)=>{
-          jenis[v.jenis_saldo_masuk_id] = v.jenis_saldo_masuk_nama
-        })
+
         var options = {
           series: saldoMasuk.map(val => val.jumlah),
           chart: {
           height: 300,
           type: 'pie',
         },
-        labels: saldoMasuk.map(val => jenis[val.saldo_jenis]),
+        labels: saldoMasuk.map(val => val.jenis_iuran_nama ? `Iuran - ${val.jenis_iuran_nama}` : val.jenis_saldo_masuk_nama),
         responsive: [{
           breakpoint: 480,
           options: {
@@ -570,28 +566,31 @@ Home
             fontSize: 13,
             fontWeight: 600
           }
-        }
+        },
+        dataLabels: {
+        formatter: function (val, opts) {
+            return formatRupiah(opts.w.config.series[opts.seriesIndex])
+        },
+      },
         };
 
         var chart = new ApexCharts(document.querySelector("#chart1"), options);
         chart.render();
 
 
+        //pie saldo keluar
         if(saldoKeluar.length == 0){
           $('#chart2').toggleClass('d-none')
           $('#none2').toggleClass('d-none')
         }
-        let jenis2 = [];
-        $.each(jenisSaldoKeluar, (i,v)=>{
-          jenis2[v.jenis_saldo_keluar_id] = v.jenis_saldo_keluar_nama
-        })
+
         var options = {
           series: saldoKeluar.map(val => val.jumlah),
           chart: {
           height: 300,
           type: 'pie',
         },
-        labels: saldoKeluar.map(val => jenis2[val.saldo_jenis]),
+        labels: saldoKeluar.map(val => val.jenis_iuran_nama ?? val.jenis_saldo_masuk_nama),
         responsive: [{
           breakpoint: 480,
           options: {
@@ -613,7 +612,12 @@ Home
             fontSize: 13,
             fontWeight: 600
           }
-        }
+        },
+        dataLabels: {
+        formatter: function (val, opts) {
+            return formatRupiah(opts.w.config.series[opts.seriesIndex])
+        },
+      },
         };
 
         var chart = new ApexCharts(document.querySelector("#chart2"), options);

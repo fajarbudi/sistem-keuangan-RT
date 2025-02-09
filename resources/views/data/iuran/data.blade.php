@@ -27,6 +27,13 @@
 <div class="container-fluid">
     <div class="row widget-grid">
         <div class="col">
+            <div style="display: flex; justify-content: flex-end; padding-right: 5%">
+                <p class="text-center">
+                    <span style="font-size: 15px; font-weight: 500">Total Uang Iuran</span>
+                    <br>
+                    <strong style="font-size: 17px;">Rp {{number_format($total_iuran->total ?? 0, 0, ",", ".")}}</strong>
+                </p>
+            </div>
             <div class="card">
                 <div class="table-responsive signal-table">
                     <table class="table table-hover">

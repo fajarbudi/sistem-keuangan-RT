@@ -49,11 +49,14 @@
                         </thead>
                         <tbody>
                             @foreach ($data as $index => $val)
+                            @php
+                                $namaSaldoMasuk =  "{$val->jenis_saldo_masuk_nama} {$val->jenis_iuran_nama}"
+                            @endphp
                             <tr>
                                 <th scope="row">{{$index + 1}}</th>
                                 {{-- <td>{{ucFirst($val->saldo_status)}}</td> --}}
                                 <td>{{$val->saldo_keterangan}}</td>
-                                <td>{{$val->saldo_status == 'masuk' ? $val->jenis_saldo_masuk_nama : $val->jenis_saldo_keluar_nama}}</td>
+                                <td>{{$val->saldo_status == 'masuk' ? $namaSaldoMasuk : $val->jenis_saldo_keluar_nama}}</td>
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
                                 <td>{{$val->saldo_status == 'masuk' ? number_format($val->saldo_nominal, 0, ",", ".") : ''}}</td>
                                 <td>{{$val->saldo_status == 'keluar' ? number_format($val->saldo_nominal, 0, ",", ".") : ''}}</td>
