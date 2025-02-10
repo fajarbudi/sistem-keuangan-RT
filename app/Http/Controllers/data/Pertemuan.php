@@ -23,15 +23,17 @@ class Pertemuan extends Controller
         $load['judulPage'] = 'Data Pertemuan';
         $load['baseURL'] = url('/data/pertemuan');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
-        $bulan = ($request->bulan) ? $request->bulan : date('n');
+        $bulan = ($request->bulan) ? $request->bulan : "";
         $filter = [];
 
         $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
         $query = DataPertemuan::select('*');
-        $query->whereMonth('pertemuan_tgl', $bulan);
+        if ($request->bulan) {
+            $query->whereMonth('pertemuan_tgl', $bulan);
+        }
         $query->whereYear('pertemuan_tgl', $tahun);
         $query->where('pertemuan_kategori', $userLogin->user_jenis_kelamin);
-        $datas = $query->get();
+        $datas = $query->latest()->get();
 
         if ($request->all()) {
             foreach ($request->all() as $key => $val) {
@@ -49,7 +51,7 @@ class Pertemuan extends Controller
         $load['filterVal'] = $filter;
         $load['jenis_iuran'] = ref_jenis_iuran::get();
         $load['tahun'] = $tahun;
-        $load['bulan'] = $arr_bln[$bulan];
+        $load['bulan'] = $arr_bln[$bulan] ?? '';
         $load['arr_bulan'] = $arr_bln;
 
         return view('data.pertemuan', $load);

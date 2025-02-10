@@ -150,8 +150,8 @@ class SaldoMasuk extends Controller
                         $post2['saldo_nominal'] = $request->saldo_nominal;
                         $post2['saldo_total'] = $saldoSebelum->saldo_total ? $saldoSebelum->saldo_total + $request->saldo_nominal : 0 + $request->saldo_nominal;
 
-                        $update3 = saldo::find($vUpdate->saldo_id);
-                        $update3->update($post2);
+                        $update2 = saldo::find($vUpdate->saldo_id);
+                        $update2->update($post2);
                     } else {
                         $post3 = [];
                         $post3['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;

@@ -93,7 +93,7 @@ class Iuran extends Controller
     {
         $userLogin = Auth::user();
         $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
-        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
+        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_kategori', $userLogin->user_jenis_kelamin)->where('jenis_saldo_masuk_nama', 'Iuran')->first();
         $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $iuran = DataIuran::find($id);
 
@@ -106,23 +106,71 @@ class Iuran extends Controller
         } else {
             $keteranganSaldo = "{$iuran->pertemuan->pertemuan_nama}";
             $tanggal = $iuran->pertemuan->pertemuan_tgl;
-            saldo::create(
-                [
-                    'user_id' => $userLogin->user_id,
-                    'saldo_keterangan' => $keteranganSaldo,
-                    'saldo_status' => 'masuk',
-                    'saldo_jenis' => $jenisSaldo->jenis_saldo_masuk_id,
-                    'jenis_iuran_id' => $iuran->jenis_iuran_id,
-                    'saldo_kategori' => $userLogin->user_jenis_kelamin,
-                    'saldo_tgl' => $tanggal,
-                    'saldo_nominal' => $totalIuran->total,
-                    'saldo_total' => (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $totalIuran->total : $totalIuran->total
-                ]
-            );
+            $saldo = saldo::where('saldo_keterangan', $keteranganSaldo)->where('jenis_iuran_id', $iuran->jenis_iuran_id)->where('saldo_tgl', $tanggal)->first();
 
-            $iuran->update(['iuran_status' => 'selesai']);
+            if ($saldo) {
+                $dataHarusUpdate = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->whereBetween('created_at', [$saldo->created_at, $lastSaldo->created_at])->get();
 
-            return back()->with('Berhasil', 'Input Iuran Telah Ditutup');
+                foreach ($dataHarusUpdate as $keyU => $vUpdate) {
+                    $saldoSebelum = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '<', $vUpdate->saldo_id)->latest()->first();
+
+                    if ($keyU == 0) {
+                        $post2 = [];
+                        $post2['saldo_nominal'] = $totalIuran->total;
+                        $post2['saldo_total'] = $saldoSebelum->saldo_total ? $saldoSebelum->saldo_total + $totalIuran->total : 0 + $totalIuran->total;
+
+                        $saldo->update($post2);
+                    } else {
+                        $post3 = [];
+                        $post3['saldo_total'] = ($vUpdate->saldo_status == 'masuk') ? $saldoSebelum->saldo_total + $vUpdate->saldo_nominal : $saldoSebelum->saldo_total - $vUpdate->saldo_nominal;
+
+                        $update3 = saldo::find($vUpdate->saldo_id);
+                        $update3->update($post3);
+                    }
+                }
+
+                $iuran->update(['iuran_status' => 'selesai']);
+
+                return back()->with('Berhasil', 'Input Iuran Telah Ditutup');
+            } else {
+                saldo::create(
+                    [
+                        'user_id' => $userLogin->user_id,
+                        'saldo_keterangan' => $keteranganSaldo,
+                        'saldo_status' => 'masuk',
+                        'saldo_jenis' => $jenisSaldo->jenis_saldo_masuk_id,
+                        'jenis_iuran_id' => $iuran->jenis_iuran_id,
+                        'saldo_kategori' => $userLogin->user_jenis_kelamin,
+                        'saldo_tgl' => $tanggal,
+                        'saldo_nominal' => $totalIuran->total,
+                        'saldo_total' => (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $totalIuran->total : $totalIuran->total
+                    ]
+                );
+
+                $iuran->update(['iuran_status' => 'selesai']);
+
+                return back()->with('Berhasil', 'Input Iuran Telah Ditutup');
+            }
+        }
+    }
+    public function buka_iuran($id)
+    {
+        $userLogin = Auth::user();
+        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
+        $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
+        $iuran = DataIuran::find($id);
+
+        if ($jenisSaldo == null) {
+            return back()->with('Gagal', 'Buat Referensi Jenis Saldo Masuk ( Iuran )');
+        }
+
+        if ($totalIuran->total <= 0) {
+            return back()->with('Gagal', 'Masukkan Iuran Terlebih Dahulu');
+        } else {
+
+            $iuran->update(['iuran_status' => 'Input Data']);
+
+            return back()->with('Berhasil', 'Input Iuran Telah Dibuka');
         }
     }
 
@@ -203,7 +251,7 @@ class Iuran extends Controller
         $query->whereYear('pertemuan_tgl', $tahun);
         $query->where('user_id', $userLogin->user_id);
 
-        $data = $query->orderBy('iuran_datas.updated_at', 'DESC')->get();
+        $data = $query->orderBy('iuran_datas.created_at', 'DESC')->get();
 
 
 

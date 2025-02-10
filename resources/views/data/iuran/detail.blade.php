@@ -51,6 +51,7 @@
                                  <td align="center">
                                     <div class="btn-group-vertical" role="group">
                                        <a class="btn btn-primary" href="{{route('iuran.data', $val->iuran_id)}}"><i class="fa fa-sign-in me-1"></i>Daftar Warga</a>
+                                       <button type="button" class="btn blue-steel" onclick="bukaIuran({{$val->iuran_id}})" {{$val->iuran_status != 'Input Data' ? '' : 'disabled'}}><i class="icon-unlock me-1"></i>Buka Iuran</button>
                                        <button type="button" class="btn btn-success" onclick="selesai({{$val->iuran_id}})" {{$val->iuran_status != 'selesai' ? '' : 'disabled'}}><i class="icofont icofont-check-alt fs-5 me-1"></i>Selesai</button>
                                    </div>
                                  </td>
@@ -117,6 +118,7 @@
     </div>
 </div>
 
+{{-- Modal Selesai --}}
 <div class="modal fade" id="selesaiModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
@@ -129,7 +131,27 @@
                     <p class="text-center">Konfirmasi Selesai Input Iuran ?</p>
                     <form id="formSelesai" method="POST">
                         @csrf
-                        <button class="btn btn-success d-flex m-auto" type="submit"><i class="icofont icofont-check-alt me-1 fs-5"></i></i>Simpan</button>
+                        <button class="btn btn-success d-flex m-auto" type="submit"><i class="icofont icofont-check-alt me-1 fs-5"></i>Simpan</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- Modal Buka Iuran --}}
+<div class="modal fade" id="bukaIuranModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <div class="modal-toggle-wrapper">
+                    <ul class="modal-img">
+                        <li> <img src="{{asset('assets/images/gif/danger.gif')}}" alt="error"></li>
+                    </ul>
+                    <h4 class="text-center pb-2">Peringatan !!!</h4>
+                    <p class="text-center">Konfirmasi Membuka Iuran ?</p>
+                    <form id="formBukaIuran" method="POST">
+                        @csrf
+                        <button class="btn btn-success d-flex m-auto" type="submit"><i class="icon-unlock me-1 fs-5"></i>Buka Iuran</button>
                     </form>
                 </div>
             </div>
@@ -204,6 +226,10 @@
     const selesai = (id) => {
         $('#selesaiModal').modal('show');
         $('#formSelesai').attr('action', `${baseUrl}/selesai/${id}`)
+    }
+    const bukaIuran = (id) => {
+        $('#bukaIuranModal').modal('show');
+        $('#formBukaIuran').attr('action', `${baseUrl}/buka_iuran/${id}`)
     }
 
     const filter = () =>{

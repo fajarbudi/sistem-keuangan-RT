@@ -16,7 +16,7 @@ class BukuKas extends Controller
         $load['judulPage'] = 'Buku KAS';
         $load['baseURL'] = route('buku_kas');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
-        $bulan = ($request->bulan) ? $request->bulan : date('n');
+        $bulan = ($request->bulan) ? $request->bulan : "";
         $filter = [];
 
         $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
@@ -35,7 +35,9 @@ class BukuKas extends Controller
             }
         }
         $query->where('saldo_kategori', $userLogin->user_jenis_kelamin);
-        $query->whereMonth('saldo_tgl', $bulan);
+        if ($request->bulan) {
+            $query->whereMonth('saldo_tgl', $bulan);
+        }
         $query->whereYear('saldo_tgl', $tahun);
         $query->leftJoin('ref_jenis_saldo_keluars', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_keluars.jenis_saldo_keluar_id');
         $query->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id');
@@ -57,7 +59,7 @@ class BukuKas extends Controller
         $load['filterVal'] = $filter;
         $load['jenis_saldo_keluar'] = ref_jenis_saldo_keluar::get();
         $load['tahun'] = $tahun;
-        $load['bulan'] = $arr_bln[$bulan];
+        $load['bulan'] = $arr_bln[$bulan] ?? '';
         $load['arr_bulan'] = $arr_bln;
         $load['total_saldo_keluar'] = $jumlah;
         $load['saldo_terakhir'] = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();

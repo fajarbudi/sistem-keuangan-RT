@@ -137,6 +137,7 @@ Route::middleware('isLogin')->group(function () {
     Route::get('/data/iuran/data/{id}', [Iuran::class, 'data'])->name('iuran.data');
     Route::post('/data/iuran/updateData', [Iuran::class, 'updateData'])->name('iuran.update');
     Route::post('/data/iuran/selesai/{id}', [Iuran::class, 'selesai'])->name('iuran.selesai');
+    Route::post('/data/iuran/buka_iuran/{id}', [Iuran::class, 'buka_iuran'])->name('iuran.buka_iuran');
     Route::get('/data/iuran/warga_view', [Iuran::class, 'iuranWarga'])->name('iuran.warga_view');
     //data Notulensi
     Route::get('/data/notulensi', [Notulensi::class, 'dataView'])->name('notulensi');

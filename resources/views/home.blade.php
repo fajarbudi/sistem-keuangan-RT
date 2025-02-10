@@ -517,11 +517,13 @@ Home
           categories: bulan.map(val => val[1])
         },
         colors: ['#2E93fA', '#eb3434'],
-        // tooltip: {
-        //   x: {
-        //     format: 'dd/MM/yy HH:mm'
-        //   },
-        // },
+        tooltip: {
+          y : {
+            formatter : function(val){
+              return formatRupiah(val)
+            }
+          }
+        },
         };
 
         var chart = new ApexCharts(document.querySelector("#perBulan"), options);
