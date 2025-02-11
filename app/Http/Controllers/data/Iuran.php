@@ -179,8 +179,10 @@ class Iuran extends Controller
         $load['namaPage'] = 'DataIuran';
         $load['judulPage'] = 'Daftar Warga';
         $load['baseURL'] = route('iuran.data', $id);
+        $arr_bln   = array(1 => "Jan", 2 => "Feb", 3 => "Mar", 4 => "Apr", 5 => "Mei", 6 => "Jun", 7 => "Jul", 8 => "Agu", 9 => "Sep", 10 => "Okt", 11 => "Nov", 12 => "Des");
         $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $userLogin = Auth::user();
+        $iuran = DataIuran::find($id);
 
         $warga = User::where('user_jenis_kelamin', $userLogin->user_jenis_kelamin)
             ->where('user_role', '!=', 'superAdmin')->orderBy('user_nama')->get();
@@ -192,13 +194,30 @@ class Iuran extends Controller
             $dataIuran[$val->user_id] = $val;
         }
 
+
+        $data2 =  iuran_data::where('iurans.jenis_iuran_id', $iuran->jenis_iuran_id)
+        ->whereYear('pertemuan_tgl', date('Y'))
+        ->leftJoin('iurans', 'iuran_datas.iuran_id', '=', 'iurans.iuran_id')
+        ->leftJoin('pertemuans', 'iurans.pertemuan_id', '=', 'pertemuans.pertemuan_id')->get();
+
+        $detailIuran = [];
+        foreach ($arr_bln as $kB => $vB) {
+            foreach ($data2 as $valD) {
+                if ($kB == date("n", strtotime($valD->pertemuan_tgl))) {
+                    $detailIuran[$valD->user_id][$kB] = $valD->iuran_data_nominal;
+                };
+            }
+        }
+
         $load['warga'] = $warga;
         $load['jenis_iuran'] = ref_jenis_iuran::where('jenis_iuran_kategori', $userLogin->user_jenis_kelamin)->get();
         $load['data_iuran'] = $dataIuran;
         $load['iuran_id'] = $id;
-        $load['iuran'] = DataIuran::find($id);
+        $load['iuran'] = $iuran;
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
         $load['total_iuran'] = $totalIuran;
+        $load['detail_iuran'] = $detailIuran;
+        $load['arr_bln'] = $arr_bln;
 
         return view('data.iuran.data', $load);
     }

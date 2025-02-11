@@ -48,8 +48,11 @@
                             @foreach ($warga as $index => $val)
                                <tr onclick="upload({{$val}}, {{isset($data_iuran[$val->user_id]) ? $data_iuran[$val->user_id]->iuran_data_nominal : 0}})">
                                  <th scope="row">{{$index + 1}}</th>
-                                 <td>{{$val->user_nama}}</td>
-                                 <td>Rp {{$data_iuran[$val->user_id]->iuran_data_nominal ?? '-'}}</td>
+                                 <td>
+                                    <p> {{$val->user_nama}}</p>
+                                    <button class="btn btn-sm blue-steel" onclick="detail({{$val->user_id}}, '{{$val->user_nama}}')">Detail Iuran</button>
+                                </td>
+                                 <td>Rp {{number_format($data_iuran[$val->user_id]->iuran_data_nominal ?? 0, 0, ",", ".")}}</td>
                               </tr>
                           @endforeach
                         </tbody>
@@ -118,6 +121,29 @@
                         @csrf
                         <button class="btn btn-danger d-flex m-auto" type="submit"><i class="fa fa-times-circle mt-1 me-1"></i> Hapus</button>
                     </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="detailModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id=""><i class="icon-pencil-alt"></i> <span id="judulDetail"></span></h5>
+                <button class="btn-close py-0" type="button" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="modal-toggle-wrapper">
+                   <table class="table table-hover">
+                      <thead>
+                        <tr>
+                            <th>Bulan</th>
+                            <th>Nominal</th>
+                        </tr>
+                      </thead>
+                      <tbody id="detailContent"></tbody>
+                   </table>
                 </div>
             </div>
         </div>
@@ -248,5 +274,42 @@
         $('#formFilter').submit()
     }
 
+    const bln = @json($arr_bln);
+    const detailIuran = @json($detail_iuran);
+    const detail = (user_id, nama) =>{
+        console.log(detailIuran[user_id] == undefined)
+        $('#detailModal').modal('show')
+        $('#judulDetail').text(nama)
+        $.each(bln, (i,v) =>{
+         if(detailIuran[user_id] == undefined){
+            $('#detailContent').append(
+                `
+                 <tr class='content'>
+                    <th scope="row">${v}</th>
+                    <td>-</td>
+                </tr>
+                `
+            )
+         }else{
+            $('#detailContent').append(
+                `
+                 <tr class='content'>
+                    <th scope="row">${v}</th>
+                    <td>${detailIuran[user_id][i] ? formatRupiah(detailIuran[user_id][i]) : '-' }</td>
+                </tr>
+                `
+            )
+         }
+        })
+    }
+
+
+    $('#detailModal').on('hidden.bs.modal', function (e) {
+        $('.content').each(function () {
+            this.remove()
+        })
+
+        $('.text').remove()
+   })
 </script>
 @endpush
