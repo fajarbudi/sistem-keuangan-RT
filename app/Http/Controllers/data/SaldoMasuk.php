@@ -4,6 +4,7 @@ namespace App\Http\Controllers\data;
 
 use App\Http\Controllers\Controller;
 use App\Models\data\saldo;
+use App\Models\referensi\ref_jenis_iuran;
 use App\Models\referensi\ref_jenis_saldo_masuk;
 use App\Models\referensi\ref_nominal;
 use Illuminate\Http\Request;
@@ -59,12 +60,13 @@ class SaldoMasuk extends Controller
 
         $load['data'] = $datas;
         $load['filterVal'] = $filter;
-        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', '!=', 'Iuran')->get();
+        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::get();
         $load['tahun'] = $tahun;
         $load['bulan'] = $arr_bln[$bulan] ?? '';
         $load['arr_bulan'] = $arr_bln;
         $load['saldo_terakhir'] = saldo::latest()->first();
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
+        $load['jenis_iuran'] = ref_jenis_iuran::get();
 
         return view('data.saldo_masuk', $load);
     }

@@ -115,6 +115,15 @@ $user = App\Models\User::class;
                                 </select>
                             </div>
                             <div class="col-md-12">
+                                <label class="form-label" for="jenis_iuran_id">Jenis Iuran</label>
+                                <select id="jenis_iuran_id" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_iuran_id">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($jenis_iuran as $val)
+                                    <option value="{{$val->jenis_iuran_id}}">{{$val->jenis_iuran_nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12">
                                 <label class="form-label" for="saldo_tgl">Tanggal</label>
                                 <input class="form-control digits" id="saldo_tgl" type="date" data-date-format="YYYY-mm-dd" required="" name="saldo_tgl">
                                 <div class="invalid-feedback">Isian tidak sesuai...</div>

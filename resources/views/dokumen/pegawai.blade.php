@@ -127,12 +127,14 @@
                                     <label class="form-label" for="user_email">Email</label>
                                     <input class="form-control" id="user_email" type="text" placeholder="Masukkan Email ..." required="" name="user_email">
                                 </div>
-                                @if (Auth::user()->user_role == 'superAdmin')
-                                <div class="col-md-6">
-                                    <label class="form-label" for="password">Password User</label>
-                                    <input class="form-control" id="password" type="password" placeholder="Masukkan Password..." required="" name="password">
-                                </div>
-                                @endif
+                           @can('admin', App\Models\User::class)
+                               
+                           <div class="col-md-6">
+                               <label class="form-label" for="password">Password User</label>
+                               <input class="form-control" id="password" type="password" placeholder="Masukkan Password..." required="" name="password">
+                           </div>
+                           @endcan
+                            
                                 <div class="col-md-6">
                                     <label class="form-label" for="user_Telp">No Telphone</label>
                                     <input class="form-control" id="user_Telp" type="text" placeholder="Masukkan No Telphone ..." required="" name="user_Telp">

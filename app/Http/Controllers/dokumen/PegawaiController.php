@@ -140,6 +140,7 @@ class PegawaiController extends Controller
 
     public function addData(Request $request)
     {
+        $userLogin = Auth::user();
         $post = [];
         foreach ($request->all() as $key => $val) {
             if ($key != '_token' && $val) {
@@ -154,6 +155,7 @@ class PegawaiController extends Controller
             'password' => ['required'],
         ], $this->pesanValidasi);
 
+        $post['user_jenis_kelamin'] = $userLogin->user_jenis_kelamin;
         if (!$validator->fails()) {
             $post['user_role'] = 'Warga';
             $pegawai = User::create($post);
