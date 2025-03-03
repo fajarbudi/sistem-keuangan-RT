@@ -99,8 +99,8 @@ $user = App\Models\User::class;
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="form-label" for="notulensi_topik">Nama</label>
-                                <input class="form-control" id="notulensi_topik" type="text" placeholder="keluarkan Nama Jenis iuran..." required="" name="notulensi_topik">
+                                <label class="form-label" for="notulensi_topik">Topik</label>
+                                <input class="form-control" id="notulensi_topik" type="text" placeholder="Masukkan Topik.." required="" name="notulensi_topik">
                             </div>
                         </div>
                     </div>

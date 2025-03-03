@@ -7,8 +7,9 @@ use App\Models\data\iuran as DataIuran;
 use App\Models\data\iuran_data;
 use App\Models\data\pertemuan;
 use App\Models\data\saldo;
+use App\Models\data\saldo_sisa;
 use App\Models\referensi\ref_jenis_iuran;
-use App\Models\referensi\ref_jenis_saldo_masuk;
+use App\Models\referensi\ref_jenis_uang;
 use App\Models\referensi\ref_nominal;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -93,12 +94,12 @@ class Iuran extends Controller
     {
         $userLogin = Auth::user();
         $lastSaldo = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
-        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_kategori', $userLogin->user_jenis_kelamin)->where('jenis_saldo_masuk_nama', 'Iuran')->first();
+        $jenisSaldo = ref_jenis_uang::where('jenis_uang_kategori', $userLogin->user_jenis_kelamin)->where('jenis_uang_nama', 'Iuran')->first();
         $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $iuran = DataIuran::find($id);
 
         if ($jenisSaldo == null) {
-            return back()->with('Gagal', 'Buat Referensi Jenis Saldo Masuk ( Iuran )');
+            return back()->with('Gagal', 'Buat Referensi Jenis Uang ( Iuran )');
         }
 
         if ($totalIuran->total <= 0) {
@@ -111,6 +112,32 @@ class Iuran extends Controller
             if ($saldo) {
                 $dataHarusUpdate = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->whereBetween('created_at', [$saldo->created_at, $lastSaldo->created_at])->get();
 
+                //create sisa saldo
+                $uniq['jenis_iuran_id'] = $iuran->jenis_iuran_id;
+                $uniq['saldo_jenis'] =  $jenisSaldo->jenis_uang_id;
+
+                $postSisa['saldo_sisa_status'] = 'masuk';
+                $postSisa['saldo_sisa_kategori'] = $userLogin->user_jenis_kelamin;
+                $postSisa['saldo_sisa_nominal'] =  $totalIuran->total;
+
+                $sisaSaldo = saldo_sisa::where($uniq)->first();
+
+                if (!$sisaSaldo) {
+                    $pos = [...$uniq, ...$postSisa];
+                    $pos['saldo_sisa_sebelum'] = 0;
+                    $pos['saldo_sisa_sekarang'] = $pos['saldo_sisa_nominal'];
+
+                    saldo_sisa::create($pos);
+                } else {
+                    $posU = [...$postSisa];
+
+                    $posU['saldo_sisa_sebelum'] = $sisaSaldo->saldo_sisa_sekarang;
+                    $posU['saldo_sisa_sekarang'] = ($sisaSaldo->saldo_sisa_sekarang - $saldo->saldo_nominal) + $posU['saldo_sisa_nominal'];
+
+                    $sisaSaldo->update($posU);
+                }
+
+                //update data
                 foreach ($dataHarusUpdate as $keyU => $vUpdate) {
                     $saldoSebelum = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->where('saldo_id', '<', $vUpdate->saldo_id)->latest()->first();
 
@@ -138,7 +165,7 @@ class Iuran extends Controller
                         'user_id' => $userLogin->user_id,
                         'saldo_keterangan' => $keteranganSaldo,
                         'saldo_status' => 'masuk',
-                        'saldo_jenis' => $jenisSaldo->jenis_saldo_masuk_id,
+                        'saldo_jenis' => $jenisSaldo->jenis_uang_id,
                         'jenis_iuran_id' => $iuran->jenis_iuran_id,
                         'saldo_kategori' => $userLogin->user_jenis_kelamin,
                         'saldo_tgl' => $tanggal,
@@ -146,6 +173,31 @@ class Iuran extends Controller
                         'saldo_total' => (isset($lastSaldo->saldo_total)) ? $lastSaldo->saldo_total + $totalIuran->total : $totalIuran->total
                     ]
                 );
+
+                //create sisa saldo
+                $uniq['jenis_iuran_id'] = $iuran->jenis_iuran_id;
+                $uniq['saldo_jenis'] = $jenisSaldo->jenis_uang_id;
+
+                $postSisa['saldo_sisa_status'] = 'masuk';
+                $postSisa['saldo_sisa_kategori'] = $userLogin->user_jenis_kelamin;
+                $postSisa['saldo_sisa_nominal'] = $totalIuran->total;
+
+                $sisaSaldo = saldo_sisa::where($uniq)->first();
+
+                if (!$sisaSaldo) {
+                    $pos = [...$uniq, ...$postSisa];
+                    $pos['saldo_sisa_sebelum'] = 0;
+                    $pos['saldo_sisa_sekarang'] = $pos['saldo_sisa_nominal'];
+
+                    saldo_sisa::create($pos);
+                } else {
+                    $posU = [...$postSisa];
+
+                    $posU['saldo_sisa_sebelum'] = $sisaSaldo->saldo_sisa_sekarang;
+                    $posU['saldo_sisa_sekarang'] = $sisaSaldo->saldo_sisa_sekarang + $posU['saldo_sisa_nominal'];
+
+                    $sisaSaldo->update($posU);
+                }
 
                 $iuran->update(['iuran_status' => 'selesai']);
 
@@ -156,7 +208,7 @@ class Iuran extends Controller
     public function buka_iuran($id)
     {
         $userLogin = Auth::user();
-        $jenisSaldo = ref_jenis_saldo_masuk::where('jenis_saldo_masuk_nama', 'Iuran')->first();
+        $jenisSaldo = ref_jenis_uang::where('jenis_uang_kategori', $userLogin->user_jenis_kelamin)->where('jenis_uang_nama', 'Iuran')->first();
         $totalIuran = iuran_data::select(DB::raw('SUM(iuran_data_nominal) as total'))->where('iuran_id', $id)->first();
         $iuran = DataIuran::find($id);
 

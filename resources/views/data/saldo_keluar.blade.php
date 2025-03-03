@@ -60,7 +60,12 @@ $user = App\Models\User::class;
                                 <td>{{$val->user->user_nama ?? ''}}</td>
                                 <td>{{$val->saldo_keterangan}}</td>
                                 {{-- <td>{{ucFirst($val->saldo_status)}}</td> --}}
-                                <td>{{$val->jenis_saldo_keluar_nama}}</td>
+                                {{-- <td>{{$val->jenis_saldo_keluar_nama}}</td> --}}
+                                <td>
+                                    {{$val->jenis_uang_nama}}
+                                    <br>
+                                    {{$val->jenis_iuran_nama}}
+                                </td>
                                 <td><button onclick="show('{{url('storage/'.$val->saldo_bukti)}}')" {{!$val->saldo_bukti ? 'disabled' : ''}} class="btn btn-success">View</button></td>
                                 <td>{{fAnaTgl($val->saldo_tgl, 'hri, tgl bln thn')}}</td>
                                 <td align="right">{{number_format($val->saldo_nominal, 0, ",", ".")}}</td>
@@ -104,11 +109,20 @@ $user = App\Models\User::class;
                                 <input class="form-control" id="saldo_keterangan" type="text" placeholder="Masukkan keterangan saldo..." required="" name="saldo_keterangan">
                             </div>
                             <div class="col-md-12">
-                                <label class="form-label" for="saldo_jenis">Jenis Saldo</label>
+                                <label class="form-label" for="saldo_jenis">Jenis Uang Keluar</label>
                                 <select id="saldo_jenis" class="form-select form-select-sm" aria-label=".form-select-sm example" name="saldo_jenis">
                                     <option value="">--Pilih--</option>
-                                    @foreach ($jenis_saldo_keluar as $val)
-                                    <option value="{{$val->jenis_saldo_keluar_id}}">{{$val->jenis_saldo_keluar_nama}}</option>
+                                    @foreach ($jenis_uang as $val)
+                                    <option value="{{$val->jenis_uang_id}}">{{$val->jenis_uang_nama}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <label class="form-label" for="jenis_iuran_id">Jenis Iuran</label>
+                                <select id="jenis_iuran_id" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_iuran_id">
+                                    <option value="">--Pilih--</option>
+                                    @foreach ($jenis_iuran as $val)
+                                    <option value="{{$val->jenis_iuran_id}}">{{$val->jenis_iuran_nama}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -187,11 +201,11 @@ $user = App\Models\User::class;
                                 <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Keterangan..." name="saldo_keterangan">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="fjenis_saldo_keluar_nama">Jenis Saldo</label>
-                                <select id="fjenis_saldo_keluar_nama" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_saldo_keluar_nama">
+                                <label class="form-label" for="fjenis_uang_nama">Jenis Uang Keluar</label>
+                                <select id="fjenis_uang_nama" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_uang_nama">
                                     <option value="">--Pilih--</option>
-                                    @foreach ($jenis_saldo_keluar as $val)
-                                    <option value="{{$val->jenis_saldo_keluar_nama}}">{{$val->jenis_saldo_keluar_nama}}</option>
+                                    @foreach ($jenis_uang as $val)
+                                    <option value="{{$val->jenis_uang_nama}}">{{$val->jenis_uang_nama}}</option>
                                     @endforeach
                                 </select>
                             </div>

@@ -43,6 +43,7 @@ use App\Http\Controllers\referensi\Jenis_kegiatan;
 use App\Http\Controllers\referensi\Jenis_pengaduan;
 use App\Http\Controllers\referensi\Jenis_saldo_keluar;
 use App\Http\Controllers\referensi\Jenis_saldo_masuk;
+use App\Http\Controllers\referensi\Jenis_uang;
 use App\Http\Controllers\referensi\Kegiatan;
 use App\Http\Controllers\referensi\Nominal;
 use App\Http\Controllers\referensi\Pendidikan;
@@ -73,10 +74,10 @@ Route::middleware('isLogin')->group(function () {
     Route::post('/warga/updateData/{id}', [PegawaiController::class, 'updateData'])->name('warga.update');
     Route::post('/warga/dellData/{id}', [PegawaiController::class, 'delData'])->name('warga.del');
     //referensi jenis saldo masuk
-    Route::get('/referensi/jenis_saldo_masuk', [Jenis_saldo_masuk::class, 'dataView'])->name('jenis_saldo_masuk');
-    Route::post('/referensi/jenis_saldo_masuk/addData', [Jenis_saldo_masuk::class, 'addRefData'])->name('jenis_saldo_masuk.add');
-    Route::post('/referensi/jenis_saldo_masuk/updateData/{id}', [Jenis_saldo_masuk::class, 'updateRefData'])->name('jenis_saldo_masuk.update');
-    Route::post('/referensi/jenis_saldo_masuk/dellData/{id}', [Jenis_saldo_masuk::class, 'dellRefData']);
+    Route::get('/referensi/jenis_uang', [Jenis_saldo_masuk::class, 'dataView'])->name('jenis_uang');
+    Route::post('/referensi/jenis_uang/addData', [Jenis_saldo_masuk::class, 'addRefData'])->name('jenis_uang.add');
+    Route::post('/referensi/jenis_uang/updateData/{id}', [Jenis_saldo_masuk::class, 'updateRefData'])->name('jenis_uang.update');
+    Route::post('/referensi/jenis_uang/dellData/{id}', [Jenis_saldo_masuk::class, 'dellRefData']);
     //referensi jenis saldo keluar
     Route::get('/referensi/jenis_saldo_keluar', [Jenis_saldo_keluar::class, 'dataView'])->name('jenis_saldo_keluar');
     Route::post('/referensi/jenis_saldo_keluar/addData', [Jenis_saldo_keluar::class, 'addRefData'])->name('jenis_saldo_keluar.add');

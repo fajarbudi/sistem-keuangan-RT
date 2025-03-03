@@ -16,8 +16,8 @@
                 <div class="d-flex flex-wrap">
                     <form class="mx-2" action="{{$baseURL}}" id="formSearch">
                         <div style="position: relative;">
-                            <input class="form-control" id="fjenis_saldo_masuk_nama" type="text" placeholder="Cari Nama jenis Saldo Masuk..." required="" name="jenis_saldo_masuk_nama" value="{{(isset($vFilter['jenis_saldo_masuk_nama'])) ? $vFilter['jenis_saldo_masuk_nama'] : ''}}">
-                            <a href="{{$baseURL}}" class="{{(!isset($vFilter['jenis_saldo_masuk_nama'])) ? 'd-none' : ''}}">                          
+                            <input class="form-control" id="fjenis_uang_nama" type="text" placeholder="Cari Nama jenis Saldo Masuk..." required="" name="jenis_uang_nama" value="{{(isset($vFilter['jenis_uang_nama'])) ? $vFilter['jenis_uang_nama'] : ''}}">
+                            <a href="{{$baseURL}}" class="{{(!isset($vFilter['jenis_uang_nama'])) ? 'd-none' : ''}}">                          
                                 <span style="position: absolute; top: 20%; right: 10px;">X</span>
                             </a>
                         </div>
@@ -49,7 +49,7 @@
                             @foreach ($data as $index => $val)
                             <tr>
                                 <th scope="row">{{$index + 1}}</th>
-                                <td>{{$val->jenis_saldo_masuk_nama}}</td>
+                                <td>{{$val->jenis_uang_nama}}</td>
                                 {{-- <td>
                                     add : {{fAnaTgl($val->created_at, 'jam:mnt - hri, tgl bln thn')}}
                                     <br>
@@ -57,8 +57,8 @@
                                 </td> --}}
                                 <td align="center">
                                     <div class="btn-group-vertical" role="group" aria-label="Basic example">
-                                        <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})" @if ($val->jenis_saldo_masuk_nama == 'Iuran') disabled @endif><i class="fa fa-pencil-square-o"></i> Update</button>
-                                        <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> jenis_saldo_masuk_id}}, `{{$val -> jenis_saldo_masuk_nama}}`)' @if ($val->jenis_saldo_masuk_nama == 'Iuran') disabled @endif><i class="fa fa-times"></i> Hapus</button>
+                                        <button class="btn btn-sm btn-primary" type="button" onclick="update({{$val}})" @if ($val->jenis_uang_nama == 'Iuran') disabled @endif><i class="fa fa-pencil-square-o"></i> Update</button>
+                                        <button class="btn btn-sm btn-secondary" type="button" onclick='hapus({{$val -> jenis_uang_id}}, `{{$val -> jenis_uang_nama}}`)' @if ($val->jenis_uang_nama == 'Iuran') disabled @endif><i class="fa fa-times"></i> Hapus</button>
                                     </div>
                                 </td>
                             </tr>
@@ -86,8 +86,8 @@
                         @csrf
                         <div class="row g-3">
                             <div class="col-md-12">
-                                <label class="form-label" for="jenis_saldo_masuk_nama">Nama</label>
-                                <input class="form-control" id="jenis_saldo_masuk_nama" type="text" placeholder="Masukkan Nama jenis_saldo_masuk..." required="" name="jenis_saldo_masuk_nama">
+                                <label class="form-label" for="jenis_uang_nama">Nama</label>
+                                <input class="form-control" id="jenis_uang_nama" type="text" placeholder="Masukkan Nama jenis_uang..." required="" name="jenis_uang_nama">
                             </div>
                         </div>
                     </div>
@@ -137,12 +137,12 @@
         $('#formModal').modal('show');
         $('#formData').attr('action', `${baseUrl}/addData`);
         $('#judulModal').text('Tambah Data');
-        $('#jenis_saldo_masuk_nama').val("");
+        $('#jenis_uang_nama').val("");
     }
 
     const update = (data) => {
         $('#formModal').modal('show');
-        $('#formData').attr('action', `${baseUrl}/updateData/${data.jenis_saldo_masuk_id}`);
+        $('#formData').attr('action', `${baseUrl}/updateData/${data.jenis_uang_id}`);
         $('#judulModal').text('Update Data');
         $.each(data, (i, val) =>{
             $(`#${i}`).val(val)

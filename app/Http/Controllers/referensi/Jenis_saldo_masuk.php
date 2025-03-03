@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\referensi;
 
 use App\Http\Controllers\Controller;
-use App\Models\referensi\ref_jenis_saldo_masuk;
+use App\Models\referensi\ref_jenis_uang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -17,13 +17,13 @@ class Jenis_saldo_masuk extends Controller
 
     public function dataView(Request $request)
     {
-        $load['namaPage'] = 'JenisUangMasuk';
-        $load['judulPage'] = 'Data Jenis Uang Masuk';
-        $load['baseURL'] = url('/referensi/jenis_saldo_masuk');
+        $load['namaPage'] = 'JenisUang';
+        $load['judulPage'] = 'Data Jenis Uang';
+        $load['baseURL'] = url('/referensi/jenis_uang');
         $userLogin = Auth::user();
         $filter = [];
 
-        $query = ref_jenis_saldo_masuk::select('*');
+        $query = ref_jenis_uang::select('*');
         if ($request->all()) {
             foreach ($request->all() as $key => $val) {
                 if ($val) {
@@ -35,12 +35,12 @@ class Jenis_saldo_masuk extends Controller
                 $query->where($key, 'like', '%' . $val . '%');
             }
         }
-        $query->where('jenis_saldo_masuk_kategori', $userLogin->user_jenis_kelamin);
+        $query->where('jenis_uang_kategori', $userLogin->user_jenis_kelamin);
         $datas = $query->get();
         $load['data'] = $datas;
         $load['vFilter'] = $filter;
 
-        return view('referensi.jenis_saldo_masuk', $load);
+        return view('referensi.jenis_uang', $load);
     }
 
     public function addRefData(Request $request)
@@ -54,13 +54,13 @@ class Jenis_saldo_masuk extends Controller
         }
 
         $validator = Validator::make($post, [
-            'jenis_saldo_masuk_nama' => ['required', 'string'],
+            'jenis_uang_nama' => ['required', 'string'],
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
-            $post['jenis_saldo_masuk_kategori'] = $userLogin->user_jenis_kelamin;
+            $post['jenis_uang_kategori'] = $userLogin->user_jenis_kelamin;
 
-            ref_jenis_saldo_masuk::create($post);
+            ref_jenis_uang::create($post);
 
             return back()->with('Berhasil', 'Data Berhasil Ditambahkan.');
         } else {
@@ -78,11 +78,11 @@ class Jenis_saldo_masuk extends Controller
         }
 
         $validator = Validator::make($post, [
-            'jenis_saldo_masuk_nama' => ['required', 'string'],
+            'jenis_uang_nama' => ['required', 'string'],
         ], $this->pesanValidasi);
 
         if (!$validator->fails()) {
-            $data = ref_jenis_saldo_masuk::find($id);
+            $data = ref_jenis_uang::find($id);
 
             $data->update($post);
 
@@ -94,7 +94,7 @@ class Jenis_saldo_masuk extends Controller
 
     public function dellRefData($id)
     {
-        $data = ref_jenis_saldo_masuk::find($id);
+        $data = ref_jenis_uang::find($id);
 
         if ($data) {
 

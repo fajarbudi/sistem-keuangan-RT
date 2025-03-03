@@ -4,8 +4,10 @@ namespace App\Http\Controllers\data;
 
 use App\Http\Controllers\Controller;
 use App\Models\data\saldo;
+use App\Models\data\saldo_sisa;
 use App\Models\referensi\ref_jenis_iuran;
 use App\Models\referensi\ref_jenis_saldo_masuk;
+use App\Models\referensi\ref_jenis_uang;
 use App\Models\referensi\ref_nominal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,9 +51,12 @@ class SaldoMasuk extends Controller
         $query->where('saldo_kategori', $userLogin->user_jenis_kelamin);
         $query->where('saldo_status', '=', 'masuk');
         $query->whereYear('saldo_tgl', $tahun);
-        $query->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id');
+        $query->leftJoin('ref_jenis_uangs', 'saldos.saldo_jenis', '=', 'ref_jenis_uangs.jenis_uang_id');
+        // $query->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id');
         $query->leftJoin('ref_jenis_iurans', 'saldos.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id');
         $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
+
+        // dd($datas);
 
 
         for ($i = 5; $i >= 0; $i--) {
@@ -60,13 +65,13 @@ class SaldoMasuk extends Controller
 
         $load['data'] = $datas;
         $load['filterVal'] = $filter;
-        $load['jenis_saldo_masuk'] = ref_jenis_saldo_masuk::get();
+        $load['jenis_uang'] = ref_jenis_uang::where('jenis_uang_kategori', $userLogin->user_jenis_kelamin)->get();
         $load['tahun'] = $tahun;
         $load['bulan'] = $arr_bln[$bulan] ?? '';
         $load['arr_bulan'] = $arr_bln;
-        $load['saldo_terakhir'] = saldo::latest()->first();
+        $load['saldo_terakhir'] = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();
         $load['ref_nominal'] = ref_nominal::where('nominal_kategori', $userLogin->user_jenis_kelamin)->get();
-        $load['jenis_iuran'] = ref_jenis_iuran::get();
+        $load['jenis_iuran'] = ref_jenis_iuran::where('jenis_iuran_kategori', $userLogin->user_jenis_kelamin)->get();
 
         return view('data.saldo_masuk', $load);
     }
@@ -97,6 +102,33 @@ class SaldoMasuk extends Controller
             $post['saldo_kategori'] = $userLogin->user_jenis_kelamin;
 
             saldo::create($post);
+
+            //create sisa saldo
+            if ($request->jenis_iuran_id) {
+                $uniq['jenis_iuran_id'] = $request->jenis_iuran_id;
+            }
+            $uniq['saldo_jenis'] = $request->saldo_jenis;
+
+            $post2['saldo_sisa_status'] = 'masuk';
+            $post2['saldo_sisa_kategori'] = $userLogin->user_jenis_kelamin;
+            $post2['saldo_sisa_nominal'] = $request->saldo_nominal;
+
+            $saldo = saldo_sisa::where($uniq)->first();
+
+            if (!$saldo) {
+                $pos = [...$uniq, ...$post2];
+                $pos['saldo_sisa_sebelum'] = 0;
+                $pos['saldo_sisa_sekarang'] = $pos['saldo_sisa_nominal'];
+
+                saldo_sisa::create($pos);
+            } else {
+                $posU = [...$post2];
+
+                $posU['saldo_sisa_sebelum'] = $saldo->saldo_sisa_sekarang;
+                $posU['saldo_sisa_sekarang'] = $saldo->saldo_sisa_sekarang + $posU['saldo_sisa_nominal'];
+
+                $saldo->update($posU);
+            }
 
             return back()->with('Berhasil', 'Data Berhasil Ditambahkan.');
         } else {
@@ -161,8 +193,34 @@ class SaldoMasuk extends Controller
                         $update3 = saldo::find($vUpdate->saldo_id);
                         $update3->update($post3);
                     }
+                }
 
 
+                //create sisa saldo
+                if ($request->jenis_iuran_id) {
+                    $uniq['jenis_iuran_id'] = $request->jenis_iuran_id;
+                }
+                $uniq['saldo_jenis'] = $request->saldo_jenis;
+
+                $post2['saldo_sisa_status'] = 'masuk';
+                $post2['saldo_sisa_kategori'] = $userLogin->user_jenis_kelamin;
+                $post2['saldo_sisa_nominal'] = $request->saldo_nominal;
+
+                $saldo = saldo_sisa::where($uniq)->first();
+
+                if (!$saldo) {
+                    $pos = [...$uniq, ...$post2];
+                    $pos['saldo_sisa_sebelum'] = 0;
+                    $pos['saldo_sisa_sekarang'] = $pos['saldo_sisa_nominal'];
+
+                    saldo_sisa::create($pos);
+                } else {
+                    $posU = [...$post2];
+
+                    $posU['saldo_sisa_sebelum'] = $saldo->saldo_sisa_sekarang;
+                    $posU['saldo_sisa_sekarang'] = ($saldo->saldo_sisa_sekarang - $data->saldo_nominal) + $posU['saldo_sisa_nominal'];
+
+                    $saldo->update($posU);
                 }
             } else {
                 $data->update($post);
@@ -183,11 +241,32 @@ class SaldoMasuk extends Controller
 
         if ($data) {
 
-            // $hitungSaldo = $lastSaldo->saldo_total + $data->saldo_nominal;
+            //create sisa saldo
+            $uniq['jenis_iuran_id'] = $data->jenis_iuran_id;
+            $uniq['saldo_jenis'] = $data->saldo_jenis;
 
-            // $lastSaldo->update([
-            //     'saldo_total' => $hitungSaldo
-            // ]);
+            $post2['saldo_sisa_status'] = 'masuk';
+            $post2['saldo_sisa_kategori'] = $userLogin->user_jenis_kelamin;
+            $post2['saldo_sisa_nominal'] = $data->saldo_nominal;
+
+            $saldo = saldo_sisa::where($uniq)->first();
+
+            if (!$saldo) {
+                $pos = [...$uniq, ...$post2];
+                $pos['saldo_sisa_sebelum'] = 0;
+                $pos['saldo_sisa_sekarang'] = $pos['saldo_sisa_nominal'];
+
+                saldo_sisa::create($pos);
+            } else {
+                $posU = [...$post2];
+
+                $posU['saldo_sisa_sebelum'] = $saldo->saldo_sisa_sekarang;
+                $posU['saldo_sisa_sekarang'] = $saldo->saldo_sisa_sekarang - $posU['saldo_sisa_nominal'];
+
+                $saldo->update($posU);
+            }
+
+
             $data->delete();
 
             if (isset($dataSetelahHapus->created_at)) {

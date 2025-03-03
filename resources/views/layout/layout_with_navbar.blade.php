@@ -258,21 +258,21 @@ $namaPage = explode(' ', $namaPage);
                                     </div>
                                 </li>
                           
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisUangMasuk') ? 'active' : ''}}" href="{{route('jenis_saldo_masuk')}}">
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisUang') ? 'active' : ''}}" href="{{route('jenis_uang')}}">
                                   <div class="row">
                                     <i class="icon-stats-up fs-5 col-2"></i>
-                                    <span class="col-10">Jenis Uang Masuk</span>
+                                    <span class="col-10">Jenis Uang</span>
                                   </div>
                                 </a>
                             </li>
                         
-                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisUangKeluar') ? 'active' : ''}}" href="{{route('jenis_saldo_keluar')}}">
+                            {{-- <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisUangKeluar') ? 'active' : ''}}" href="{{route('jenis_saldo_keluar')}}">
                                   <div class="row">
                                     <i class="icon-stats-down fs-5 col-2"></i>
                                     <span class="col-10">Jenis Uang Keluar</span>
                                   </div>
                                 </a>
-                            </li>
+                            </li> --}}
                           
                             <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'JenisIuran') ? 'active' : ''}}" href="{{route('jenis_iuran')}}">
                                   <div class="row">

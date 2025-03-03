@@ -13,7 +13,7 @@ Home
     </div>
 </div>
 <div class="container-fluid">
-    <div class="row widget-grid">
+    <div class="row widget-grid justify-content-center">
         <div class="col-xxl-5">
             <div class="row justify-content-center">
                 <div class="card profile-box col-11 col-md-10">
@@ -149,24 +149,31 @@ Home
             </div>
         </div>
         
-        <div class="col-12" style="height: 5vh"></div>
+        <div class="col-12" style="height: 3vh"></div>
 
-        <div style="min-width: 400px;" class="col-xxl-4 col-md-12 appointment-sec">
+        <div style="min-width: 600px;" class="col-xxl-5 col-md-12 appointment-sec">
             <div class="appointment">
                 <div class="card p-3 text-center">
+                    <h3 id="none3" class="d-none">Tidak Ada Data Uang Masuk....</h3>
+                    <div id="chart3"></div>
+                </div>
+            </div>
+            <div class="row justify-content-around">
+             
+                <div class="card p-3 text-center col-xxl-6 col-md-12">
                     <h3 id="none1" class="d-none">Tidak Ada Data Uang Masuk....</h3>
                     <div id="chart1"></div>
                 </div>
-            </div>
-            <div class="appointment">
-              <div class="card p-3 text-center">
+         
+              <div class="card p-3 text-center col-xxl-6 col-md-12">
                   <h3 id="none2" class="d-none">Tidak Ada Data Uang Keluar....</h3>
                   <div id="chart2"></div>
               </div>
-          </div>
+           
+            </div>
         </div>
 
-        <div style="min-width: 400px" class="col-xxl-8 col-md-12 appointment-sec">
+        <div style="min-width: 400px" class="col-xxl-7 col-md-12 appointment-sec">
             <div class="appointment">
                 <div class="card p-3">
                     <div id="perBulan" class="d-flex justify-content-center"></div>
@@ -546,7 +553,7 @@ Home
           height: 300,
           type: 'pie',
         },
-        labels: saldoMasuk.map(val => val.jenis_iuran_nama ? `Iuran - ${val.jenis_iuran_nama}` : val.jenis_saldo_masuk_nama),
+        labels: saldoMasuk.map(val => val.jenis_iuran_nama ? `Iuran - ${val.jenis_iuran_nama}` : val.jenis_uang_nama),
         responsive: [{
           breakpoint: 480,
           options: {
@@ -592,7 +599,7 @@ Home
           height: 300,
           type: 'pie',
         },
-        labels: saldoKeluar.map(val => val.jenis_iuran_nama ?? val.jenis_saldo_masuk_nama),
+        labels: saldoKeluar.map(val => val.jenis_iuran_nama ?? val.jenis_uang_nama),
         responsive: [{
           breakpoint: 480,
           options: {
@@ -624,5 +631,103 @@ Home
 
         var chart = new ApexCharts(document.querySelector("#chart2"), options);
         chart.render();
+
+
+        const sisaSaldo = @json($saldo_sisa);
+
+        var options = {
+          series: [
+          {
+            name: 'Sisa Saldo',
+            data: sisaSaldo.map(val => val.saldo_sisa_sekarang),
+          }
+        ],
+          chart: {
+          height: 350,
+          type: 'area',
+          zoom: {
+            enabled: false,
+          },
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val, opts) {
+            return formatRupiah(val)
+          },
+        },
+        title: {
+          text: 'Sisa Saldo',
+          align: 'left',
+        },
+        xaxis: {
+          categories: sisaSaldo.map(val => val.jenis_iuran_nama ? `Iuran - ${val.jenis_iuran_nama}` : val.jenis_uang_nama)
+        },
+        stroke: {
+          width: 0,
+        },
+        plotOptions: {
+          line: {
+            colors: {
+              threshold: 0,
+              colorAboveThreshold: '#0088ee',
+              colorBelowThreshold: '#ff0000',
+            },
+          },
+        },
+        tooltip: {
+          y : {
+            formatter : function(val){
+              return formatRupiah(val)
+            }
+          }
+        },
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart3"), options);
+        chart.render();
+        //pie saldo sisa
+        if(sisaSaldo.length == 0){
+          $('#chart3').toggleClass('d-none')
+          $('#none3').toggleClass('d-none')
+        }
+
+      //   var options = {
+      //     series: sisaSaldo.map(val => val.saldo_sisa_sekarang),
+      //     chart: {
+      //     height: 300,
+      //     type: 'area',
+      //   },
+      //   labels: sisaSaldo.map(val => val.jenis_iuran_nama ?? val.jenis_uang_nama),
+      //   responsive: [{
+      //     breakpoint: 480,
+      //     options: {
+      //       chart: {
+      //         width: 350
+      //       },
+      //       legend: {
+      //         position: 'bottom'
+      //       }
+      //     }
+      //   }],
+      //   title: {
+      //     text: `Sisa Saldo`,
+      //     floating: true,
+      //     offsetY: -5,
+      //     align: (window.innerWidth > 700) ? 'left' : 'center',
+      //     style: {
+      //       color: '#444',
+      //       fontSize: 13,
+      //       fontWeight: 600
+      //     }
+      //   },
+      //   dataLabels: {
+      //   formatter: function (val, opts) {
+      //       return formatRupiah(opts.w.config.series[opts.seriesIndex])
+      //   },
+      // },
+      //   };
+
+      //   var chart = new ApexCharts(document.querySelector("#chart3"), options);
+      //   chart.render();
 </script>
 @endpush

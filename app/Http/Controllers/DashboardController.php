@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\data\saldo;
+use App\Models\data\saldo_sisa;
 use App\Models\referensi\ref_jenis_saldo_keluar;
 use App\Models\referensi\ref_jenis_saldo_masuk;
 use App\Models\referensi\ref_nominal;
@@ -53,13 +54,53 @@ class DashboardController extends Controller
             $load["saldo_$tVal->saldo_status"] = $tVal->jumlah;
         }
 
-        $datas2 = saldo::select(DB::raw("saldo_status, SUM(saldo_nominal) as jumlah, jenis_saldo_masuk_nama, jenis_iuran_nama"))
+        $datas2 = saldo::select(DB::raw("saldo_status, SUM(saldo_nominal) as jumlah, jenis_uang_nama, jenis_iuran_nama"))
         ->whereYear('saldo_tgl', $tahun)
             ->where('saldo_kategori', $userLogin->user_jenis_kelamin)
-            ->leftJoin('ref_jenis_saldo_masuks', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_masuks.jenis_saldo_masuk_id')
+            ->leftJoin('ref_jenis_uangs', 'saldos.saldo_jenis', '=', 'ref_jenis_uangs.jenis_uang_id')
             ->leftJoin('ref_jenis_iurans', 'saldos.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id')
-            ->groupBy(DB::raw('saldo_status, jenis_saldo_masuk_nama, jenis_iuran_nama'))->get();
+            ->groupBy(DB::raw('saldo_status, jenis_uang_nama, jenis_iuran_nama'))->get();
 
+        // $datas2 = saldo::select(DB::raw("saldo_status, SUM(saldo_nominal) as jumlah, saldo_jenis, jenis_iuran_id"))
+        // ->whereYear('saldo_tgl', $tahun)
+        //     ->where('saldo_kategori', $userLogin->user_jenis_kelamin)
+        //     ->groupBy(DB::raw('saldo_status, saldo_jenis, jenis_iuran_id'))->get();
+
+        // $post = [];
+        // $post2 = [];
+        // foreach ($datas2 as $coba) {
+        //     if ($coba->jenis_iuran_id) {
+        //         $post['jenis_iuran_id'] = $coba->jenis_iuran_id;
+        //     }
+        //     $post['saldo_jenis'] = $coba->saldo_jenis;
+
+        //     $post2['saldo_sisa_status'] = $coba->saldo_status;
+        //     $post2['saldo_sisa_kategori'] = 'L';
+        //     $post2['saldo_sisa_nominal'] = $coba->jumlah;
+
+        //     $saldo = saldo_sisa::where($post)->first();
+
+        //     if (!$saldo) {
+        //         $pos = [...$post, ...$post2];
+        //         $pos['saldo_sisa_sebelum'] = 0;
+        //         $pos['saldo_sisa_sekarang'] = $pos['saldo_sisa_nominal'];
+
+        //         saldo_sisa::create($pos);
+        //     } else {
+        //         $posU = [...$post2];
+
+        //         $posU['saldo_sisa_sebelum'] = $saldo->saldo_sisa_sekarang;
+        //         $posU['saldo_sisa_sekarang'] = ($coba->saldo_status == 'masuk') ? $saldo->saldo_sisa_sekarang + $posU['saldo_sisa_nominal'] : $saldo->saldo_sisa_sekarang - $posU['saldo_sisa_nominal'];
+
+        //         $saldo->update($posU);
+        //     }
+        // }
+
+        // dd('ss');
+
+        $load['saldo_sisa'] = saldo_sisa::where('saldo_sisa_kategori', $userLogin->user_jenis_kelamin)
+            ->leftJoin('ref_jenis_uangs', 'saldo_sisas.saldo_jenis', '=', 'ref_jenis_uangs.jenis_uang_id')
+            ->leftJoin('ref_jenis_iurans', 'saldo_sisas.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id')->get();
         $load['arr_bulan'] = $arr_bln;
         $load['userLogin'] = Auth::user();
         $load['saldo_terakhir'] = saldo::where('saldo_kategori', $userLogin->user_jenis_kelamin)->latest()->first();

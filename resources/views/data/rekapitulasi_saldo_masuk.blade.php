@@ -88,11 +88,11 @@
                                 <input class="form-control" id="fsaldo_keterangan" type="text" placeholder="Masukkan Keterangan..." name="saldo_keterangan">
                             </div>
                             <div class="col-md-6">
-                                <label class="form-label" for="fjenis_saldo_masuk_nama">Jenis Saldo</label>
-                                <select id="fjenis_saldo_masuk_nama" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_saldo_masuk_nama">
+                                <label class="form-label" for="fjenis_uang_nama">Jenis Uang Masuk</label>
+                                <select id="fjenis_uang_nama" class="form-select form-select-sm" aria-label=".form-select-sm example" name="jenis_uang_nama">
                                     <option value="">--Pilih--</option>
-                                    @foreach ($jenis_saldo_masuk as $val)
-                                    <option value="{{$val->jenis_saldo_masuk_nama}}">{{$val->jenis_saldo_masuk_nama}}</option>
+                                    @foreach ($jenis_uang as $val)
+                                    <option value="{{$val->jenis_uang_nama}}">{{$val->jenis_uang_nama}}</option>
                                     @endforeach
                                 </select>
                             </div>
