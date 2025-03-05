@@ -5,6 +5,7 @@ namespace App\Http\Controllers\data;
 use App\Http\Controllers\Controller;
 use App\Models\data\saldo;
 use App\Models\referensi\ref_jenis_saldo_keluar;
+use App\Models\referensi\ref_jenis_uang;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -39,7 +40,8 @@ class RekapSaldoKeluar extends Controller
         $query->where('saldo_status', '=', 'keluar');
         $query->whereMonth('saldo_tgl', $bulan);
         $query->whereYear('saldo_tgl', $tahun);
-        $query->leftJoin('ref_jenis_saldo_keluars', 'saldos.saldo_jenis', '=', 'ref_jenis_saldo_keluars.jenis_saldo_keluar_id');
+        $query->leftJoin('ref_jenis_uangs', 'saldos.saldo_jenis', '=', 'ref_jenis_uangs.jenis_uang_id');
+        $query->leftJoin('ref_jenis_iurans', 'saldos.jenis_iuran_id', '=', 'ref_jenis_iurans.jenis_iuran_id');
         $datas = $query->orderBy('saldos.created_at', 'DESC')->get();
 
 
@@ -60,6 +62,7 @@ class RekapSaldoKeluar extends Controller
         $load['bulan'] = $arr_bln[$bulan];
         $load['arr_bulan'] = $arr_bln;
         $load['total_saldo_keluar'] = $jumlah;
+        $load['jenis_uang'] = ref_jenis_uang::where('jenis_uang_kategori', $userLogin->user_jenis_kelamin)->get();
 
         return view('data.rekapitulasi_saldo_keluar', $load);
     }

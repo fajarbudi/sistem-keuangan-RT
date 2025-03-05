@@ -19,27 +19,27 @@ class DatabaseSeeder extends Seeder
             'name' => 'Test User',
             'email' => 'test@example.com',
         ]); */
-        // $posVal['user_nama'] = 'Administrator';
-        // $posVal['user_role'] = 'superAdmin';
-        // $posVal['user_email'] = 'admin@anauri.id';
-        // $posVal['user_username'] = 'admin';
-        // $posVal['user_jenis_kelamin'] = 'L';
-        // $posVal['password'] = 'admin';
-        // User::create($posVal);
+        $posVal['user_nama'] = 'Administrator';
+        $posVal['user_role'] = 'superAdmin';
+        $posVal['user_email'] = 'admin@anauri.id';
+        $posVal['user_username'] = 'admin';
+        $posVal['user_jenis_kelamin'] = 'L';
+        $posVal['password'] = 'admin';
+        User::create($posVal);
 
-        $dataBapak = $this->dataBapak();
+        // $dataBapak = $this->dataBapak();
 
-        foreach ($dataBapak as $val) {
-            $post = [];
+        // foreach ($dataBapak as $val) {
+        //     $post = [];
 
-            $post['user_nama'] = $val;
-            $post['user_username'] = $val;
-            $post['user_jenis_kelamin'] = 'L';
-            $post['user_role'] = 'warga';
-            $post['password'] = 12345;
+        //     $post['user_nama'] = $val;
+        //     $post['user_username'] = $val;
+        //     $post['user_jenis_kelamin'] = 'L';
+        //     $post['user_role'] = 'warga';
+        //     $post['password'] = 12345;
 
-            User::create($post);
-        }
+        //     User::create($post);
+        // }
     }
 
     private function dataBapak()
