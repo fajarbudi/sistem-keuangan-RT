@@ -81,7 +81,7 @@ class SaldoMasuk extends Controller
         $userLogin = Auth::user();
         $post = [];
         foreach ($request->all() as $key => $val) {
-            if ($key != '_token') {
+            if ($key != '_token' && $val) {
                 $post[$key] = trim($val);
             }
         }

@@ -81,7 +81,7 @@ class SaldoKeluar extends Controller
         $bukti = $request->file('saldo_bukti');
         $post = [];
         foreach ($request->all() as $key => $val) {
-            if ($key != '_token' && $key != 'saldo_bukti') {
+            if ($key != '_token' && $key != 'saldo_bukti' && $val) {
                 $post[$key] = trim($val);
             }
         }
