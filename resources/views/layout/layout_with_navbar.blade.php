@@ -187,6 +187,13 @@ $namaPage = explode(' ', $namaPage);
                             </a>
                             </li>
                             @endif
+                            <li class="sidebar-list"><i class="fa fa-thumb-tack"></i><a class="sidebar-link sidebar-title link-nav  {{($namaPage[0] == 'BeritaLelayu') ? 'active' : ''}}" href="{{route('berita_lelayu')}}">
+                                <div class="row">
+                                    <i class="icofont icofont-paper fs-5 col-2"></i>
+                                    <span class="col-10">Berita Lelayu</span>
+                                </div>
+                            </a>
+                            </li>
                     
                             <li class="sidebar-main-title">
                                 <div>

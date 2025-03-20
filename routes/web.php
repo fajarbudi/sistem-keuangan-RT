@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BeritaLelayu;
 use App\Http\Controllers\BukuKas;
 use App\Http\Controllers\FrontController;
 use App\Http\Controllers\DashboardController;
@@ -149,6 +150,15 @@ Route::middleware('isLogin')->group(function () {
     Route::post('/data/notulensi/detail/{notulensi_id}/addData', [Notulensi::class, 'addDetail'])->name('notulensi.detail.add');
     Route::post('/data/notulensi/detail/{notulensi_id}/updateData/{id}', [Notulensi::class, 'updateDetail'])->name('notulensi.detail.update');
     Route::post('/data/notulensi/detail/{notulensi_id}/dellData/{id}', [Notulensi::class, 'dellDetail']);
+    //berita lelayu
+    Route::get('/data/berita_lelayu', [BeritaLelayu::class, 'dataView'])->name('berita_lelayu');
+    Route::post('/data/berita_lelayu/addData', [BeritaLelayu::class, 'addRefData'])->name('berita_lelayu.add');
+    Route::post('/data/berita_lelayu/updateData/{id}', [BeritaLelayu::class, 'updateRefData'])->name('berita_lelayu.update');
+    Route::post('/data/berita_lelayu/dellData/{id}', [BeritaLelayu::class, 'dellRefData']);
+    Route::get('/data/berita_lelayu/detail/{id}', [BeritaLelayu::class, 'detail'])->name('berita_lelayu.detail');
+    Route::post('/data/berita_lelayu/detail/{berita_lelayu_id}/addData', [BeritaLelayu::class, 'addDetail'])->name('berita_lelayu.detail.add');
+    Route::post('/data/berita_lelayu/detail/{berita_lelayu_id}/updateData/{id}', [BeritaLelayu::class, 'updateDetail'])->name('berita_lelayu.detail.update');
+    Route::post('/data/berita_lelayu/detail/{berita_lelayu_id}/dellData/{id}', [BeritaLelayu::class, 'dellDetail']);
 
 
     //Rekapitulasi Saldo Masuk
