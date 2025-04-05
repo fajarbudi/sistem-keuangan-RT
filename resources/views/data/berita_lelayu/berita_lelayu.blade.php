@@ -74,6 +74,8 @@
                                                         onclick='hapus({{ $val->notulensi_id }}, `{{ $val->notulensi_topik }}`)'><i
                                                             class="fa fa-times"></i> Hapus</button>
                                                 @endif
+                                             <button type="button" class="btn btn-success btn-sm" onclick="PDFShow('{{ route('berita_lelayu.berita', ['id'=>$val->berita_lelayu_id])}}')"><i class="icofont icofont-read-book me-1"></i>Berita Lelayu</button>
+                                             <button type="button" class="btn blue-steel btn-sm" onclick="PDFShow('{{ route('berita_lelayu.banner', ['id'=>$val->berita_lelayu_id])}}')"><i class="icofont icofont-read-book me-1"></i>Cetak Nama</button>
                                             </div>
                                         </td>
                                     </tr>
@@ -159,7 +161,7 @@
                                         name="berita_lelayu_dimakamkan_tempat">
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label" for="berita_lelayu_keluarga">Daftar Keluarga</label>
+                                    <label class="form-label" for="berita_lelayu_keluarga">Daftar Keluarga  <strong style="margin-left: 5px">Pisahkan Nama dan Keterangan dengan Titik koma ( ; )</strong> </label>
                                     <textarea name="berita_lelayu_keluarga" id="berita_lelayu_keluarga" class="form-control" rows="12"></textarea>
                                 </div>
                             </div>
@@ -251,6 +253,19 @@
         </div>
     </div>
 
+    <div class="modal fade" id="PDFShowModal" tabindex="-1" role="dialog" aria-labelledby="hapusModal" aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="modal-toggle-wrapper">
+                        <h4 class="text-center" id="text">Data Tidak Tersedia!!!</h4>
+                        <iframe id="pdfShow" frameborder="0" height="800px" width="100%" ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
     </div>
 @endsection
 
@@ -296,5 +311,17 @@
                 $(`#f${key}`).val(value)
             })
         }
+
+        const PDFShow = (url) =>{
+        $('#PDFShowModal').modal('show')
+        if(url){
+            $('#text').addClass('d-none')
+            $('#pdfShow').removeClass('d-none')
+            $('#pdfShow').attr('src', `${url}`)
+        }else{
+            $('#pdfShow').addClass('d-none')
+            $('#text').removeClass('d-none')
+        }
+    }
     </script>
 @endpush

@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\data\berita_lelayu;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use TCPDF;
 
 class BeritaLelayu extends Controller
 {
@@ -15,7 +17,7 @@ class BeritaLelayu extends Controller
 
     public function dataView(Request $request)
     {
-        $load['namaPage'] = 'Berita Lelayu';
+        $load['namaPage'] = 'BeritaLelayu';
         $load['judulPage'] = 'Data Berita Lelayu';
         $load['baseURL'] = url('/data/berita_lelayu');
         $tahun = ($request->tahun) ? $request->tahun : date('Y');
@@ -27,7 +29,7 @@ class BeritaLelayu extends Controller
         if ($request->bulan) {
             $query->whereMonth('berita_lelayu_tgl', $bulan);
         }
-        $query->whereYear('berita_lelayu_tgl', $tahun);
+        // $query->whereYear('berita_lelayu_tgl', $tahun);
         $datas = $query->latest()->get();
 
         if ($request->all()) {
@@ -112,5 +114,123 @@ class BeritaLelayu extends Controller
         } else {
             return back()->with('Gagal', 'Data Tidak Ada');
         }
+    }
+
+    public function c_berita(Request $request, $id = '')
+    {
+        $load['namaPage'] = 'Berita Lelayu';
+        $load['judulPage'] = 'Berita Lelayu';
+        $data = berita_lelayu::find($id);
+        $load['tanggal'] = Date('Y-m-d', time());
+
+
+        $load['data'] = $data;
+
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(lang('app'));
+        $pdf->SetAuthor(lang('app_z') . ' - Powered by Anauri Indonesia');
+        $pdf->SetTitle(lang('app_z') . ' - Powered by Anauri Indonesia');
+        //$pdf->SetSubject('Dokumen Kenaikan Berkala a.n. '.trim($gd['gelar_depan'] .' '. $gd['nama'] .' '. $gd['gelar_belakang']).' - SIPACAK - OKUSelatan');
+
+        // set default header data
+        //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 048', PDF_HEADER_STRING);
+
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        //$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        // $pdf->SetMargins(10, 15, 10, true);
+
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $font = 10.5;
+        $pdf->SetFont('helvetica', '', $font);
+
+        $pdf->AddPage('P', 'F4');
+
+        $thedata =  \View::make('data.berita_lelayu.c_berita_lelayu', $load)->render();
+        // $pdf->SetMargins(0, 0, 0);
+        // $pdf->SetHeaderMargin(100);
+        // $pdf->SetFooterMargin(100);
+        $pdf->writeHTML($thedata, true, false, false, false, '');
+
+        $waktuini = date('Y-m-d-H-i');
+        $filename = 'berita-lelayu-' . $data->berita_lelayu_nama . '-' . $waktuini . '.pdf';
+        $path = 'dokumen/berita_lelayu/' . $data->berita_lelayu_nama . '/created';
+        $dirPath = Storage::disk('public')->makeDirectory($path);
+        $filePath = Storage::disk('public')->path($path . '/' . $filename);
+
+        ob_end_clean();
+        $pdf->Output($filePath, 'I');
+
+        // $pdf = PDF::loadView('dokumen.spt.cetak.c_spt', $load)->setPaper('a4', 'landscape');
+        // return PDF::stream();
+
+        //return view('dokumen.spt.cetak.c_spt', $load);
+    }
+
+    public function c_banner(Request $request, $id = '')
+    {
+        $load['namaPage'] = 'Berita Lelayu';
+        $load['judulPage'] = 'Berita Lelayu';
+        $data = berita_lelayu::find($id);
+        $load['tanggal'] = Date('Y-m-d', time());
+
+
+        $load['data'] = $data;
+
+        $pdf = new TCPDF(PDF_PAGE_ORIENTATION, PDF_UNIT, PDF_PAGE_FORMAT, true, 'UTF-8', false);
+
+        // set document information
+        $pdf->SetCreator(lang('app'));
+        $pdf->SetAuthor(lang('app_z') . ' - Powered by Anauri Indonesia');
+        $pdf->SetTitle(lang('app_z') . ' - Powered by Anauri Indonesia');
+        //$pdf->SetSubject('Dokumen Kenaikan Berkala a.n. '.trim($gd['gelar_depan'] .' '. $gd['nama'] .' '. $gd['gelar_belakang']).' - SIPACAK - OKUSelatan');
+
+        // set default header data
+        //$pdf->SetHeaderData(PDF_HEADER_LOGO, PDF_HEADER_LOGO_WIDTH, PDF_HEADER_TITLE.' 048', PDF_HEADER_STRING);
+
+        // remove default header/footer
+        $pdf->setPrintHeader(false);
+        $pdf->setPrintFooter(false);
+
+        // set default monospaced font
+        $pdf->SetDefaultMonospacedFont(PDF_FONT_MONOSPACED);
+
+        // set margins
+        //$pdf->SetMargins(PDF_MARGIN_LEFT, PDF_MARGIN_TOP, PDF_MARGIN_RIGHT);
+        // $pdf->SetMargins(10, 15, 10, true);
+
+        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
+        $font = 10.5;
+        $pdf->SetFont('helvetica', '', $font);
+
+        $pdf->AddPage('L', 'F4');
+
+        $thedata =  \View::make('data.berita_lelayu.c_banner_lelayu', $load)->render();
+        // $pdf->SetMargins(0, 0, 0);
+        // $pdf->SetHeaderMargin(100);
+        // $pdf->SetFooterMargin(100);
+        $pdf->writeHTML($thedata, true, false, false, false, '');
+
+        $waktuini = date('Y-m-d-H-i');
+        $filename = 'berita-lelayu-' . $data->berita_lelayu_nama . '-' . $waktuini . '.pdf';
+        $path = 'dokumen/berita_lelayu/' . $data->berita_lelayu_nama . '/created';
+        $dirPath = Storage::disk('public')->makeDirectory($path);
+        $filePath = Storage::disk('public')->path($path . '/' . $filename);
+
+        ob_end_clean();
+        $pdf->Output($filePath, 'I');
+
+        // $pdf = PDF::loadView('dokumen.spt.cetak.c_spt', $load)->setPaper('a4', 'landscape');
+        // return PDF::stream();
+
+        //return view('dokumen.spt.cetak.c_spt', $load);
     }
 }

@@ -159,6 +159,8 @@ Route::middleware('isLogin')->group(function () {
     Route::post('/data/berita_lelayu/detail/{berita_lelayu_id}/addData', [BeritaLelayu::class, 'addDetail'])->name('berita_lelayu.detail.add');
     Route::post('/data/berita_lelayu/detail/{berita_lelayu_id}/updateData/{id}', [BeritaLelayu::class, 'updateDetail'])->name('berita_lelayu.detail.update');
     Route::post('/data/berita_lelayu/detail/{berita_lelayu_id}/dellData/{id}', [BeritaLelayu::class, 'dellDetail']);
+    Route::get('/data/berita_lelayu/cetak/berita/{id}', [BeritaLelayu::class, 'c_berita'])->name('berita_lelayu.berita');
+    Route::get('/data/berita_lelayu/cetak/banner/{id}', [BeritaLelayu::class, 'c_banner'])->name('berita_lelayu.banner');
 
 
     //Rekapitulasi Saldo Masuk
